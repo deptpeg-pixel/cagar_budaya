@@ -236,103 +236,128 @@ html.light-theme .exhibition-bg {
 
 /* =========================================================================
    COMPREHENSIVE LIGHT THEME ADAPTATION (WARM PARCHMENT & ROYAL BRONZE)
+   Covers 100% of surfaces, cards, inner boxes, gradients, badges & borders
    ========================================================================= */
-html.light-theme .bg-\[\#080706\],
-html.light-theme .bg-\[\#0f0e0c\],
-html.light-theme .bg-\[\#0a0907\],
-html.light-theme .bg-\[\#0b0a08\] {
+
+/* 1. Deepest Canvas & Page Backgrounds -> Warm Museum Parchment */
+html.light-theme [class*="bg-[#08"],
+html.light-theme [class*="bg-[#0a"],
+html.light-theme [class*="bg-[#0b"],
+html.light-theme [class*="bg-[#0e"],
+html.light-theme [class*="bg-[#0f"] {
   background-color: #f4eee1 !important;
   color: #1e1810 !important;
 }
 
-html.light-theme .from-\[\#241f15\].to-\[\#16130d\] {
-  background-image: linear-gradient(to bottom right, #f9f1df, #ecdec0) !important;
+/* 2. Sticky Headers & Glass Bars */
+html.light-theme [class*="bg-[#0c0b09]"],
+html.light-theme [class*="bg-[#11100d]/90"],
+html.light-theme [class*="bg-[#11100e]"],
+html.light-theme [class*="bg-[#141311]/90"],
+html.light-theme [class*="bg-[#15130f]"] {
+  background-color: rgba(248, 243, 232, 0.94) !important;
+  border-color: #d4c4a8 !important;
 }
 
-html.light-theme .from-\[\#1a1610\].via-\[\#12100c\].to-\[\#0b0a08\] {
-  background-image: linear-gradient(to bottom, #efe6d4, #e5d8be, #dac9a9) !important;
-}
-
-html.light-theme .bg-\[\#0c0b09\]\/85,
-html.light-theme .bg-\[\#11100e\]\/90,
-html.light-theme .bg-\[\#11100e\]\/95,
-html.light-theme .bg-\[\#141311\]\/90,
-html.light-theme .bg-\[\#11100d\]\/90 {
-  background-color: rgba(248, 243, 232, 0.92) !important;
-  border-color: #d5c7ad !important;
-}
-
-html.light-theme .bg-\[\#12110e\],
-html.light-theme .bg-\[\#12110e\]\/90,
-html.light-theme .bg-\[\#13110e\]\/80,
-html.light-theme .bg-\[\#13110e\]\/95,
-html.light-theme .bg-\[\#141311\],
-html.light-theme .bg-\[\#141310\],
-html.light-theme .bg-\[\#141310\]\/90,
-html.light-theme .bg-\[\#151411\]\/80,
-html.light-theme .bg-\[\#11100d\] {
+/* 3. Primary Cards & Modal Containers -> Alabaster Ivory */
+html.light-theme [class*="bg-[#100"],
+html.light-theme [class*="bg-[#11100d]"],
+html.light-theme [class*="bg-[#1211"],
+html.light-theme [class*="bg-[#1311"],
+html.light-theme [class*="bg-[#141310]"],
+html.light-theme [class*="bg-[#141311]"],
+html.light-theme [class*="bg-[#1514"] {
   background-color: #fffdf9 !important;
-  border-color: #d8cbb3 !important;
-  box-shadow: 0 8px 24px -6px rgba(90, 68, 24, 0.08) !important;
+  border-color: #d5c6ab !important;
+  box-shadow: 0 10px 28px -8px rgba(90, 68, 24, 0.1) !important;
 }
 
-html.light-theme .bg-\[\#181612\],
-html.light-theme .bg-\[\#161512\],
-html.light-theme .bg-\[\#161410\],
-html.light-theme .bg-\[\#161410\]\/85,
-html.light-theme .bg-\[\#161410\]\/90,
-html.light-theme .bg-\[\#181714\],
-html.light-theme .bg-\[\#1a1815\],
-html.light-theme .bg-\[\#1d1a14\],
-html.light-theme .bg-\[\#1c1a16\],
-html.light-theme .bg-\[\#100e0b\]\/95,
-html.light-theme .bg-\[\#14120e\],
-html.light-theme .bg-\[\#15130f\]\/90 {
-  background-color: #efe7d6 !important;
-  border-color: #d0c0a3 !important;
+/* 4. Inner Boxes, Metadata Cards, Inputs, Pills & Footer Bars -> Warm Sand Stone */
+html.light-theme [class*="bg-[#1412"],
+html.light-theme [class*="bg-[#14130f]"],
+html.light-theme [class*="bg-[#161"],
+html.light-theme [class*="bg-[#171"],
+html.light-theme [class*="bg-[#181"],
+html.light-theme [class*="bg-[#191"],
+html.light-theme [class*="bg-[#1a1"],
+html.light-theme [class*="bg-[#1b1"],
+html.light-theme [class*="bg-[#1c1"],
+html.light-theme [class*="bg-[#1d1"],
+html.light-theme [class*="bg-[#1e1"],
+html.light-theme [class*="bg-[#1f1"],
+html.light-theme [class*="bg-[#201"],
+html.light-theme [class*="bg-[#221"],
+html.light-theme [class*="bg-[#252"] {
+  background-color: #efe6d5 !important;
+  border-color: #cbb999 !important;
 }
 
-html.light-theme .text-\[\#f5f2eb\],
-html.light-theme .text-\[\#f2eee6\],
-html.light-theme .text-white {
-  color: #1e1810 !important;
+/* 5. All Dark Gradients (Cards, Hero Boxes, Slide Covers, Location Boxes) */
+html.light-theme [class*="from-[#1"],
+html.light-theme [class*="from-[#2"] {
+  background-image: linear-gradient(135deg, #f7f0e2 0%, #eae0cc 100%) !important;
+  background-color: #f2e9d8 !important;
 }
 
-html.light-theme .text-\[\#c2b8a8\],
-html.light-theme .text-\[\#d1c7b7\],
-html.light-theme .text-\[\#dfd7c8\],
-html.light-theme .text-\[\#d4cbbe\],
-html.light-theme .text-\[\#b8ae9e\],
-html.light-theme .text-\[\#b8ad9e\],
-html.light-theme .text-\[\#b0a695\] {
-  color: #463a2a !important;
+/* 6. Primary Headings & Foreground Text -> Deep Espresso */
+html.light-theme [class*="text-[#f5f2eb]"],
+html.light-theme [class*="text-[#f2eee6]"],
+html.light-theme [class*="text-[#e0d8c8]"],
+html.light-theme [class*="text-[#dfd7c8]"] {
+  color: #1c160e !important;
 }
 
-html.light-theme .text-\[\#a89f91\],
-html.light-theme .text-\[\#9c9283\],
-html.light-theme .text-\[\#8c8273\],
-html.light-theme .text-\[\#8a7f70\],
-html.light-theme .text-\[\#786f61\] {
-  color: #6b5c47 !important;
+/* 7. Secondary Body & Narrative Text -> Rich Umber */
+html.light-theme [class*="text-[#d4cbbe]"],
+html.light-theme [class*="text-[#d1c7b7]"],
+html.light-theme [class*="text-[#c2b8a8]"],
+html.light-theme [class*="text-[#b8ae9e]"],
+html.light-theme [class*="text-[#b8ad9e]"],
+html.light-theme [class*="text-[#b0a695]"] {
+  color: #3f3425 !important;
 }
 
-html.light-theme .text-\[\#f3e5ab\],
-html.light-theme .text-\[\#e6c875\],
-html.light-theme .text-\[\#d4af37\],
-html.light-theme .text-\[\#c8a24a\] {
-  color: #855e10 !important;
+/* 8. Muted Captions & Subtitles -> Warm Slate Bronze */
+html.light-theme [class*="text-[#a89f91]"],
+html.light-theme [class*="text-[#9c9283]"],
+html.light-theme [class*="text-[#8c8273]"],
+html.light-theme [class*="text-[#8a7f70]"],
+html.light-theme [class*="text-[#7d7568]"],
+html.light-theme [class*="text-[#786f61]"],
+html.light-theme [class*="text-[#6e6556]"],
+html.light-theme [class*="text-[#6d6455]"],
+html.light-theme [class*="text-[#5a5245]"] {
+  color: #665742 !important;
 }
 
-html.light-theme .border-\[\#28241d\],
-html.light-theme .border-\[\#2c2822\],
-html.light-theme .border-\[\#2e2920\],
-html.light-theme .border-\[\#302b22\],
-html.light-theme .border-\[\#302a22\],
-html.light-theme .border-\[\#26221b\],
-html.light-theme .border-\[\#242019\],
-html.light-theme .border-\[\#1e1b16\],
-html.light-theme .border-\[\#1c1914\] {
-  border-color: #d5c7ad !important;
+/* 9. Gold & Status Accents -> High-Contrast Heritage Shades for Light Mode */
+html.light-theme [class*="text-[#f3e5ab]"],
+html.light-theme [class*="text-[#e6c875]"],
+html.light-theme [class*="text-[#d4af37]"],
+html.light-theme [class*="text-[#c8a24a]"] {
+  color: #80580c !important;
+}
+
+html.light-theme [class*="text-[#82e0aa]"],
+html.light-theme [class*="text-[#52b788]"] {
+  color: #146c43 !important;
+}
+
+html.light-theme [class*="text-[#8eb8eb]"],
+html.light-theme [class*="text-[#5a94d6]"] {
+  color: #19528f !important;
+}
+
+html.light-theme [class*="text-[#f4a261]"],
+html.light-theme [class*="text-[#d97736]"] {
+  color: #9e4510 !important;
+}
+
+/* 10. All Dark Borders -> Warm Antique Stone Borders */
+html.light-theme [class*="border-[#1"],
+html.light-theme [class*="border-[#2"],
+html.light-theme [class*="border-[#3"] {
+  border-color: #d2c2a6 !important;
 }
 
 /* Leaflet styling */

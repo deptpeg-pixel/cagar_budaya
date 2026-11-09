@@ -99,7 +99,7 @@ export default function BuildingExhibitionModal({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-[#221f1a] hover:bg-[#d4af37] text-[#d1c7b7] hover:text-[#0b0a08] border border-[#332e25] transition-all cursor-pointer"
+            className="p-2 rounded-full bg-[#181612] hover:bg-[#d4af37] text-[#d1c7b7] hover:text-[#0b0a08] border border-[#2c271f] transition-all cursor-pointer"
             title="Tutup Eksibisi (Esc)"
           >
             <X className="w-5 h-5" />
@@ -184,7 +184,7 @@ export default function BuildingExhibitionModal({
 
             {/* Key Historical Attributes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-4 rounded-2xl border border-[#28241d] bg-[#14130f] flex items-start gap-3">
+              <div className="p-4 rounded-2xl border border-[#28241d] bg-[#161410] flex items-start gap-3">
                 <div className="p-2.5 rounded-xl bg-[#d4af37]/15 text-[#d4af37]">
                   <Calendar className="w-5 h-5" />
                 </div>
@@ -198,7 +198,7 @@ export default function BuildingExhibitionModal({
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl border border-[#28241d] bg-[#14130f] flex items-start gap-3">
+              <div className="p-4 rounded-2xl border border-[#28241d] bg-[#161410] flex items-start gap-3">
                 <div className="p-2.5 rounded-xl bg-[#5a94d6]/15 text-[#5a94d6]">
                   <Award className="w-5 h-5" />
                 </div>
@@ -212,7 +212,7 @@ export default function BuildingExhibitionModal({
                 </div>
               </div>
 
-              <div className="sm:col-span-2 p-4 rounded-2xl border border-[#28241d] bg-[#14130f] flex items-start gap-3">
+              <div className="sm:col-span-2 p-4 rounded-2xl border border-[#28241d] bg-[#161410] flex items-start gap-3">
                 <div className="p-2.5 rounded-xl bg-[#52b788]/15 text-[#52b788]">
                   <FileText className="w-5 h-5" />
                 </div>
@@ -228,21 +228,21 @@ export default function BuildingExhibitionModal({
             </div>
 
             {/* Location & Interactive Map Links */}
-            <div className="p-5 rounded-2xl border border-[#2e2920] bg-gradient-to-r from-[#161410] to-[#12100d] space-y-3">
+            <div className="p-5 rounded-2xl border border-[#2e2920] bg-[#161410] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-[#d4af37] flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>Lokasi & Koordinat Geografis</span>
                 </span>
                 {building.lat && building.lng && (
-                  <span className="text-[11px] font-mono text-[#52b788] flex items-center gap-1">
+                  <span className="text-[11px] font-mono text-[#52b788] flex items-center gap-1 font-semibold">
                     <span className="w-2 h-2 rounded-full bg-[#52b788] animate-ping" />
                     {building.lat.toFixed(4)}, {building.lng.toFixed(4)}
                   </span>
                 )}
               </div>
 
-              <p className="text-xs sm:text-sm text-[#e0d8c8]">
+              <p className="text-xs sm:text-sm text-[#d1c7b7]">
                 {building.alamat || "Alamat lengkap terdaftar dalam inventaris GPIB"}
               </p>
 
@@ -265,7 +265,7 @@ export default function BuildingExhibitionModal({
                     href={`https://www.google.com/maps/search/?api=1&query=${building.lat},${building.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 rounded-xl border border-[#332e25] bg-[#1b1914] hover:border-[#d4af37] text-[#d1c7b7] hover:text-[#f3e5ab] text-xs flex items-center gap-1.5 transition-colors"
+                    className="px-4 py-2 rounded-xl border border-[#2c271f] bg-[#12110e] hover:border-[#d4af37] text-[#d1c7b7] hover:text-[#f3e5ab] text-xs flex items-center gap-1.5 transition-colors"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Buka Google Maps</span>
@@ -280,29 +280,29 @@ export default function BuildingExhibitionModal({
         <div className="px-6 py-4 border-t border-[#25211a] bg-[#14120e] flex items-center justify-between gap-4">
           <button
             onClick={handlePrevBuilding}
-            className="px-4 py-2 rounded-xl border border-[#2e2920] bg-[#1a1813] hover:border-[#d4af37] text-xs text-[#d1c7b7] hover:text-[#f3e5ab] flex items-center gap-2 transition-all cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-[#2e2920] bg-[#12110e] hover:border-[#d4af37] text-xs text-[#d1c7b7] hover:text-[#f3e5ab] flex items-center gap-2 transition-all cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4 text-[#d4af37]" />
             <div className="text-left">
               <div className="text-[9px] font-mono text-[#786f61] uppercase">Sebelumnya</div>
-              <div className="font-semibold truncate max-w-[140px] sm:max-w-[200px]">
+              <div className="font-semibold text-[#f5f2eb] truncate max-w-[140px] sm:max-w-[200px]">
                 #{padNumber(prevBuilding.no)} {prevBuilding.nama}
               </div>
             </div>
           </button>
 
           <div className="hidden sm:block text-[11px] font-mono text-[#8c8273]">
-            Gunakan tombol panah <kbd className="px-1.5 py-0.5 rounded bg-[#221f19] text-[#d4af37]">←</kbd>{" "}
-            <kbd className="px-1.5 py-0.5 rounded bg-[#221f19] text-[#d4af37]">→</kbd> untuk berpindah monumen
+            Gunakan tombol panah <kbd className="px-1.5 py-0.5 rounded bg-[#181612] border border-[#2c271f] text-[#d4af37]">←</kbd>{" "}
+            <kbd className="px-1.5 py-0.5 rounded bg-[#181612] border border-[#2c271f] text-[#d4af37]">→</kbd> untuk berpindah monumen
           </div>
 
           <button
             onClick={handleNextBuilding}
-            className="px-4 py-2 rounded-xl border border-[#2e2920] bg-[#1a1813] hover:border-[#d4af37] text-xs text-[#d1c7b7] hover:text-[#f3e5ab] flex items-center gap-2 transition-all cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-[#2e2920] bg-[#12110e] hover:border-[#d4af37] text-xs text-[#d1c7b7] hover:text-[#f3e5ab] flex items-center gap-2 transition-all cursor-pointer"
           >
             <div className="text-right">
               <div className="text-[9px] font-mono text-[#786f61] uppercase">Berikutnya</div>
-              <div className="font-semibold truncate max-w-[140px] sm:max-w-[200px]">
+              <div className="font-semibold text-[#f5f2eb] truncate max-w-[140px] sm:max-w-[200px]">
                 #{padNumber(nextBuilding.no)} {nextBuilding.nama}
               </div>
             </div>
