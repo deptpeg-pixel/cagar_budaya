@@ -271,27 +271,15 @@ export default function BigScreenPresentation({
             {/* Top Spotlight Theater Body */}
             <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-0">
               {/* Left Column: Monumental Arch Visual */}
-              <div className="lg:col-span-5 h-full flex flex-col items-center justify-center relative">
-                <div className="relative w-full max-w-md h-[460px] arch-frame gold-glow-animated p-4 flex flex-col justify-between group transition-all duration-700">
-                  {/* Plaque Header */}
-                  <div className="z-10 flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-[#0b0a08]/90 border border-[#d4af37]/60 text-xs font-mono text-[#f3e5ab] tracking-widest font-bold shadow-lg">
-                      NO. {padNumber(currentBuilding.no)} · {currentBuilding.status.toUpperCase()}
-                    </span>
-                    {hasPhotos && (
-                      <span className="px-2 py-0.5 rounded-full bg-[#0b0a08]/80 text-[10px] font-mono text-[#d4af37] border border-[#d4af37]/40">
-                        {photoIndex + 1}/{currentBuilding.fotos.length} FOTO
-                      </span>
-                    )}
-                  </div>
-
+              <div className="lg:col-span-5 h-full flex flex-col items-center justify-center relative space-y-3">
+                <div className="relative w-full max-w-md h-[400px] arch-frame gold-glow-animated group transition-all duration-700">
                   {/* Main Image View */}
-                  <div className="absolute inset-0 z-0 flex items-center justify-center p-3">
+                  <div className="absolute inset-0 z-0 flex items-center justify-center">
                     {currentPhoto ? (
                       <img
                         src={currentPhoto.src}
                         alt={currentBuilding.nama}
-                        className="w-full h-full object-cover rounded-b-2xl shadow-2xl transition-transform duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
                       <div className="text-center p-8 space-y-3">
@@ -312,27 +300,33 @@ export default function BigScreenPresentation({
                         </div>
                       </div>
                     )}
+                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
                   </div>
 
-                  {/* Caption & Navigation Overlay */}
-                  <div className="z-10 mt-auto bg-[#0f0e0b]/90 backdrop-blur-md border border-[#302a22] rounded-xl p-3 text-center space-y-1">
-                    <p className="text-xs font-serif italic text-[#f3e5ab] line-clamp-2">
-                      “{currentPhoto?.cap || currentBuilding.nama}”
-                    </p>
-                    {hasPhotos && currentBuilding.fotos.length > 1 && (
-                      <div className="flex justify-center gap-1.5 pt-1">
-                        {currentBuilding.fotos.map((_, pIdx) => (
-                          <button
-                            key={pIdx}
-                            onClick={() => setPhotoIndex(pIdx)}
-                            className={`w-2 h-2 rounded-full transition-all ${
-                              pIdx === photoIndex ? "w-5 bg-[#d4af37]" : "bg-[#3d372c]"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    )}
+                  {/* Classic Bottom-Centered Plaque (Never clipped by arch!) */}
+                  <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-xs font-mono tracking-widest font-bold uppercase shadow-lg">
+                    NO. {padNumber(currentBuilding.no)} · {currentBuilding.status}
                   </div>
+                </div>
+
+                {/* Caption & Navigation Outside Arch Frame */}
+                <div className="w-full max-w-md bg-[#141310] border border-[#302a22] rounded-xl p-3 text-center space-y-1.5 shadow-lg">
+                  <p className="text-xs font-serif italic text-[#f3e5ab] line-clamp-2">
+                    “{currentPhoto?.cap || currentBuilding.nama}”
+                  </p>
+                  {hasPhotos && currentBuilding.fotos.length > 1 && (
+                    <div className="flex justify-center gap-1.5 pt-1">
+                      {currentBuilding.fotos.map((_, pIdx) => (
+                        <button
+                          key={pIdx}
+                          onClick={() => setPhotoIndex(pIdx)}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            pIdx === photoIndex ? "w-5 bg-[#d4af37]" : "bg-[#3d372c]"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -412,31 +412,17 @@ export default function DeckView({
                 <div className="lg:col-span-5 space-y-3">
                   <div
                     onClick={() => hasPhotos && openBuildingLightbox(b, b.mainIdx || 0)}
-                    className={`relative w-full aspect-[4/5] arch-frame flex flex-col justify-between p-3 group ${
+                    className={`relative w-full aspect-[4/4.6] arch-frame gold-glow-animated group ${
                       hasPhotos ? "cursor-pointer" : ""
                     }`}
                   >
-                    {/* Top Plaque Badge */}
-                    <div className="z-10 flex items-center justify-between">
-                      <span className="px-2.5 py-1 rounded-full bg-[#11100e]/80 border border-[#c8a24a]/50 text-[10px] font-mono text-[#e6c875] tracking-wider">
-                        NO. {padNumber(b.no)} · {b.status.toUpperCase()}
-                      </span>
-                      {hasPhotos && (
-                        <span className="p-1.5 rounded-full bg-[#11100e]/70 text-[#c8a24a] group-hover:scale-110 transition-transform">
-                          <ImageIcon className="w-3.5 h-3.5" />
-                        </span>
-                      )}
-                    </div>
-
                     {/* Image / Placeholder */}
-                    <div className="absolute inset-0 z-0 flex items-center justify-center p-4">
+                    <div className="absolute inset-0 z-0 flex items-center justify-center">
                       {currentPhoto ? (
                         <img
                           src={currentPhoto.src}
                           alt={b.nama}
-                          className={`w-full h-full rounded-b-lg transition-transform duration-500 group-hover:scale-105 ${
-                            b.fit === "cover" ? "object-cover" : "object-contain"
-                          }`}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       ) : (
                         <div className="text-center p-6 space-y-3">
@@ -457,15 +443,21 @@ export default function DeckView({
                           </div>
                         </div>
                       )}
+                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
                     </div>
 
-                    {/* Bottom Caption Overlay */}
-                    {currentPhoto?.cap && (
-                      <div className="z-10 mt-auto bg-[#141311]/85 backdrop-blur-sm border border-[#2c2822] rounded-lg p-2 text-center text-xs italic text-[#e6c875]">
-                        “{currentPhoto.cap}”
-                      </div>
-                    )}
+                    {/* Classic Bottom-Centered Plaque Badge (Never clipped by arch!) */}
+                    <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono tracking-widest font-bold uppercase shadow-lg">
+                      NO. {padNumber(b.no)} · {b.status}
+                    </div>
                   </div>
+
+                  {/* Caption Outside Arch Frame (Never covers photo or gets clipped!) */}
+                  {currentPhoto?.cap && (
+                    <div className="bg-[#141310] border border-[#2c2822] rounded-xl p-3 text-center text-xs font-serif italic text-[#f3e5ab]">
+                      “{currentPhoto.cap}”
+                    </div>
+                  )}
 
                   {/* Filmstrip thumbnails if multiple photos */}
                   {b.fotos && b.fotos.length > 1 && (

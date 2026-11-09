@@ -108,8 +108,8 @@ export default function BuildingExhibitionModal({
         {/* Main Exhibition Content */}
         <div className="flex-1 overflow-y-auto p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Monumental Arch Frame */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="relative w-full aspect-[4/5] arch-frame gold-glow-animated overflow-hidden group">
+          <div className="lg:col-span-5 space-y-3">
+            <div className="relative w-full aspect-[4/4.6] arch-frame gold-glow-animated overflow-hidden group">
               {currentPhoto && !imgError ? (
                 <img
                   src={currentPhoto.src}
@@ -137,20 +137,25 @@ export default function BuildingExhibitionModal({
                 </div>
               )}
 
-              {/* Gradient Vignette */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#090806] via-transparent to-black/30" />
+              {/* Subtle bottom gradient for plaque */}
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
 
-              {/* Bottom Caption inside Arch */}
-              <div className="absolute bottom-4 inset-x-4 p-3 rounded-xl bg-[#0e0d0a]/85 backdrop-blur-md border border-[#302b22] text-center">
-                <p className="text-xs font-serif italic text-[#f3e5ab]">
-                  “{currentPhoto?.cap || `Arsitektur bersejarah ${building.nama}`}”
-                </p>
+              {/* Classic Bottom-Centered Plaque */}
+              <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
+                NO. {padNumber(building.no)} · {building.status}
               </div>
+            </div>
+
+            {/* Caption Outside Arch Frame (Never covers photo or gets clipped!) */}
+            <div className="p-3 rounded-xl bg-[#161410] border border-[#2c271f] text-center">
+              <p className="text-xs font-serif italic text-[#f3e5ab]">
+                “{currentPhoto?.cap || `Arsitektur bersejarah ${building.nama}`}”
+              </p>
             </div>
 
             {/* Thumbnail Selector if Multiple Photos */}
             {fotos.length > 1 && (
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2 pt-1">
                 {fotos.map((f, idx) => (
                   <button
                     key={idx}
@@ -172,12 +177,7 @@ export default function BuildingExhibitionModal({
           </div>
 
           {/* Right Column: Editorial Story & Legal Metadata */}
-          <div className="lg:col-span-7 space-y-6 relative">
-            {/* Giant Ghost Watermark */}
-            <div className="pointer-events-none select-none absolute -top-6 right-0 font-serif text-8xl font-bold text-[#d4af37]/5 leading-none">
-              {padNumber(building.no)}
-            </div>
-
+          <div className="lg:col-span-7 space-y-5 relative">
             <div className="space-y-2">
               <div className="text-xs font-mono uppercase tracking-widest text-[#d4af37] flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5" />
@@ -188,13 +188,13 @@ export default function BuildingExhibitionModal({
               </h2>
             </div>
 
-            {/* Narrative with Luxury Dropcap */}
-            <div className="p-6 rounded-2xl border border-[#2c271f] bg-[#161410]/90 shadow-inner space-y-3">
+            {/* Narrative Box */}
+            <div className="p-5 sm:p-6 rounded-2xl border border-[#2c271f] bg-[#161410]/90 shadow-inner space-y-3">
               <div className="text-[11px] font-mono uppercase tracking-widest text-[#d4af37] flex items-center gap-1.5">
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Sejarah & Karakteristik Bangunan</span>
               </div>
-              <p className="text-sm sm:text-base text-[#dfd7c8] leading-relaxed font-light editorial-dropcap">
+              <p className="text-sm sm:text-base text-[#dfd7c8] leading-relaxed font-light">
                 {building.narasi ||
                   `${building.nama} merupakan salah satu bangunan cagar budaya bersejarah di lingkungan Gereja Protestan di Indonesia bagian Barat (GPIB) yang memiliki nilai penting bagi sejarah perkembangan gereja, arsitektur kolonial, dan warisan budaya nasional.`}
               </p>
@@ -331,3 +331,4 @@ export default function BuildingExhibitionModal({
     </div>
   );
 }
+

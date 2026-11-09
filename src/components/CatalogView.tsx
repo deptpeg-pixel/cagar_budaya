@@ -163,11 +163,11 @@ export default function CatalogView({
   return (
     <div className="min-h-screen exhibition-bg text-[#f5f2eb] relative overflow-hidden">
       {/* ==================== 1. MONUMENTAL HERO SECTION ==================== */}
-      <section className="relative pt-8 pb-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="relative pt-8 pb-14 md:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Cathedral Light Beam Effect */}
         <div className="pointer-events-none absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-b from-[#d4af37]/15 via-[#d4af37]/5 to-transparent blur-3xl cathedral-beam" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
           {/* Left Hero Copy */}
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#d4af37]/40 bg-[#d4af37]/10 backdrop-blur-md">
@@ -177,7 +177,7 @@ export default function CatalogView({
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-[64px] font-serif font-bold tracking-tight leading-[1.06] text-[#f5f2eb]">
+            <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-serif font-bold tracking-tight leading-[1.1] text-[#f5f2eb]">
               Menjelajahi Jejak Abadi{" "}
               <span className="shimmer-gold italic font-normal block sm:inline">
                 Arsitektur & Iman
@@ -222,7 +222,7 @@ export default function CatalogView({
             </div>
 
             {/* 4 Luxury Glass KPI Metrics */}
-            <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="p-3.5 rounded-2xl border border-[#2c271e] bg-[#13110e]/80 backdrop-blur-md">
                 <div className="text-2xl sm:text-3xl font-serif font-bold text-[#f3e5ab]">
                   1695
@@ -261,76 +261,70 @@ export default function CatalogView({
             </div>
           </div>
 
-          {/* Right Hero Interactive 3D Arch Showcase */}
+          {/* Right Hero Interactive Arch Showcase — Clean Separation Between Arch & Text */}
           <div className="lg:col-span-5 flex flex-col items-center">
             {currentHeroItem && (
-              <div className="relative w-full max-w-md">
-                {/* Floating Year Badge */}
-                <div className="absolute -top-4 -right-2 z-20 px-4 py-1.5 rounded-full bg-[#14120e] border border-[#d4af37] shadow-xl flex items-center gap-2 animate-float">
-                  <Clock className="w-3.5 h-3.5 text-[#d4af37]" />
-                  <span className="text-xs font-mono font-bold text-[#f3e5ab]">
-                    {currentHeroItem.didirikan || "Abad Bersejarah"}
-                  </span>
-                </div>
-
-                {/* Arch Frame Spotlight */}
+              <div className="w-full max-w-md space-y-3">
+                {/* 1. Pure Arch Image Container (No text at top corners!) */}
                 <div
                   onClick={() => setExhibitionBuilding(currentHeroItem)}
-                  className="w-full aspect-[4/5] arch-frame gold-glow-animated cursor-pointer group overflow-hidden"
+                  className="w-full aspect-[4/4.2] arch-frame gold-glow-animated cursor-pointer group"
                 >
                   {currentHeroItem.fotos?.[0]?.src && (
                     <img
                       src={currentHeroItem.fotos[0].src}
                       alt={currentHeroItem.nama}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
                   )}
 
-                  {/* Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#080706] via-[#080706]/30 to-transparent" />
+                  {/* Subtle bottom gradient only for plaque */}
+                  <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
 
-                  {/* Top Plaque inside Arch */}
-                  <div className="absolute top-6 inset-x-0 flex justify-center">
-                    <span className="px-3.5 py-1 rounded-full bg-[#090806]/80 backdrop-blur-md border border-[#d4af37]/50 text-[10px] font-mono uppercase tracking-widest text-[#f3e5ab] font-bold">
-                      SOROTAN UTAMA · #{padNumber(currentHeroItem.no)}
+                  {/* Classic Bottom-Centered Gold Plaque (Never clipped by arch!) */}
+                  <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
+                    NO. {padNumber(currentHeroItem.no)} · {currentHeroItem.status}
+                  </div>
+                </div>
+
+                {/* 2. Dedicated Info Card Below Arch (100% Unobstructed Text) */}
+                <div
+                  onClick={() => setExhibitionBuilding(currentHeroItem)}
+                  className="p-5 rounded-2xl border border-[#2e2920] bg-[#13110e]/95 hover:border-[#d4af37]/60 transition-all cursor-pointer space-y-2.5 shadow-xl"
+                >
+                  <div className="flex items-center justify-between gap-2 text-xs font-mono">
+                    <span className="text-[#d4af37] flex items-center gap-1.5 font-semibold">
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>{currentHeroItem.didirikan || "Abad Bersejarah"}</span>
+                    </span>
+                    <span
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] border font-semibold ${getStatusBadgeClass(
+                        currentHeroItem.status
+                      )}`}
+                    >
+                      Status {currentHeroItem.status}
                     </span>
                   </div>
 
-                  {/* Bottom Details inside Arch */}
-                  <div className="absolute bottom-0 inset-x-0 p-6 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono border font-semibold ${getStatusBadgeClass(
-                          currentHeroItem.status
-                        )}`}
-                      >
-                        Status {currentHeroItem.status}
-                      </span>
-                      <span className="text-[11px] font-mono text-[#d4af37]">
-                        {currentHeroItem.sk}
-                      </span>
-                    </div>
+                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#f5f2eb] group-hover:text-[#f3e5ab]">
+                    {currentHeroItem.nama}
+                  </h2>
 
-                    <h2 className="text-2xl font-serif font-bold text-white group-hover:text-[#f3e5ab] transition-colors">
-                      {currentHeroItem.nama}
-                    </h2>
+                  <p className="text-xs text-[#b8ae9e] line-clamp-2 leading-relaxed font-light">
+                    {currentHeroItem.narasi}
+                  </p>
 
-                    <p className="text-xs text-[#d1c7b7] line-clamp-2 font-light">
-                      {currentHeroItem.narasi}
-                    </p>
-
-                    <div className="pt-2 flex items-center justify-between text-xs font-mono text-[#f3e5ab]">
-                      <span className="flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                        <Eye className="w-3.5 h-3.5 text-[#d4af37]" />
-                        <span>Klik untuk Membuka Eksibisi</span>
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-[#d4af37]" />
-                    </div>
+                  <div className="pt-2 border-t border-[#242019] flex items-center justify-between text-xs font-mono text-[#f3e5ab]">
+                    <span className="flex items-center gap-1.5">
+                      <Eye className="w-3.5 h-3.5 text-[#d4af37]" />
+                      <span>Klik untuk Membuka Eksibisi</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-[#d4af37]" />
                   </div>
                 </div>
 
                 {/* Carousel Selector Dots */}
-                <div className="flex items-center justify-center gap-2 mt-4">
+                <div className="flex items-center justify-center gap-2 pt-1">
                   {heroSpotlights.map((item, idx) => (
                     <button
                       key={item.id}
@@ -371,7 +365,7 @@ export default function CatalogView({
       </div>
 
       {/* ==================== 3. LORONG WAKTU LINTAS ABAD (ERA EXPLORER) ==================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8 space-y-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-6 space-y-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#d4af37] flex items-center gap-1.5 mb-1">
@@ -431,10 +425,10 @@ export default function CatalogView({
       {/* ==================== 4. CURATED ARCH GALLERY (35 MONUMENTS) ==================== */}
       <section
         id="katalog-kurasi"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8"
       >
-        {/* Sticky Floating Glass Filter Dock */}
-        <div className="sticky top-[62px] z-30 p-3 sm:p-4 rounded-2xl border border-[#302b22] bg-[#12110e]/90 backdrop-blur-xl shadow-2xl flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+        {/* Filter & Search Bar (Static — Does Not Float Over Cards) */}
+        <div className="p-4 rounded-2xl border border-[#302b22] bg-[#12110e] shadow-xl flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           {/* Status Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 text-xs">
             {STATUS_FILTERS.map((st) => {
@@ -541,17 +535,38 @@ export default function CatalogView({
                 <div
                   key={b.id}
                   onClick={() => setExhibitionBuilding(b)}
-                  className="group relative bg-[#12110e] border border-[#28241d] hover:border-[#d4af37]/80 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(212,175,55,0.12)] cursor-pointer"
+                  className="group bg-[#12110e] border border-[#28241d] hover:border-[#d4af37]/80 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(212,175,55,0.12)] cursor-pointer"
                 >
                   <div>
-                    {/* Cathedral Arch Image Header */}
-                    <div className="p-3 pb-0">
-                      <div className="relative w-full aspect-[16/11] arch-card-top bg-[#0b0a08] border border-[#2e2920] group-hover:border-[#d4af37]/50 overflow-hidden">
+                    {/* 1. Card Top Bar — Outside the Arch Frame so Badges are NEVER Clipped! */}
+                    <div className="px-5 pt-4 pb-2 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-md bg-[#1d1a14] border border-[#d4af37]/40 text-xs font-mono text-[#f3e5ab] font-bold">
+                          #{padNumber(b.no)}
+                        </span>
+                        <span className="text-[11px] font-mono text-[#d4af37] flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          <span>{b.didirikan || "Bersejarah"}</span>
+                        </span>
+                      </div>
+
+                      <span
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono border font-semibold ${getStatusBadgeClass(
+                          b.status
+                        )}`}
+                      >
+                        {b.status}
+                      </span>
+                    </div>
+
+                    {/* 2. Cathedral Arch Image Container — Pure Photo Inside */}
+                    <div className="px-4 pt-1">
+                      <div className="relative w-full aspect-[16/10] arch-card-top bg-[#0b0a08] border border-[#2e2920] group-hover:border-[#d4af37]/60 overflow-hidden">
                         {photoSrc ? (
                           <img
                             src={photoSrc}
                             alt={b.nama}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
@@ -560,40 +575,12 @@ export default function CatalogView({
                             </span>
                           </div>
                         )}
-
-                        {/* Gradient Vignette */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#12110e] via-transparent to-black/40" />
-
-                        {/* Top Floating Badges */}
-                        <div className="absolute top-3 inset-x-4 flex items-center justify-between">
-                          <span className="px-2.5 py-1 rounded-full bg-[#0b0a08]/85 backdrop-blur-md border border-[#d4af37]/50 text-[10px] font-mono text-[#f3e5ab] font-bold">
-                            #{padNumber(b.no)}
-                          </span>
-                          <span
-                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono border backdrop-blur-md font-semibold ${getStatusBadgeClass(
-                              b.status
-                            )}`}
-                          >
-                            {b.status}
-                          </span>
-                        </div>
-
-                        {/* Year Pill at bottom-left of photo */}
-                        <div className="absolute bottom-2.5 left-4 flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#0b0a08]/80 backdrop-blur-md border border-[#2e2920] text-[10px] font-mono text-[#d4af37]">
-                          <Calendar className="w-3 h-3" />
-                          <span>{b.didirikan || "Bersejarah"}</span>
-                        </div>
                       </div>
                     </div>
 
-                    {/* Card Content */}
-                    <div className="p-5 pt-4 space-y-3 relative">
-                      {/* Subtle Ghost Number */}
-                      <div className="pointer-events-none select-none absolute right-4 top-1 font-serif text-5xl font-bold text-[#d4af37]/5">
-                        {padNumber(b.no)}
-                      </div>
-
-                      <h3 className="font-serif text-xl font-bold text-[#f5f2eb] group-hover:text-[#f3e5ab] transition-colors line-clamp-1">
+                    {/* 3. Card Body Text — Clean & Unobstructed */}
+                    <div className="p-5 pt-4 space-y-2.5">
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#f5f2eb] group-hover:text-[#f3e5ab] transition-colors line-clamp-1">
                         {b.nama}
                       </h3>
 
@@ -616,7 +603,7 @@ export default function CatalogView({
                   </div>
 
                   {/* Card Footer Actions */}
-                  <div className="px-5 pb-4 pt-2 flex items-center justify-between gap-2 border-t border-[#1c1914]">
+                  <div className="px-5 pb-4 pt-2.5 flex items-center justify-between gap-2 border-t border-[#1c1914]">
                     <span className="text-xs font-mono text-[#d4af37] group-hover:text-[#f3e5ab] flex items-center gap-1.5 font-semibold">
                       <BookOpen className="w-3.5 h-3.5" />
                       <span>Buka Eksibisi Detail</span>
@@ -657,7 +644,7 @@ export default function CatalogView({
       {/* ==================== 5. INTERACTIVE NUSANTARA MAP SECTION ==================== */}
       <section
         id="peta-nusantara"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-6"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-6"
       >
         <div className="p-6 sm:p-8 rounded-3xl border border-[#2e2920] bg-[#12110e]/90 shadow-2xl space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#242019] pb-5">
