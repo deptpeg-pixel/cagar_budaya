@@ -74,6 +74,22 @@ export default function MapInteractive({
       markersLayerRef.current = layerGroup;
 
       renderMarkers(L, map, layerGroup, items, focusedBuildingId);
+
+      // Invalidate size immediately and after layout settles so 100% height displays correctly
+      setTimeout(() => {
+        if (mapInstanceRef.current) {
+          try {
+            mapInstanceRef.current.invalidateSize();
+          } catch {}
+        }
+      }, 100);
+      setTimeout(() => {
+        if (mapInstanceRef.current) {
+          try {
+            mapInstanceRef.current.invalidateSize();
+          } catch {}
+        }
+      }, 500);
     });
 
     return () => {
@@ -250,11 +266,12 @@ export default function MapInteractive({
 
   return (
     <div
-      className={`relative w-full rounded-xl overflow-hidden border border-[#2c2822] bg-[#141311] ${className}`}
+      style={{ minHeight: height === "100%" ? "500px" : height }}
+      className={`relative w-full h-full rounded-xl overflow-hidden border border-[#2c2822] bg-[#141311] ${className}`}
     >
       <div
         ref={mapContainerRef}
-        style={{ height, width: "100%" }}
+        style={{ height: height === "100%" ? "100%" : height, minHeight: height === "100%" ? "500px" : height, width: "100%" }}
         className="z-10"
       />
       {!isClient && (

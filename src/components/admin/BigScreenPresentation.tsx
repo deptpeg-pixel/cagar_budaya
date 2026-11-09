@@ -641,7 +641,7 @@ export default function BigScreenPresentation({
               </div>
             </div>
 
-            <div className="flex-1 rounded-2xl border border-[#302a22] overflow-hidden shadow-2xl">
+            <div className="flex-1 min-h-[500px] h-[calc(100vh-220px)] rounded-2xl border border-[#302a22] overflow-hidden shadow-2xl relative">
               <MapInteractive
                 items={items}
                 height="100%"
