@@ -1,26 +1,105 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f0e0c;
+  --foreground: #f2eee6;
+  --card: #181714;
+  --card-border: #2c2822;
+  --gold: #c8a24a;
+  --gold-light: #e6c875;
+  --gold-glow: rgba(200, 162, 74, 0.25);
+  
+  --c-nas: #c8a24a;
+  --c-prov: #5a94d6;
+  --c-kota: #52b788;
+  --c-kab: #d97736;
+}
+
+.light-theme {
+  --background: #fbf9f4;
+  --foreground: #1c1916;
+  --card: #ffffff;
+  --card-border: #e6ded3;
+  --gold: #a67c2e;
+  --gold-light: #c8a24a;
+  --gold-glow: rgba(166, 124, 46, 0.15);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #3a352c;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Arch Frame Motif */
+.arch-frame {
+  border-top-left-radius: 120px;
+  border-top-right-radius: 120px;
+  border: 1px solid var(--gold);
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(circle at 50% 30%, rgba(200, 162, 74, 0.08), transparent 70%), #141311;
+  box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.arch-thumb {
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+}
+
+/* Grain overlay */
+.grain-overlay {
+  background-image: radial-gradient(rgba(200, 162, 74, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Leaflet Dark Filter */
+.leaflet-dark .leaflet-tile {
+  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.65);
+}
+
+/* Print Styling */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .arch-frame {
+    border-color: #333 !important;
+    box-shadow: none !important;
+  }
 }

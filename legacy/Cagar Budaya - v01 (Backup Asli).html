@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>Cagar Budaya GPIB — Daftar Status Bangunan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --disp:"Fraunces",serif; --body:"Plus Jakarta Sans",sans-serif; --mono:"IBM Plex Mono",monospace;
+  --ease:cubic-bezier(.22,.61,.2,1);
+  --bg:#171310; --bg2:#1e1813; --bg3:#262013; --ink:#efe6d4; --ink-dim:rgba(239,230,212,.72);
+  --gold:#c8a24a; --gold-hi:#e8cf8a; --gold-soft:rgba(200,162,74,.28); --wine:#8a2f2f;
+  --panel:rgba(255,255,255,.025); --btnbg:rgba(10,8,6,.35); --grain-op:.05;
+  --c-nas:#c8a24a; --c-prov:#4a9d7c; --c-kota:#6b8fc4; --c-kab:#b0605a;
+  --r1:rgba(200,162,74,.09); --r2:rgba(138,47,47,.12);
+}
+html[data-theme="light"]{
+  --bg:#f3ecdc; --bg2:#ebe1c9; --bg3:#e2d5b4; --ink:#28200f; --ink-dim:rgba(40,32,15,.72);
+  --gold:#8a651a; --gold-hi:#6f4f0e; --gold-soft:rgba(122,90,22,.4); --wine:#7c2c2c;
+  --panel:rgba(40,32,15,.04); --btnbg:rgba(255,252,244,.55); --grain-op:.05;
+  --c-nas:#8a6516; --c-prov:#2c7a5c; --c-kota:#3c64a6; --c-kab:#9a4a44;
+  --r1:rgba(138,101,22,.12); --r2:rgba(124,44,44,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:var(--body);color:var(--ink);overflow:hidden;transition:background .5s,color .5s;
+  background:radial-gradient(1100px 750px at 72% -12%,var(--r1),transparent 60%),
+             radial-gradient(900px 700px at 8% 112%,var(--r2),transparent 60%),var(--bg)}
+::selection{background:rgba(200,162,74,.35)}
+
+.grain{position:fixed;inset:-40px;z-index:80;pointer-events:none;opacity:var(--grain-op);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.4s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-12px,8px)}50%{transform:translate(10px,-10px)}75%{transform:translate(-8px,-6px)}100%{transform:translate(0,0)}}
+.frame{position:fixed;inset:14px;border:1px solid var(--gold-soft);z-index:65;pointer-events:none}
+.frame::after{content:"";position:absolute;inset:5px;border:1px solid rgba(200,162,74,.09)}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:70;transition:width .45s var(--ease);
+  background:linear-gradient(90deg,var(--gold),var(--gold-hi),var(--gold));background-size:200% 100%;animation:shimmer 3s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+
+.toolbar{position:fixed;top:24px;left:36px;right:36px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:75}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--gold)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+  background:var(--btnbg);border:1px solid var(--gold-soft);padding:8px 13px;cursor:pointer;transition:.25s}
+.tbtn:hover{color:var(--gold);border-color:var(--gold);transform:translateY(-1px)}
+.tbtn.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+
+.navbtn{position:fixed;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--gold-soft);background:var(--btnbg);color:var(--ink-dim);cursor:pointer;z-index:75;
+  display:flex;align-items:center;justify-content:center;transition:.3s var(--ease)}
+.navbtn:hover:not(:disabled){color:var(--gold);border-color:var(--gold);box-shadow:0 0 24px rgba(200,162,74,.2)}
+.navbtn:disabled{opacity:.25;cursor:default}
+#bPrev{left:26px}#bNext{right:26px}
+body.hide-nav .navbtn{opacity:0;pointer-events:none;transform:translateY(-50%) scale(.7)}
+.counter{position:fixed;left:40px;bottom:26px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gold);z-index:75}
+.folio{position:absolute;right:44px;bottom:20px;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--ink-dim);opacity:.55}
+
+#deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;padding:90px clamp(56px,7vw,110px) 56px;display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transform:translateY(30px) scale(.992);
+  transition:opacity .55s var(--ease),transform .65s var(--ease),visibility 0s .65s}
+.slide.active{opacity:1;visibility:visible;transform:none;z-index:2;transition-delay:0s}
+.rev{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease) var(--d,0ms),transform .6s var(--ease) var(--d,0ms)}
+.slide.active .rev{opacity:1;transform:none}
+.maskline{display:block;overflow:hidden}
+.ml-in{display:block;transform:translateY(112%);transition:transform .85s cubic-bezier(.19,1,.22,1) .12s}
+.slide.active .ml-in{transform:none}
+.ghost{position:absolute;top:30px;right:70px;font:italic 700 clamp(80px,13vw,170px)/1 var(--disp);
+  color:transparent;-webkit-text-stroke:1px var(--gold-soft);pointer-events:none;user-select:none}
+.eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase}
+.eyebrow::before{content:"";width:44px;height:1px;background:var(--gold)}
+.sec-title{font-family:var(--disp);font-size:clamp(30px,4vw,52px);font-weight:560;margin-top:12px}
+.sec-note{margin-top:8px;color:var(--ink-dim);font-size:13px;font-weight:300;max-width:72ch}
+
+.dust{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.dust span{position:absolute;bottom:-14px;border-radius:50%;background:var(--gold);filter:blur(1px);opacity:0;animation:rise linear infinite}
+@keyframes rise{6%{opacity:.75}85%{opacity:.12}100%{transform:translateY(-76vh);opacity:0}}
+
+.c-wrap{display:grid;grid-template-columns:1.12fr .88fr;gap:44px;align-items:center;flex:1;min-height:0}
+.c-title{font-family:var(--disp);font-weight:600;font-size:clamp(50px,8.4vw,116px);line-height:.96;letter-spacing:-.01em;margin:20px 0 24px}
+.c-title em{display:block;font-style:italic;font-weight:480;color:var(--gold);font-size:.84em}
+.c-div{display:flex;align-items:center;gap:14px;color:var(--gold);margin-bottom:20px}
+.c-div::before,.c-div::after{content:"";height:1px;width:110px}
+.c-div::before{background:linear-gradient(90deg,transparent,var(--gold-soft))}
+.c-div::after{background:linear-gradient(90deg,var(--gold-soft),transparent)}
+.c-sub{max-width:54ch;color:var(--ink-dim);font-size:15px;line-height:1.75;font-weight:300}
+.c-meta{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 28px}
+.c-meta span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;border:1px solid var(--gold-soft);padding:7px 13px;color:var(--ink-dim)}
+.c-hint{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-dim);opacity:.75}
+.c-right{display:flex;justify-content:center;align-items:center;height:100%}
+.arch-svg{width:min(36vw,420px);height:auto;filter:drop-shadow(0 0 30px rgba(200,162,74,.14))}
+.draw{stroke-dasharray:1700;stroke-dashoffset:1700;animation:draw 2.4s var(--ease) forwards}
+.draw.d2{animation-delay:.35s}.draw.d3{animation-delay:.7s}.draw.d4{animation-delay:1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.glass{position:absolute;left:clamp(56px,7vw,110px);right:clamp(56px,7vw,110px);bottom:0;display:flex;gap:6px;height:10px}
+.glass span{flex:1;opacity:.85;animation:glow 9s ease-in-out infinite alternate;box-shadow:0 -6px 26px rgba(200,162,74,.14)}
+.glass span:nth-child(6n+1){background:#2e6f5e}.glass span:nth-child(6n+2){background:#2f4f7a}
+.glass span:nth-child(6n+3){background:#b07a24}.glass span:nth-child(6n+4){background:#7d2a2a}
+.glass span:nth-child(6n+5){background:#8a6d3b}.glass span:nth-child(6n){background:#4a3b6b}
+.glass span:nth-child(2n){animation-delay:2.2s}.glass span:nth-child(3n){animation-delay:4.1s}
+@keyframes glow{from{filter:brightness(.7)}to{filter:brightness(1.35)}}
+
+/* ---- tabel + sortir ---- */
+.ledger-wrap{flex:1;min-height:0;overflow:auto;margin-top:18px;border:1px solid var(--gold-soft);scrollbar-width:thin}
+table.ledger{width:100%;border-collapse:collapse;font-size:12px;min-width:900px}
+.ledger th{position:sticky;top:0;background:var(--bg3);color:var(--gold);font-family:var(--mono);font-weight:500;font-size:9px;
+  letter-spacing:.16em;text-transform:uppercase;text-align:left;padding:11px 12px;border-bottom:1px solid var(--gold);z-index:2;
+  cursor:pointer;user-select:none;white-space:nowrap;transition:.2s}
+.ledger th:hover{color:var(--gold-hi);background:color-mix(in srgb,var(--bg3) 80%,var(--gold))}
+.ledger th .si{display:inline-block;width:10px;margin-left:4px;color:var(--gold-hi)}
+.ledger td{padding:9px 12px;border-bottom:1px solid var(--gold-soft);vertical-align:top;color:var(--ink-dim)}
+.ledger td.ln{font-family:var(--mono);color:var(--gold)}
+.ledger td.lname{font-family:var(--disp);font-size:15px;color:var(--ink);font-weight:520}
+.ledger tbody tr{cursor:pointer}
+.slide.active .ledger tbody tr{animation:rowIn .5s var(--ease) both;animation-delay:calc(var(--i)*18ms)}
+@keyframes rowIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ledger tbody tr:hover td{background:rgba(200,162,74,.08)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.dot.Nasional{background:var(--c-nas);box-shadow:0 0 8px var(--c-nas)}
+.dot.Provinsi{background:var(--c-prov);box-shadow:0 0 8px var(--c-prov)}
+.dot.Kota{background:var(--c-kota);box-shadow:0 0 8px var(--c-kota)}
+.dot.Kabupaten{background:var(--c-kab);box-shadow:0 0 8px var(--c-kab)}
+
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;border:1px solid;padding:7px 14px;transition:.3s}
+.chip:hover{box-shadow:0 0 18px rgba(200,162,74,.25)}
+.chip i{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+.st-nas{color:var(--c-nas);border-color:var(--c-nas);background:color-mix(in srgb,var(--c-nas) 10%,transparent)}
+.st-prov{color:var(--c-prov);border-color:var(--c-prov);background:color-mix(in srgb,var(--c-prov) 10%,transparent)}
+.st-kota{color:var(--c-kota);border-color:var(--c-kota);background:color-mix(in srgb,var(--c-kota) 10%,transparent)}
+.st-kab{color:var(--c-kab);border-color:var(--c-kab);background:color-mix(in srgb,var(--c-kab) 10%,transparent)}
+.stsel{font-family:var(--mono);font-size:11px;background:var(--bg2);color:var(--ink);border:1px solid var(--gold);padding:7px 10px}
+
+.mapslide{padding-bottom:44px}
+.map-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.map-ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-bottom:6px}
+.legend{display:flex;gap:12px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-dim);align-items:center;flex-wrap:wrap}
+#bulkMsg{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.08em}
+#mapCanvas{flex:1;min-height:0;margin-top:14px;border:1px solid var(--gold-soft);background:var(--bg2);z-index:1}
+.map-hintline{margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ink-dim);opacity:.7}
+.leaflet-interactive{animation:mkIn .6s ease both}
+@keyframes mkIn{from{opacity:0}}
+.pulse-ring{transform-box:fill-box;transform-origin:center;animation:ringPulse 1.5s ease-out infinite}
+@keyframes ringPulse{0%{transform:scale(.35);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.mp{font-family:var(--body);min-width:220px;max-width:260px}
+.mp-no{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold)}
+.mp-name{font-family:var(--disp);font-size:18px;font-weight:600;margin:4px 0 8px;line-height:1.2}
+.mp-row{display:grid;grid-template-columns:74px 1fr;gap:6px;font-size:11px;line-height:1.45;margin-bottom:3px}
+.mp-row b{font-family:var(--mono);font-weight:500;font-size:8px;letter-spacing:.14em;color:var(--gold);padding-top:2px;text-transform:uppercase}
+.mp-open{margin-top:10px;width:100%;font-family:var(--mono);font-size:10px;letter-spacing:.14em;background:var(--gold);border:none;color:var(--bg);padding:8px;cursor:pointer}
+.mp-open:hover{background:var(--gold-hi)}
+.leaflet-popup-content-wrapper{background:var(--bg2);color:var(--ink);border:1px solid var(--gold-soft);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.leaflet-popup-tip{background:var(--bg2);border:1px solid var(--gold-soft)}
+.leaflet-popup-content{margin:13px 15px}
+.leaflet-container{font-family:var(--body)}
+
+/* ---- slide bangunan ---- */
+.b-grid{display:grid;grid-template-columns:minmax(270px,38%) 1fr;gap:clamp(26px,3.6vw,60px);flex:1;min-height:0;align-items:center}
+.b-left{min-height:0}
+.arch{position:relative;height:min(50vh,470px);aspect-ratio:4/5;max-width:100%;margin:0 auto}
+.arch::before{content:"";position:absolute;inset:0;transform:translate(13px,13px);border:1px solid var(--gold-soft);border-radius:999px 999px 6px 6px}
+.arch-in{position:absolute;inset:0;border:1px solid var(--gold-soft);border-radius:999px 999px 6px 6px;overflow:hidden;background:var(--bg2);z-index:1;cursor:zoom-in}
+.kb{width:100%;height:100%;object-fit:contain;display:block;background:var(--bg2)}
+.kb.fit-cover{object-fit:cover}
+.slide.active .kb{animation:kenburns 18s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.06) translate(-1%,1%)}}
+.plaque{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--bg);
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:6px 13px;white-space:nowrap;z-index:3}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:22px;color:var(--gold)}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.14em;line-height:1.9;color:var(--ink-dim);max-width:26ch}
+.arch-tools{display:none;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+body.editing .arch-tools{display:flex}
+.filmstrip{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center}
+.fthumb{width:54px;height:68px;border:1px solid var(--gold-soft);border-radius:18px 18px 3px 3px;overflow:hidden;cursor:pointer;position:relative;opacity:.65;transition:.3s;background:var(--bg2)}
+.fthumb img{width:100%;height:100%;object-fit:cover}
+.fthumb:hover{opacity:1;transform:translateY(-3px)}
+.fthumb.cur{opacity:1;border-color:var(--gold);box-shadow:0 0 16px rgba(200,162,74,.3)}
+.fthumb .fx{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:var(--wine);color:#fff;border:none;font-size:9px;line-height:1;cursor:pointer;display:none}
+body.editing .fthumb .fx{display:block}
+.capline{margin-top:9px;text-align:center;font-size:10px;letter-spacing:.05em;color:var(--ink-dim);font-style:italic;min-height:16px}
+.capline input{font-family:var(--body);font-style:italic;background:transparent;border:none;border-bottom:1px dashed var(--gold-soft);color:var(--ink);font-size:11px;text-align:center;width:88%;padding:3px 2px;outline:none}
+.b-right{min-height:0;overflow:auto;scrollbar-width:thin;padding-right:6px}
+.b-title{font-family:var(--disp);font-weight:580;font-size:clamp(26px,3.3vw,48px);line-height:1.06;margin:12px 0 12px;letter-spacing:-.01em}
+.narasi-box{border:1px solid var(--gold-soft);background:var(--panel);padding:13px 16px;margin-bottom:16px}
+.narasi-ed{font-size:13.5px;line-height:1.75;font-weight:300;color:var(--ink);max-height:17vh;min-height:52px;overflow:auto;outline:none}
+.narasi-ed:focus{box-shadow:0 0 0 1px var(--gold)}
+.narasi-empty{font-size:12.5px;font-style:italic;color:var(--ink-dim);opacity:.75}
+.b-detail{display:grid;grid-template-columns:1fr 1.5fr;gap:13px 28px;padding-top:16px;border-top:1px solid var(--gold-soft)}
+.d-lab{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:4px;text-transform:uppercase}
+.d-val{font-size:13px;font-weight:500;line-height:1.5}
+.span2{grid-column:1/-1}
+.addr-box{margin-top:16px;border:1px solid var(--gold-soft);background:var(--panel);padding:12px 15px}
+.addr-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+input[data-field]{font-family:var(--body);background:transparent;border:none;border-bottom:1px dashed var(--gold-soft);color:var(--ink);font-size:13px;padding:5px 2px;outline:none;transition:.2s}
+input[data-field]:focus{border-bottom:1px solid var(--gold)}
+input[data-field]:disabled{border-bottom-color:transparent}
+input.addr-in{flex:1;min-width:200px}
+input.coord-in{width:94px;font-family:var(--mono);font-size:11px}
+.mini{font-family:var(--mono);font-size:9px;letter-spacing:.1em;border:1px solid var(--gold-soft);background:var(--btnbg);color:var(--ink-dim);padding:7px 11px;cursor:pointer;transition:.2s;white-space:nowrap}
+.mini:hover{color:var(--gold);border-color:var(--gold)}
+.mini.gold{border-color:var(--gold);color:var(--gold)}
+.mini.gold:hover{background:var(--gold);color:var(--bg)}
+.b-del{position:absolute;top:84px;right:44px;display:none;width:36px;height:36px;border-radius:50%;border:1px solid rgba(190,70,70,.6);background:rgba(120,30,30,.35);color:#e2908f;cursor:pointer;font-size:15px;z-index:5}
+body.editing .b-del{display:block}
+.b-del:hover{background:#7d2a2a;color:#fff}
+body.editing .ed{cursor:text;border-bottom:1px dashed var(--gold-soft)}
+body.editing .ed:hover{outline:1px dashed var(--gold-soft);outline-offset:3px}
+body.editing .ed:focus{outline:1px solid var(--gold);outline-offset:3px;border-bottom-color:transparent}
+
+/* ---- lightbox ---- */
+#lightbox{position:fixed;inset:0;background:rgba(10,8,5,.94);z-index:96;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px}
+#lightbox.open{display:flex}
+#lightbox img{max-height:72vh;max-width:86vw;border:1px solid var(--gold-soft);box-shadow:0 30px 80px rgba(0,0,0,.6);animation:lbIn .5s var(--ease)}
+@keyframes lbIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+#lbMeta{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+#lbCapLab{font-family:var(--mono);font-size:8px;letter-spacing:.24em;color:rgba(239,230,212,.5);text-transform:uppercase}
+#lbCap{font-size:14px;font-style:italic;color:#efe6d4;max-width:70ch;text-align:center;line-height:1.6;min-height:20px;padding:4px 10px;border-bottom:1px dashed transparent}
+#lbCap[contenteditable="true"]{border-bottom-color:var(--gold);cursor:text}
+.lb-btn{position:absolute;font-family:var(--mono);background:rgba(10,8,6,.5);border:1px solid var(--gold-soft);color:#efe6d4;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:17px}
+.lb-btn:hover{border-color:var(--gold);color:var(--gold)}
+#lbClose{top:26px;right:30px}
+#lbPrev{left:30px;top:50%;transform:translateY(-50%)}
+#lbNext{right:30px;top:50%;transform:translateY(-50%)}
+
+/* ---- rekap + filter ---- */
+.stat-grid{display:grid;grid-template-columns:1fr minmax(280px,380px);gap:clamp(28px,4vw,70px);align-items:center;flex:1;min-height:0}
+.srow{display:grid;grid-template-columns:170px 1fr 52px;align-items:center;gap:18px;margin-top:22px;cursor:pointer;transition:.25s}
+.srow:hover .slab{color:var(--gold)}
+.srow.sel .slab{color:var(--gold)}
+.srow.sel .sbar{border-color:var(--gold);box-shadow:0 0 18px rgba(200,162,74,.2)}
+.slab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);transition:.25s}
+.sbar{height:32px;border:1px solid var(--gold-soft);padding:4px}
+.sfill{height:100%;width:0;transition:width 1.1s var(--ease) .2s;background-image:repeating-linear-gradient(-55deg,rgba(255,255,255,.14) 0 6px,transparent 6px 12px)}
+.f-nas{background-color:var(--c-nas)}.f-prov{background-color:var(--c-prov)}.f-kota{background-color:var(--c-kota)}.f-kab{background-color:var(--c-kab)}
+.snum{font-family:var(--disp);font-size:28px;font-weight:600;text-align:right;color:var(--gold)}
+.stotal{text-align:center;padding:0 10px}
+.stotal .tn{font-family:var(--disp);font-style:italic;font-weight:560;font-size:clamp(80px,9vw,140px);color:var(--gold);line-height:1;display:block}
+.stotal .tl{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--ink-dim);text-transform:uppercase;line-height:2.1;display:block;margin-top:12px}
+.slist{display:none;flex-direction:column;gap:8px;overflow:auto;max-height:62vh;scrollbar-width:thin;padding-right:4px}
+.slist-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--gold-soft)}
+.fcard{text-align:left;font-family:var(--body);background:var(--panel);border:1px solid var(--gold-soft);padding:10px 13px;cursor:pointer;color:var(--ink);font-size:13px;transition:.2s;display:flex;gap:10px;align-items:baseline}
+.fcard:hover{border-color:var(--gold);transform:translateX(4px)}
+.fcard .ln{font-family:var(--mono);font-size:10px;color:var(--gold)}
+.fcard em{margin-left:auto;font-family:var(--mono);font-style:normal;font-size:9px;color:var(--ink-dim);white-space:nowrap}
+
+.closing{align-items:center;justify-content:center;text-align:center}
+.closing h2{font-family:var(--disp);font-size:clamp(38px,6vw,80px);font-weight:580;margin:18px 0 8px}
+.closing h2 em{font-style:italic;color:var(--gold)}
+.closing p{max-width:62ch;color:var(--ink-dim);font-weight:300;line-height:1.8;font-size:14px;margin-top:16px}
+.closing .foot{margin-top:36px;font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--gold)}
+
+#overview{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 94%,transparent);z-index:90;transform:translateY(-100%);transition:transform .5s var(--ease);display:flex;flex-direction:column;padding:64px clamp(40px,6vw,90px) 34px}
+#overview.open{transform:none}
+.ov-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--gold-soft);padding-bottom:14px}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;overflow:auto;margin-top:18px;flex:1;padding-bottom:12px;scrollbar-width:thin}
+.ov-card{text-align:left;font-family:var(--body);background:var(--panel);border:1px solid var(--gold-soft);padding:13px 15px;cursor:pointer;color:var(--ink);transition:.25s}
+.ov-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.ov-card .tnum{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold)}
+.ov-card .tname{font-family:var(--disp);font-size:16px;font-weight:560;margin:5px 0 3px;line-height:1.2}
+.ov-card .tcity{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ink-dim);text-transform:uppercase}
+
+@media (max-width:900px){
+  .c-wrap,.b-grid,.stat-grid{grid-template-columns:1fr;gap:20px}
+  .c-right{display:none}
+  .arch{height:30vh;aspect-ratio:4/3}
+  .slide{padding:86px 24px 52px}
+  .ghost{display:none}
+  .srow{grid-template-columns:1fr;gap:8px}
+  .toolbar{left:18px;right:18px}
+  #bPrev{left:6px}#bNext{right:6px}
+  .navbtn{width:40px;height:40px}
+}
+
+@media print{
+  @page{size:A4 landscape;margin:9mm}
+  body{overflow:visible}
+  .toolbar,.navbtn,.progress,.frame,.grain,#overview,.arch-tools,.b-del,.c-hint,.map-ctrl,.map-hintline,.dust,#lightbox,.fthumb .fx,.slist{display:none!important}
+  #deck{position:static}
+  .slide{position:relative;inset:auto;opacity:1!important;visibility:visible!important;transform:none!important;
+    height:186mm;min-height:186mm;padding:4mm 8mm;page-break-after:always;overflow:hidden}
+  .slide.ledger-slide{height:auto;min-height:auto}
+  .rev,.ml-in{opacity:1!important;transform:none!important}
+  .kb,.ledger tbody tr{animation:none!important;opacity:1!important;transform:none!important}
+  .arch{height:142mm;aspect-ratio:4/5}
+  .b-title{font-size:22pt;margin:5px 0 7px}
+  .c-title{font-size:42pt}
+  .ledger-wrap{overflow:visible;border:none}
+  table.ledger{min-width:0}
+  .ledger td{font-size:7.5pt;padding:4px 6px}
+  .ledger td.lname{font-size:9pt}
+  .ledger th{font-size:6.5pt;position:static;cursor:default}
+  .ledger tbody tr{break-inside:avoid}
+  .leaflet-tile{opacity:1!important}
+  .leaflet-popup-pane,.leaflet-control{display:none!important}
+  *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .draw{stroke-dashoffset:0}
+  .rev,.ml-in{opacity:1;transform:none}
+  .dust{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="frame"></div>
+<div class="progress" id="progress"></div>
+
+<header class="toolbar">
+  <div class="brand">
+    <svg width="17" height="22" viewBox="0 0 17 22" fill="none"><path d="M1.5 21V10C1.5 4.5 5 1.5 8.5 1.5 12 1.5 15.5 4.5 15.5 10V21" stroke="currentColor" stroke-width="1.3"/><path d="M8.5 21v-6" stroke="currentColor" stroke-width="1.3"/></svg>
+    CAGAR BUDAYA · GPIB
+  </div>
+  <div class="tools">
+    <button class="tbtn" id="bRingkas" type="button">▦ Ringkasan</button>
+    <button class="tbtn" id="bEdit" type="button">✎ Mode Edit</button>
+    <button class="tbtn" id="bNav" type="button" title="Sembunyikan/tampilkan tombol navigasi (H)">🧭 Nav</button>
+    <button class="tbtn" id="bTheme" type="button">☀ Terang</button>
+    <button class="tbtn" id="bPrint" type="button">⎙ Cetak PDF</button>
+    <button class="tbtn" id="bFull" type="button">⛶ Layar Penuh</button>
+  </div>
+</header>
+
+<main id="deck"></main>
+
+<button class="navbtn" id="bPrev" type="button" aria-label="Sebelumnya"><svg viewBox="0 0 24 24" width="20"><path d="M14.5 5 8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+<button class="navbtn" id="bNext" type="button" aria-label="Berikutnya"><svg viewBox="0 0 24 24" width="20"><path d="M9.5 5 16 12l-6.5 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+<div class="counter" id="counter">01 / 01</div>
+
+<div id="overview">
+  <div class="ov-head">
+    <div><div class="eyebrow">Navigasi Cepat</div><div class="sec-title" style="font-size:28px">Ringkasan Slide</div></div>
+    <button class="tbtn" id="bCloseOv" type="button">✕ Tutup (Esc)</button>
+  </div>
+  <div class="ov-grid" id="ovGrid"></div>
+</div>
+
+<div id="lightbox">
+  <button class="lb-btn" id="lbClose" type="button">✕</button>
+  <button class="lb-btn" id="lbPrev" type="button">‹</button>
+  <button class="lb-btn" id="lbNext" type="button">›</button>
+  <img id="lbImg" src="" alt="">
+  <div id="lbMeta"></div>
+  <div id="lbCapLab">Keterangan Foto</div>
+  <div id="lbCap"></div>
+</div>
+
+<input type="file" id="fileInput" accept="image/*" multiple hidden>
+
+<script>
+/* ================================================================
+   DATA — disalin UTUH dari "Daftar Status Bangunan Cagar Budaya
+   GPIB.xlsx" (35 baris). Ruas tambahan (alamat, koordinat, narasi,
+   foto+keterangan) dapat diisi lewat Mode Edit; tersimpan otomatis.
+   ================================================================ */
+const STATUSES=["Nasional","Provinsi","Kota","Kabupaten"];
+const ST_CHIP={Nasional:"st-nas",Provinsi:"st-prov",Kota:"st-kota",Kabupaten:"st-kab"};
+const ST_FILL={Nasional:"f-nas",Provinsi:"f-prov",Kota:"f-kota",Kabupaten:"f-kab"};
+const stColor=s=>getComputedStyle(document.documentElement).getPropertyValue(
+  {Nasional:"--c-nas",Provinsi:"--c-prov",Kota:"--c-kota",Kabupaten:"--c-kab"}[s]||"--c-nas").trim()||"#c8a24a";
+
+const DEFAULTS=[
+{no:1, nama:"GPIB Immanuel, Jakarta", didirikan:"Tahun 1839", status:"Nasional", sk:"Kepmendikbud No:184/M/2017", tglSK:"24 September 2018", ket:"", lat:-6.1753, lng:106.8289},
+{no:2, nama:"GPIB Immanuel, Semarang", didirikan:"Tahun 1753", status:"Nasional", sk:"SK MenteriBudPar No:PM.12/PW.007/MKP/05", tglSK:"25 April 2005", ket:"", lat:-6.9674, lng:110.4279},
+{no:3, nama:"GPIB Zebaoth, Bogor", didirikan:"Tahun 1920", status:"Nasional", sk:"PerMenBudPar No. PM 26/PW.007/MKP/2007", tglSK:"26 Maret 2007", ket:"", lat:-6.5949, lng:106.7930},
+{no:4, nama:"GPIB Sion, Jakarta", didirikan:"23 Oktober 1695", status:"Nasional", sk:"KepMenDikBud 193/M/2017", tglSK:"14 Juli 2017", ket:"", lat:-6.1372, lng:106.8141},
+{no:5, nama:"GPIB Pniel, Jakarta", didirikan:"Tahun 1913", status:"Provinsi", sk:"SKGUBDKI Jkt. No.", tglSK:"", ket:"", lat:-6.1614, lng:106.8349},
+{no:6, nama:"GPIB Paulus, Jakarta", didirikan:"Tahun 1936", status:"Provinsi", sk:"KepGubDKI Jkt No 620 Tahun 2024", tglSK:"14 Oktober 2024", ket:""},
+{no:7, nama:"GPIB Tugu, Jakarta", didirikan:"Tahun 1676", status:"Provinsi", sk:"SK GUB KDCI No. Cb11/1/12/72", tglSK:"10 Januari 1972", ket:"", lat:-6.1242, lng:106.9174},
+{no:8, nama:"GPIB Efatha, Jakarta", didirikan:"15 Juli 1962", status:"Provinsi", sk:"SK GUB No. 410 Thn 2018", tglSK:"26 Februari 2018", ket:""},
+{no:9, nama:"GPIB Koinonia, Jakarta", didirikan:"Tahun 1889", status:"Provinsi", sk:"SKGUB Prov DKI Jkt. No: 510 tahun 2018", tglSK:"8 Maret 2018", ket:""},
+{no:10, nama:"GPIB Marga Mulya, Yogya", didirikan:"11 Oktober 1857", status:"Provinsi", sk:"SK Gubernur: 279/2025", tglSK:"1 Agustus 2025", ket:"", lat:-7.7893, lng:110.3673},
+{no:11, nama:"GPIB Immanuel, Kediri", didirikan:"21 Desember 2004", status:"Provinsi", sk:"SK Gub JaTim No. 188/149/KPTS/013/2016", tglSK:"29 Februari 2016", ket:""},
+{no:12, nama:"GPIB Immanuel, Probolinggo", didirikan:"Tahun 1862", status:"Provinsi", sk:"KepGubJaTim No:100.3.3.1/667/KPTS/013/2024", tglSK:"13 November 2024", ket:""},
+{no:13, nama:"GPIB Bethel, Bandung", didirikan:"Tahun 1925", status:"Kota", sk:"SK Menteri NO.SP202/0231/DKP/2008", tglSK:"", ket:""},
+{no:14, nama:"GPIB Maranatha, Bandung", didirikan:"11 September 1927", status:"Kota", sk:"SK: Nomor 646/ke.1244-DisBudPar/2013", tglSK:"31 Desember 2013", ket:""},
+{no:15, nama:"GPIB Beth-El, Magelang", didirikan:"Tahun 1817", status:"Kota", sk:"SK Walikota: 430/90/112/2020", tglSK:"24 Januari 2020", ket:""},
+{no:16, nama:"GPIB Beth-El, Kb Polo, Magelang", didirikan:"12 November 1923", status:"Kota", sk:"", tglSK:"1923", ket:""},
+{no:17, nama:"GPIB Griya Mulya, Purworejo", didirikan:"Tahun 1879/1880", status:"Kota", sk:"SK Walikota: 180.18/340/2017", tglSK:"2 Mei 2017", ket:""},
+{no:18, nama:"GPIB Tamansari, Salatiga", didirikan:"Tahun 1823", status:"Kota", sk:"SK Walikota : 400.6.2/12/2024", tglSK:"2 Januari 2024", ket:""},
+{no:19, nama:"GPIB Penabur, Surakarta", didirikan:"Tahun 1832", status:"Kota", sk:"SK Walikota : 430/441 Tahun 2024", tglSK:"18 November 2024", ket:""},
+{no:20, nama:"GPIB Ayalon, Tegal", didirikan:"Tahun 1929", status:"Kota", sk:"", tglSK:"", ket:""},
+{no:21, nama:"GPIB Galilea, Jl. Pisang-Cilacap", didirikan:"31 Oktober 1973", status:"Kabupaten", sk:"", tglSK:"1973", ket:""},
+{no:22, nama:"GPIB Immanuel, Surabaya", didirikan:"Tahun 1920", status:"Kota", sk:"SK Walikota No. 186.45/004/402.04/1998", tglSK:"13 Januari 1998", ket:""},
+{no:23, nama:"GPIB Maranatha, Surabaya", didirikan:"05 Januari 1958", status:"Kota", sk:"KepWalkot No. 188.45/576/437.1.2/2011", tglSK:"9 November 2011", ket:""},
+{no:24, nama:"GPIB Immanuel, Malang", didirikan:"30 Juli 1861", status:"Kota", sk:"SKWalKotMalang No:344 Thn 2018", tglSK:"", ket:""},
+{no:25, nama:"GPIB Margomulyo, Batu", didirikan:"", status:"Kota", sk:"KepWalkot No.188.45/298/Kep/422.012/2023", tglSK:"26 September 2023", ket:""},
+{no:26, nama:"GPIB Immanuel Bondowoso", didirikan:"26 Agustus 1934", status:"Kabupaten", sk:"", tglSK:"", ket:"Ada juga Pipe Orgel dan Alkitab dari tahun 1618"},
+{no:27, nama:"GPIB Pniel, Siangaraja", didirikan:"03 Desember 1948", status:"Kabupaten", sk:"KepBud No. 100.3.3.2/522/2025", tglSK:"6 November 2025", ket:""},
+{no:28, nama:"GPIB Immanuel, Makasar", didirikan:"15 September 1885", status:"Kota", sk:"SK WalKotMakasar No: 2135/432.2/Tahun 2018", tglSK:"29 April 2023", ket:""},
+{no:29, nama:"GPIB Immanuel Parepare", didirikan:"Tahun 1825", status:"Kota", sk:"SK Walkot No. 48 Tahun 2020", tglSK:"27 Januari 2020", ket:""},
+{no:30, nama:"GPIB Immanuel, Medan", didirikan:"Tahun 1912", status:"Kota", sk:"SK WalKot Medan No. 433/28.K/X/2021", tglSK:"28 Oktober 2021", ket:""},
+{no:31, nama:"GPIB Marturia, Lampung", didirikan:"16 Oktober 1938", status:"Kota", sk:"Masih dlm kajian Pemerintah Daerah", tglSK:"", ket:""},
+{no:32, nama:"GPIB Immanuel, Padang", didirikan:"", status:"Kota", sk:"KepWalkot No. 03 Tahun 1998", tglSK:"", ket:"SK masih Proses"},
+{no:33, nama:"GPIB Bethel, Tanjung Pinang", didirikan:"14 Februari 1835", status:"Kota", sk:"KepWalKot No. 485 Tahun 2019", tglSK:"22 Oktober 2019", ket:""},
+{no:34, nama:"GPIB Maranatha Pangkalpinang", didirikan:"", status:"Kota", sk:"KepWalkot No. 636/Kep/DikBid/XII/2020", tglSK:"14 Desember 2020", ket:""},
+{no:35, nama:"GPIB Maranatha, Siantar", didirikan:"", status:"Kota", sk:"", tglSK:"", ket:"SK masih Proses"}
+].map(e=>({id:"b"+e.no, alamat:"", narasi:"", fotos:[], mainIdx:0, fit:"contain", ...e}));
+
+/* ---------- keadaan ---------- */
+const KEY="gpib-cagar-budaya-v4";
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let state=load(), editing=false, idx=0, scrambled=false, pendingImgId=null, saveTimer=null;
+let map=null, markers={}, markerLayer=null, mapReady=false, tileFell=false, pendingFocus=null, pulseCircle=null;
+let lbId=null, lbIdx=0, lbEdited=false;
+let sortState={key:"no",dir:1}, statFilter=null;
+
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));
+    if(s&&Array.isArray(s.entries)&&s.entries.length===DEFAULTS.length)return s;}catch(e){}
+  try{const s=JSON.parse(localStorage.getItem("gpib-cagar-budaya-v3"));
+    if(s&&Array.isArray(s.entries)&&s.entries.length===DEFAULTS.length){
+      s.entries.forEach(e=>{e.fotos=e.img?[{src:e.img,cap:""}]:[];e.mainIdx=0;e.fit=e.fit==="cover"?"cover":"contain";e.narasi=e.narasi||"";delete e.img;});
+      return s;}}catch(e){}
+  return {entries:JSON.parse(JSON.stringify(DEFAULTS))};
+}
+function save(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){alert("Penyimpanan peramban penuh — kurangi jumlah/ukuran foto.")}},300)}
+const byId=id=>state.entries.find(e=>e.id===id);
+const pad=n=>String(n).padStart(2,"0");
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const hasPin=e=>e.lat!==""&&e.lat!=null&&e.lng!==""&&e.lng!=null&&!isNaN(+e.lat)&&!isNaN(+e.lng);
+const curFoto=e=>e.fotos[e.mainIdx]||null;
+
+/* ---------- templat ---------- */
+const deck=document.getElementById("deck");
+let slideMeta=[];
+const PH_SVG=`<svg width="100" height="100" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".85">
+<path d="M20 100V58c0-22 17-38 40-38s40 16 40 38v42"/><path d="M42 100V72c0-11 8-19 18-19s18 8 18 19v28"/>
+<path d="M60 20V8M52 14h16"/><path d="M10 100h100"/></svg>`;
+
+function coverHTML(){
+  const pinned=state.entries.filter(hasPin).length;
+  return `<section class="slide" data-kind="cover">
+  <div class="dust" id="dust"></div>
+  <div class="c-wrap">
+   <div>
+    <p class="eyebrow rev" style="--d:80ms">Daftar Status Bangunan Cagar Budaya</p>
+    <h1 class="c-title"><span class="scr" data-text="Cagar Budaya">Cagar Budaya</span><em class="scr" data-text="GPIB">GPIB</em></h1>
+    <div class="c-div rev" style="--d:250ms">✦</div>
+    <p class="c-sub rev" style="--d:330ms">Gereja Protestan di Indonesia bagian Barat — inventarisasi ${state.entries.length} bangunan cagar budaya beserta status penetapan, surat keputusan, narasi sejarah, galeri foto, dan peta sebarannya. Dapat dipresentasikan, disesuaikan, dan dicetak sebagai PDF.</p>
+    <div class="c-meta rev" style="--d:420ms">
+      <span>${pad(state.entries.length)} BANGUNAN TERDATA</span>
+      <span>NASIONAL · PROVINSI · KOTA · KABUPATEN</span>
+      <span>${pad(pinned)} TITIK DI PETA</span>
+    </div>
+    <p class="c-hint rev" style="--d:520ms">← → NAVIGASI · H SEMBUNYIKAN NAV · ⎋ RINGKASAN · E MODE EDIT · ⎙ CETAK PDF</p>
+   </div>
+   <div class="c-right">
+    <svg class="arch-svg" viewBox="0 0 400 520" fill="none">
+      <path class="draw" d="M60 500V240C60 120 140 40 200 40s140 80 140 200v260" stroke="var(--gold)" stroke-width="1.5" opacity=".9"/>
+      <path class="draw d2" d="M100 500V250c0-100 55-166 100-166s100 66 100 166v250" stroke="var(--gold)" stroke-width="1.1" opacity=".55"/>
+      <path class="draw d3" d="M150 500V320c0-60 22-96 50-96s50 36 50 96v180" stroke="var(--gold)" opacity=".45"/>
+      <circle class="draw d3" cx="200" cy="150" r="22" stroke="var(--gold)" opacity=".5"/>
+      <path class="draw d4" d="M200 8v30M186 21h28M20 500h360" stroke="var(--gold)" stroke-width="1.4" opacity=".8"/>
+    </svg>
+   </div>
+  </div>
+  <div class="glass">${"<span></span>".repeat(9)}</div>
+ </section>`;
+}
+
+/* ---- tabel + sortir ---- */
+const SORT_KEYS={no:"no",nama:"nama",didirikan:"didirikan",status:"status",sk:"sk",tglSK:"tglSK",ket:"ket",alamat:"alamat"};
+function cmpVal(e,key){
+  switch(key){
+    case "no":return e.no;
+    case "didirikan":{const m=String(e.didirikan||"").match(/\d{4}/);return m?+m[0]:99999}
+    case "status":return STATUSES.indexOf(e.status);
+    case "tglSK":return parseDateID(e.tglSK);
+    default:return String(e[key]||"").toLowerCase();
+  }
+}
+function parseDateID(s){
+  const MO={januari:0,februari:1,maret:2,april:3,mei:4,juni:5,juli:6,agustus:7,september:8,oktober:9,november:10,desember:11};
+  const m=String(s||"").match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
+  if(m)return new Date(+m[3],MO[m[2].toLowerCase()]??0,+m[1]).getTime();
+  const y=String(s||"").match(/\d{4}/);
+  return y?new Date(+y[0],0,1).getTime():0;
+}
+function sortedEntries(){
+  const arr=[...state.entries],k=sortState.key,d=sortState.dir;
+  arr.sort((a,b)=>{const va=cmpVal(a,k),vb=cmpVal(b,k);
+    if(typeof va==="number"&&typeof vb==="number")return (va-vb)*d;
+    return String(va).localeCompare(String(vb),"id")*d;});
+  return arr;
+}
+function rowsHTML(list){
+  return list.map((e,i)=>`
+   <tr data-go="${buildingIdx(e.id)}" style="--i:${Math.min(i,20)}">
+     <td class="ln">${pad(e.no)}</td>
+     <td class="lname">${esc(e.nama)}</td>
+     <td>${esc(e.didirikan)||"—"}</td>
+     <td><span class="dot ${e.status}"></span>${esc(e.status)}</td>
+     <td>${esc(e.sk)||"—"}</td>
+     <td>${esc(e.tglSK)||"—"}</td>
+     <td>${esc(e.ket)||"—"}${e.narasi?' <span style="color:var(--gold)">✎</span>':""}</td>
+     <td>${e.alamat?esc(e.alamat):"—"} ${hasPin(e)?'<span style="color:var(--gold)">●</span>':""}</td>
+   </tr>`).join("");
+}
+function thHTML(){
+  const cols=[["no","No"],["nama","Nama Jemaat"],["didirikan","Dibangun/Didirikan"],["status","Status"],["sk","Surat Keputusan / SK"],["tglSK","Tanggal SK"],["ket","Ket."],["alamat","Alamat"]];
+  return cols.map(([k,l])=>`<th data-sort="${k}">${l}<span class="si">${sortState.key===k?(sortState.dir===1?"▲":"▼"):""}</span></th>`).join("");
+}
+function ledgerHTML(){
+  return `<section class="slide ledger-slide" data-kind="ledger">
+    <p class="eyebrow rev">Daftar Isi</p>
+    <h2 class="sec-title"><span class="maskline"><span class="ml-in">Daftar Status Bangunan Cagar Budaya</span></span></h2>
+    <p class="sec-note rev" style="--d:180ms">${state.entries.length} bangunan terdata · klik header kolom untuk mengurutkan ▲▼ · klik baris untuk membuka slide bangunan.</p>
+    <div class="ledger-wrap rev" style="--d:240ms">
+      <table class="ledger">
+        <thead><tr>${thHTML()}</tr></thead>
+        <tbody id="ledgerBody">${rowsHTML(sortedEntries())}</tbody>
+      </table>
+    </div>
+    <div class="folio">DAFTAR STATUS BANGUNAN CAGAR BUDAYA GPIB</div>
+  </section>`;
+}
+function updateLedger(){
+  const tb=document.getElementById("ledgerBody");
+  if(tb)tb.innerHTML=rowsHTML(sortedEntries());
+  deck.querySelectorAll("th[data-sort]").forEach(th=>{
+    th.querySelector(".si").textContent=sortState.key===th.dataset.sort?(sortState.dir===1?"▲":"▼"):"";
+  });
+}
+
+function mapHTML(){
+  const missing=state.entries.filter(e=>!hasPin(e)).length;
+  return `<section class="slide mapslide" data-kind="map">
+    <div class="map-head">
+      <div>
+        <p class="eyebrow rev">Peta Sebaran</p>
+        <h2 class="sec-title" style="font-size:clamp(26px,3vw,40px)"><span class="maskline"><span class="ml-in">Peta Bangunan Cagar Budaya</span></span></h2>
+      </div>
+      <div class="map-ctrl rev" style="--d:200ms">
+        <div class="legend">${STATUSES.map(s=>`<span><span class="dot ${s}"></span>${s.toUpperCase()}</span>`).join("")}</div>
+        <button class="mini gold" id="bBulk" type="button">⌖ Geokode ${missing} yang belum bertitik</button>
+        <span id="bulkMsg"></span>
+      </div>
+    </div>
+    <div id="mapCanvas" class="rev" style="--d:280ms"></div>
+    <div class="map-hintline">PETA GRATIS: OPENSTREETMAP + LEAFLET (TANPA API KEY) · KLIK MARKER UNTUK DETAIL · MODE EDIT: ISI ALAMAT, GESER MARKER, ATAU TEKAN "CARI TITIK"</div>
+    <div class="folio">PETA · CAGAR BUDAYA GPIB</div>
+  </section>`;
+}
+
+function buildingHTML(e){
+  const n=pad(e.no), f=curFoto(e);
+  const chip=editing
+    ?`<select class="stsel" data-id="${e.id}">${STATUSES.map(s=>`<option ${s===e.status?"selected":""}>${s}</option>`).join("")}</select>`
+    :`<span class="chip ${ST_CHIP[e.status]}"><i></i>${esc(e.status)}</span>`;
+  const tools=`<div class="arch-tools">
+     <button class="mini gold" type="button" data-up="${e.id}">＋ Unggah Foto</button>
+     ${f?`<button class="mini" type="button" data-fit="${e.id}">${e.fit==="contain"?"Penuhi Bingkai":"Pas Bingkai"}</button>
+          <button class="mini" type="button" data-fdel="${e.id}:${e.mainIdx}"> Hapus Foto Ini</button>`:""}
+   </div>`;
+  const film=e.fotos.length?`<div class="filmstrip rev" style="--d:500ms">${e.fotos.map((p,i)=>`
+     <div class="fthumb ${i===e.mainIdx?"cur":""}" data-thumb="${e.id}:${i}" title="${esc(p.cap)||"Foto "+(i+1)}">
+       <img src="${p.src}" alt="">
+       ${editing?`<button class="fx" type="button" data-fdel="${e.id}:${i}">✕</button>`:""}
+     </div>`).join("")}</div>`:"";
+  const cap=(f&&f.cap)?`<div class="capline rev" style="--d:540ms">“${esc(f.cap)}”</div>`
+    :(f&&editing?`<div class="capline"><input type="text" data-cap="${e.id}" placeholder="Tulis keterangan foto ini…" value=""></div>`
+    :(f?`<div class="capline"></div>`:""));
+  const narasi=`<div class="narasi-box rev" style="--d:260ms">
+     <div class="d-lab">Narasi · Sejarah Berdirinya</div>
+     ${editing
+       ?`<div class="narasi-ed ed" contenteditable="true" data-id="${e.id}" data-field="narasi">${esc(e.narasi)}</div>`
+       :(e.narasi?`<div class="narasi-ed">${esc(e.narasi)}</div>`
+       :`<div class="narasi-empty">Narasi belum diisi — aktifkan Mode Edit (tombol ✎) untuk menulis sejarah bangunan ini.</div>`)}
+   </div>`;
+  return `<section class="slide" data-kind="building" data-id="${e.id}">
+  <div class="ghost">${n}</div>
+  <button class="b-del" type="button" data-del="${e.id}" title="Hapus bangunan ini">✕</button>
+  <div class="b-grid">
+    <div class="b-left">
+      <div class="arch rev" style="--d:140ms">
+        <div class="arch-in" data-imgfor="${e.id}" title="${f?"Klik untuk pratinjau layar lebar":""}">
+          ${f?`<img class="kb ${e.fit==="cover"?"fit-cover":""}" src="${f.src}" alt="${esc(e.nama)}">`
+          :`<div class="ph">${PH_SVG}<small>FOTO BELUM TERSEDIA<br>Mode Edit → tombol "＋ Unggah Foto" di bawah bingkai (bisa banyak foto sekaligus)</small></div>`}
+          <div class="plaque">NO. ${n} · ${esc(e.status).toUpperCase()}</div>
+        </div>
+      </div>
+      ${tools}${film}${cap}
+    </div>
+    <div class="b-right">
+      <p class="eyebrow rev" style="--d:60ms">Inventaris No. ${n}</p>
+      <h2 class="b-title"><span class="maskline"><span class="ml-in"><span class="ed" contenteditable="false" data-id="${e.id}" data-field="nama">${esc(e.nama)}</span></span></span></h2>
+      <div class="rev" style="--d:200ms">${chip}</div>
+      ${narasi}
+      <div class="b-detail rev" style="--d:340ms">
+        <div><div class="d-lab">Dibangun / Didirikan</div><div class="d-val ed" contenteditable="false" data-id="${e.id}" data-field="didirikan">${esc(e.didirikan)||"—"}</div></div>
+        <div><div class="d-lab">Tanggal Surat Keputusan</div><div class="d-val ed" contenteditable="false" data-id="${e.id}" data-field="tglSK">${esc(e.tglSK)||"—"}</div></div>
+        <div class="span2"><div class="d-lab">Surat Keputusan / SK</div><div class="d-val ed" contenteditable="false" data-id="${e.id}" data-field="sk">${esc(e.sk)||"—"}</div></div>
+        <div class="span2"><div class="d-lab">Keterangan</div><div class="d-val ed" contenteditable="false" data-id="${e.id}" data-field="ket">${esc(e.ket)||"—"}</div></div>
+      </div>
+      <div class="addr-box rev" style="--d:420ms">
+        <div class="d-lab">Alamat ${hasPin(e)?'<span style="color:var(--gold)">· ● TITIK TERDAFTAR DI PETA</span>':""}</div>
+        <div class="addr-row">
+          <input class="addr-in" type="text" data-id="${e.id}" data-field="alamat" value="${esc(e.alamat)}" placeholder="Isi alamat bangunan… (Mode Edit)" ${editing?"":"disabled"}>
+        </div>
+        <div class="addr-row">
+          <input class="coord-in" type="text" inputmode="decimal" data-id="${e.id}" data-field="lat" value="${esc(e.lat)}" placeholder="lat" ${editing?"":"disabled"}>
+          <input class="coord-in" type="text" inputmode="decimal" data-id="${e.id}" data-field="lng" value="${esc(e.lng)}" placeholder="lng" ${editing?"":"disabled"}>
+          <button class="mini" type="button" data-geo="${e.id}">⌖ Cari Titik</button>
+          <button class="mini gold" type="button" data-viewmap="${e.id}">🗺 Lihat di Peta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="folio">${n} · ${esc(e.nama)}</div>
+ </section>`;
+}
+
+function statsHTML(){
+  const counts=Object.fromEntries(STATUSES.map(s=>[s,0]));
+  state.entries.forEach(e=>{if(counts[e.status]!==undefined)counts[e.status]++});
+  const total=state.entries.length||1;
+  const rows=STATUSES.map((s,k)=>`
+   <div class="srow rev" style="--d:${k*110}ms" data-status="${s}" title="Klik untuk memfilter daftar bangunan">
+     <div class="slab">${esc(s)}</div>
+     <div class="sbar"><div class="sfill ${ST_FILL[s]}" data-w="${Math.round(counts[s]/total*100)}"></div></div>
+     <div class="snum" data-n="${counts[s]}">0</div>
+   </div>`).join("");
+  return `<section class="slide" data-kind="stats">
+   <p class="eyebrow rev">Rekapitulasi</p>
+   <h2 class="sec-title"><span class="maskline"><span class="ml-in">Status Cagar Budaya</span></span></h2>
+   <p class="sec-note rev" style="--d:150ms">Klik salah satu bar untuk menampilkan daftar bangunan berfilter status tersebut.</p>
+   <div class="stat-grid" style="margin-top:14px">
+     <div>${rows}</div>
+     <div>
+       <div class="stotal rev" id="stotalBox" style="--d:300ms"><span class="tn">${pad(state.entries.length)}</span><span class="tl">Bangunan<br>Terdata dalam<br>Inventaris</span></div>
+       <div class="slist" id="slist"></div>
+     </div>
+   </div>
+   <div class="folio">REKAP · CAGAR BUDAYA GPIB</div>
+ </section>`;
+}
+function setStatFilter(st){
+  statFilter=st;
+  const list=document.getElementById("slist"),tot=document.getElementById("stotalBox");
+  if(!list||!tot)return;
+  deck.querySelectorAll(".srow").forEach(r=>r.classList.toggle("sel",!!st&&r.dataset.status===st));
+  if(!st){list.style.display="none";tot.style.display="";return}
+  const items=state.entries.filter(e=>e.status===st);
+  list.innerHTML=`<div class="slist-head"><span>${esc(st)} · ${items.length} bangunan</span>
+    <button class="mini" id="sClear" type="button">✕ Semua</button></div>`+
+    items.map(e=>`<button class="fcard" type="button" data-go="${buildingIdx(e.id)}">
+      <span class="ln">${pad(e.no)}</span>${esc(e.nama)}<em>${esc(e.didirikan)||"—"}</em></button>`).join("");
+  list.style.display="flex";tot.style.display="none";
+}
+function countUpAll(){
+  deck.querySelectorAll(".snum").forEach(el=>{
+    const target=+el.dataset.n;
+    if(RM){el.textContent=target;return}
+    const s=performance.now(),d=900;
+    (function f(t){const p=Math.min(1,(t-s)/d);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s);
+  });
+}
+
+function closingHTML(){
+  return `<section class="slide closing" data-kind="closing">
+   <div>
+    <svg width="66" height="84" viewBox="0 0 120 150" fill="none" stroke="var(--gold)" stroke-width="2" class="rev">
+      <path d="M20 145V62c0-30 24-48 40-48s40 18 40 48v83"/><path d="M45 145v-38c0-14 10-22 15-22s15 8 15 22v38"/>
+    </svg>
+    <p class="eyebrow rev" style="--d:120ms;justify-content:center">Gereja Protestan di Indonesia bagian Barat</p>
+    <h2 class="rev" style="--d:200ms">Daftar Status <em>Cagar Budaya</em></h2>
+    <p class="rev" style="--d:300ms">Dokumen ini dapat dipresentasikan langsung; narasi, alamat, foto beserta keterangannya, dan titik peta dapat disesuaikan melalui Mode Edit; serta dicetak menjadi dokumen PDF. Seluruh perubahan tersimpan otomatis di peramban.</p>
+    <div class="foot rev" style="--d:420ms">DAFTAR STATUS BANGUNAN CAGAR BUDAYA GPIB</div>
+   </div>
+ </section>`;
+}
+
+function buildingIdx(id){return 3+state.entries.findIndex(e=>e.id===id)}
+function build(){
+  deck.innerHTML=coverHTML()+ledgerHTML()+mapHTML()+state.entries.map(buildingHTML).join("")+statsHTML()+closingHTML();
+  slideMeta=[...deck.querySelectorAll(".slide")].map(s=>({kind:s.dataset.kind,id:s.dataset.id}));
+  applyEditable();spawnDust();statFilter=null;
+}
+function applyEditable(){
+  deck.querySelectorAll(".ed").forEach(el=>{if(el.dataset.field!=="narasi")el.setAttribute("contenteditable",editing?"true":"false")});
+  deck.querySelectorAll("input[data-field]").forEach(i=>i.disabled=!editing);
+}
+function spawnDust(){
+  const d=document.getElementById("dust");if(!d||RM)return;
+  for(let i=0;i<16;i++){
+    const s=document.createElement("span"),z=2+Math.random()*3;
+    s.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;animation-duration:${8+Math.random()*9}s;animation-delay:${Math.random()*9}s`;
+    d.appendChild(s);
+  }
+}
+
+/* ---------- peta ---------- */
+function initMap(){
+  if(typeof L==="undefined"){document.getElementById("mapCanvas").innerHTML='<div class="ph" style="position:relative">Pustaka peta gagal dimuat — periksa koneksi internet lalu muat ulang halaman.</div>';return}
+  map=L.map("mapCanvas").setView([-4.5,115],5);
+  const osm=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+  osm.on("tileerror",()=>{
+    if(tileFell)return;tileFell=true;map.removeLayer(osm);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      {subdomains:"abcd",maxZoom:20,attribution:'&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/">CARTO</a>'}).addTo(map);
+  });
+  osm.addTo(map);
+  markerLayer=L.layerGroup().addTo(map);
+  mapReady=true;refreshMarkers();
+}
+function refreshMarkers(){
+  if(!mapReady)return;
+  markerLayer.clearLayers();markers={};
+  state.entries.forEach(e=>{
+    if(!hasPin(e))return;
+    const m=L.circleMarker([+e.lat,+e.lng],{radius:9,weight:2,color:getComputedStyle(document.documentElement).getPropertyValue("--gold").trim(),fillColor:stColor(e.status),fillOpacity:.92,draggable:editing});
+    m.bindPopup(popupEl(e),{maxWidth:280});
+    if(editing)m.on("dragend",()=>{const p=m.getLatLng();e.lat=+p.lat.toFixed(6);e.lng=+p.lng.toFixed(6);save();syncInputs(e)});
+    m.addTo(markerLayer);markers[e.id]=m;
+  });
+}
+function popupEl(e){
+  const d=document.createElement("div");d.className="mp";
+  d.innerHTML=`<div class="mp-no">NO. ${pad(e.no)} · ${esc(e.status).toUpperCase()}${e.fotos.length?` · ${e.fotos.length} FOTO`:""}</div>
+   <div class="mp-name">${esc(e.nama)}</div>
+   <div class="mp-row"><b>Didirikan</b><span>${esc(e.didirikan)||"—"}</span></div>
+   <div class="mp-row"><b>SK</b><span>${esc(e.sk)||"—"}</span></div>
+   <div class="mp-row"><b>Tanggal</b><span>${esc(e.tglSK)||"—"}</span></div>
+   <div class="mp-row"><b>Alamat</b><span>${esc(e.alamat)||"belum diisi"}</span></div>`;
+  const b=document.createElement("button");b.className="mp-open";b.textContent="Buka Slide Bangunan ➜";
+  b.onclick=()=>{map.closePopup();go(buildingIdx(e.id))};
+  d.appendChild(b);return d;
+}
+function syncInputs(e){
+  deck.querySelectorAll(`input[data-id="${e.id}"]`).forEach(i=>{
+    if(i.dataset.field==="lat")i.value=e.lat??"";
+    if(i.dataset.field==="lng")i.value=e.lng??"";
+    if(i.dataset.field==="alamat")i.value=e.alamat??"";
+  });
+}
+function focusMap(id){go(2);pendingFocus=id}
+function activateMap(){
+  if(!mapReady)initMap();
+  setTimeout(()=>{
+    if(!map)return;map.invalidateSize();
+    if(pendingFocus){
+      const e=byId(pendingFocus);pendingFocus=null;
+      if(e){
+        if(hasPin(e)){
+          map.flyTo([+e.lat,+e.lng],15,{duration:RM?0:.9});
+          if(pulseCircle){map.removeLayer(pulseCircle);pulseCircle=null}
+          pulseCircle=L.circle([+e.lat,+e.lng],{radius:140,className:"pulse-ring",interactive:false,color:stColor(e.status),weight:2,fill:false}).addTo(map);
+          setTimeout(()=>{if(pulseCircle){map.removeLayer(pulseCircle);pulseCircle=null}},5200);
+          setTimeout(()=>markers[e.id]&&markers[e.id].openPopup(),950);
+        }
+        else if(confirm(`${e.nama} belum memiliki titik. Cari otomatis dari nama/alamat?`))geocodeEntry(e.id,true);
+      }
+    }
+  },380);
+}
+async function geocode(q){
+  const url="https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q="+encodeURIComponent(q);
+  const r=await fetch(url,{headers:{"Accept-Language":"id"}});
+  const j=await r.json();
+  return j[0]?{lat:+j[0].lat,lng:+j[0].lon}:null;
+}
+async function geocodeEntry(id,fly){
+  const e=byId(id);if(!e)return false;
+  const q=(e.nama+" "+(e.alamat||"")).replace(/\s+/g," ").trim();
+  const btn=deck.querySelector(`[data-geo="${id}"]`);
+  if(btn)btn.textContent="⌖ Mencari…";
+  try{
+    const r=await geocode(q);
+    if(r){e.lat=r.lat;e.lng=r.lng;save();syncInputs(e);refreshMarkers();
+      if(fly&&map){map.flyTo([r.lat,r.lng],15,{duration:.9});setTimeout(()=>markers[id]&&markers[id].openPopup(),950)}
+      return true;
+    }else{alert(`Titik untuk "${e.nama}" tidak ditemukan. Isi alamat lebih lengkap pada Mode Edit lalu coba lagi.`);return false}
+  }catch(err){alert("Gagal menghubungi layanan geokode. Periksa koneksi internet.");return false}
+  finally{if(btn)btn.textContent="⌖ Cari Titik"}
+}
+async function bulkGeocode(){
+  const btn=document.getElementById("bBulk"),msg=document.getElementById("bulkMsg");
+  if(!btn||btn.disabled)return;btn.disabled=true;btn.style.opacity=.5;
+  const missing=state.entries.filter(e=>!hasPin(e));let ok=0;
+  for(let i=0;i<missing.length;i++){
+    msg.textContent=`Mencari ${i+1}/${missing.length}…`;
+    if(await geocodeEntry(missing[i].id,false))ok++;
+    if(i<missing.length-1)await new Promise(r=>setTimeout(r,1100));
+  }
+  msg.textContent=`Selesai: ${ok} titik ditemukan.`;
+  btn.disabled=false;btn.style.opacity=1;build();go(2);
+}
+
+/* ---------- lightbox ---------- */
+const lb=document.getElementById("lightbox");
+function openLb(id){const e=byId(id);if(!e||!e.fotos.length)return;lbId=id;lbIdx=e.mainIdx;lbEdited=false;renderLb();lb.classList.add("open")}
+function renderLb(){
+  const e=byId(lbId);if(!e)return;const f=e.fotos[lbIdx];if(!f){closeLb();return}
+  document.getElementById("lbImg").src=f.src;
+  document.getElementById("lbMeta").textContent=`${e.nama} — Foto ${pad(lbIdx+1)} / ${pad(e.fotos.length)}`;
+  const cap=document.getElementById("lbCap");
+  cap.textContent=f.cap||"";
+  cap.setAttribute("contenteditable",editing?"true":"false");
+  cap.dataset.placeholder="1";
+  const many=e.fotos.length>1;
+  document.getElementById("lbPrev").style.display=many?"block":"none";
+  document.getElementById("lbNext").style.display=many?"block":"none";
+}
+document.getElementById("lbCap").addEventListener("input",ev=>{
+  const e=byId(lbId);if(!e)return;const f=e.fotos[lbIdx];if(!f)return;
+  f.cap=ev.target.innerText.trim();lbEdited=true;save();
+});
+function closeLb(){
+  lb.classList.remove("open");
+  if(lbEdited&&editing){const keep=idx;build();go(keep)}
+  lbId=null;
+}
+document.getElementById("lbClose").addEventListener("click",closeLb);
+document.getElementById("lbPrev").addEventListener("click",()=>{const e=byId(lbId);lbIdx=(lbIdx-1+e.fotos.length)%e.fotos.length;renderLb()});
+document.getElementById("lbNext").addEventListener("click",()=>{const e=byId(lbId);lbIdx=(lbIdx+1)%e.fotos.length;renderLb()});
+lb.addEventListener("click",ev=>{if(ev.target===lb)closeLb()});
+
+/* ---------- navigasi ---------- */
+const counter=document.getElementById("counter"),progress=document.getElementById("progress");
+function go(i){
+  const slides=[...deck.children];
+  idx=Math.max(0,Math.min(i,slides.length-1));
+  slides.forEach((s,k)=>s.classList.toggle("active",k===idx));
+  counter.textContent=`${pad(idx+1)} / ${pad(slides.length)}`;
+  progress.style.width=(idx/(slides.length-1)*100)+"%";
+  document.getElementById("bPrev").disabled=idx===0;
+  document.getElementById("bNext").disabled=idx===slides.length-1;
+  const m=slideMeta[idx];
+  if(m.kind==="cover"&&!scrambled&&!RM){scrambled=true;deck.querySelectorAll(".scr").forEach(scramble)}
+  if(m.kind==="map")activateMap();
+  if(m.kind==="stats")setTimeout(()=>{fillBars();countUpAll()},150);
+}
+function fillBars(){deck.querySelectorAll(".sfill").forEach(f=>f.style.width=f.dataset.w+"%")}
+const next=()=>go(idx+1),prev=()=>go(idx-1);
+
+function scramble(el){
+  const final=el.dataset.text,chars="ACDEGIMNOPRSTUV✦◆";
+  if(RM){el.textContent=final;return}
+  let frame=0;const t=setInterval(()=>{
+    frame++;const reveal=Math.floor(frame/2.2);let out="";
+    for(let i=0;i<final.length;i++)out+=i<reveal?final[i]:(final[i]===" "?" ":chars[Math.floor(Math.random()*chars.length)]);
+    el.textContent=out;
+    if(reveal>=final.length){clearInterval(t);el.textContent=final}
+  },28);
+}
+
+/* ---------- interaksi dek ---------- */
+deck.addEventListener("click",ev=>{
+  const g=ev.target.closest("[data-go]");if(g){go(+g.dataset.go);return}
+  const th=ev.target.closest("th[data-sort]");
+  if(th){const k=th.dataset.sort;
+    if(sortState.key===k)sortState.dir*=-1;else{sortState.key=k;sortState.dir=1}
+    updateLedger();return}
+  const srow=ev.target.closest(".srow");
+  if(srow){const st=srow.dataset.status;setStatFilter(statFilter===st?null:st);return}
+  if(ev.target.closest("#sClear")){setStatFilter(null);return}
+  const fd=ev.target.closest("[data-fdel]");
+  if(fd){const[id,i]=fd.dataset.fdel.split(":");const e=byId(id);if(e){e.fotos.splice(+i,1);e.mainIdx=Math.min(e.mainIdx,Math.max(0,e.fotos.length-1));save();const keep=idx;build();go(keep)}return}
+  const thb=ev.target.closest("[data-thumb]");
+  if(thb){const[id,i]=thb.dataset.thumb.split(":");const e=byId(id);if(e){e.mainIdx=+i;save();const keep=idx;build();go(keep)}return}
+  const geo=ev.target.closest("[data-geo]");if(geo){geocodeEntry(geo.dataset.geo,false);return}
+  const vm=ev.target.closest("[data-viewmap]");if(vm){focusMap(vm.dataset.viewmap);return}
+  const ft=ev.target.closest("[data-fit]");
+  if(ft){const e=byId(ft.dataset.fit);if(e){e.fit=e.fit==="contain"?"cover":"contain";save();const keep=idx;build();go(keep)}return}
+  const del=ev.target.closest("[data-del]");
+  if(del){if(confirm("Hapus bangunan ini dari daftar?")){
+    state.entries=state.entries.filter(e=>e.id!==del.dataset.del);
+    state.entries.forEach((e,i)=>e.no=i+1);save();build();go(Math.min(idx,deck.children.length-1));}return}
+  const up=ev.target.closest("[data-up]");if(up){openFile(up.dataset.up);return}
+  const ain=ev.target.closest(".arch-in");
+  if(ain){const e=byId(ain.dataset.imgfor);
+    if(e){if(e.fotos.length)openLb(e.id);else if(editing)openFile(e.id)}
+    return}
+});
+deck.addEventListener("input",ev=>{
+  const t=ev.target.closest(".ed");if(!t)return;
+  const en=byId(t.dataset.id);if(!en)return;
+  en[t.dataset.field]=t.innerText.replace(/\n{3,}/g,"\n\n").trim();save();
+});
+deck.addEventListener("change",ev=>{
+  const cap=ev.target.closest("[data-cap]");
+  if(cap){const e=byId(cap.dataset.cap);const f=curFoto(e);if(e&&f){f.cap=cap.value.trim();save()}return}
+  const inp=ev.target.closest("input[data-field]");
+  if(inp){const en=byId(inp.dataset.id);if(en){
+    en[inp.dataset.field]=inp.value.trim();save();
+    if(inp.dataset.field==="lat"||inp.dataset.field==="lng")refreshMarkers();}return}
+  const sel=ev.target.closest(".stsel");
+  if(sel){const en=byId(sel.dataset.id);if(en){en.status=sel.value;save();refreshMarkers();const keep=idx;build();go(keep)}}
+});
+
+/* ---------- foto ---------- */
+const fileInput=document.getElementById("fileInput");
+function openFile(id){pendingImgId=id;fileInput.value="";fileInput.click()}
+function downscale(file){
+  return new Promise(res=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=1100,k=Math.min(1,MAX/Math.max(img.width,img.height));
+      const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+      const ctx=c.getContext("2d");ctx.fillStyle="#1e1813";ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);res(c.toDataURL("image/jpeg",.82));
+    };
+    img.onerror=()=>res(null);img.src=url;
+  });
+}
+fileInput.addEventListener("change",async()=>{
+  const files=[...fileInput.files];if(!files.length||!pendingImgId)return;
+  const e=byId(pendingImgId);if(!e)return;
+  for(const f of files){const src=await downscale(f);if(src)e.fotos.push({src,cap:""})}
+  e.mainIdx=e.fotos.length-1;save();
+  const keep=idx;build();go(keep);
+});
+
+/* ---------- mode edit ---------- */
+const bEdit=document.getElementById("bEdit");
+function setEdit(on){
+  editing=on;document.body.classList.toggle("editing",on);
+  bEdit.classList.toggle("on",on);bEdit.textContent=on?"✓ Selesai Edit":"✎ Mode Edit";
+  const keep=idx;build();go(keep);refreshMarkers();
+}
+bEdit.addEventListener("click",()=>setEdit(!editing));
+
+/* ---------- tema & navigasi sembunyi ---------- */
+const bTheme=document.getElementById("bTheme"),bNav=document.getElementById("bNav");
+function setTheme(t){
+  document.documentElement.dataset.theme=t;
+  bTheme.textContent=t==="dark"?"☀ Terang":"☾ Gelap";
+  try{localStorage.setItem("gpib-theme",t)}catch(e){}
+  refreshMarkers();
+}
+bTheme.addEventListener("click",()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark"));
+function setNav(hide){
+  document.body.classList.toggle("hide-nav",hide);
+  bNav.classList.toggle("on",hide);
+  try{localStorage.setItem("gpib-nav-hidden",hide?"1":"0")}catch(e){}
+}
+bNav.addEventListener("click",()=>setNav(!document.body.classList.contains("hide-nav")));
+try{if(localStorage.getItem("gpib-theme"))setTheme(localStorage.getItem("gpib-theme"))}catch(e){}
+try{if(localStorage.getItem("gpib-nav-hidden")==="1")setNav(true)}catch(e){}
+
+/* ---------- ringkasan ---------- */
+const overview=document.getElementById("overview");
+function openOv(){
+  document.getElementById("ovGrid").innerHTML=slideMeta.map((m,i)=>{
+    let label=m.kind==="cover"?"Sampul":m.kind==="ledger"?"Daftar Status Bangunan":m.kind==="map"?"Peta Sebaran":m.kind==="stats"?"Rekapitulasi Status":m.kind==="closing"?"Penutup":(byId(m.id)?.nama||"—");
+    return `<button class="ov-card" type="button" data-go="${i}" ${i===idx?'style="border-color:var(--gold)"':""}>
+      <div class="tnum">SLIDE ${pad(i+1)}</div>
+      <div class="tname">${esc(label)}</div>
+      <div class="tcity">${m.kind==="building"?"BANGUNAN":m.kind.toUpperCase()}</div>
+    </button>`;
+  }).join("");
+  overview.classList.add("open");
+}
+function closeOv(){overview.classList.remove("open")}
+document.getElementById("bRingkas").addEventListener("click",()=>overview.classList.contains("open")?closeOv():openOv());
+document.getElementById("bCloseOv").addEventListener("click",closeOv);
+overview.addEventListener("click",ev=>{const g=ev.target.closest("[data-go]");if(g){go(+g.dataset.go);closeOv()}});
+
+/* ---------- sistem ---------- */
+document.getElementById("bPrint").addEventListener("click",()=>{if(map)map.invalidateSize();window.print()});
+document.getElementById("bFull").addEventListener("click",()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})});
+document.getElementById("bPrev").addEventListener("click",prev);
+document.getElementById("bNext").addEventListener("click",next);
+document.addEventListener("click",ev=>{if(ev.target.closest("#bBulk"))bulkGeocode()},true);
+
+document.addEventListener("keydown",ev=>{
+  if(lb.classList.contains("open")){
+    const t=ev.target;
+    if(t.isContentEditable){if(ev.key==="Escape")t.blur();return}
+    const e=byId(lbId);
+    if(ev.key==="Escape")closeLb();
+    else if(e&&e.fotos.length>1){
+      if(ev.key==="ArrowRight"){lbIdx=(lbIdx+1)%e.fotos.length;renderLb()}
+      else if(ev.key==="ArrowLeft"){lbIdx=(lbIdx-1+e.fotos.length)%e.fotos.length;renderLb()}
+    }
+    return;
+  }
+  const t=ev.target;
+  if(t.isContentEditable||["SELECT","INPUT","TEXTAREA"].includes(t.tagName)){if(ev.key==="Escape")t.blur();return}
+  if(ev.key==="ArrowRight"||ev.key==="PageDown"||ev.key===" "){ev.preventDefault();next()}
+  else if(ev.key==="ArrowLeft"||ev.key==="PageUp"){ev.preventDefault();prev()}
+  else if(ev.key==="Home"){go(0)}else if(ev.key==="End"){go(deck.children.length-1)}
+  else if(ev.key==="Escape"){overview.classList.contains("open")?closeOv():openOv()}
+  else if(ev.key.toLowerCase()==="e"){setEdit(!editing)}
+  else if(ev.key.toLowerCase()==="h"){setNav(!document.body.classList.contains("hide-nav"))}
+});
+let tx=0,ty=0;
+document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+document.addEventListener("touchend",e=>{
+  if(e.target.closest&&e.target.closest("#mapCanvas"))return;
+  const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.4){dx<0?next():prev()}
+},{passive:true});
+window.addEventListener("beforeprint",()=>{fillBars();if(map)map.invalidateSize()});
+window.addEventListener("resize",()=>{if(map&&slideMeta[idx]?.kind==="map")map.invalidateSize()});
+
+build();go(0);
+</script>
+</body>
+</html>

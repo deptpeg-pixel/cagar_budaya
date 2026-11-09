@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Cagar Budaya GPIB — Daftar Status Bangunan</title>
+  
+  <!-- Font & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Peta Leaflet CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  
+  <!-- File Desain / CSS Terpisah -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Efek Grain & Frame Dekoratif -->
+  <div class="grain"></div>
+  <div class="frame"></div>
+  <div class="progress" id="progress"></div>
+
+  <!-- Header Navigasi & Alat -->
+  <header class="toolbar">
+    <div class="brand">
+      <svg width="17" height="22" viewBox="0 0 17 22" fill="none"><path d="M1.5 21V10C1.5 4.5 5 1.5 8.5 1.5 12 1.5 15.5 4.5 15.5 10V21" stroke="currentColor" stroke-width="1.3"/><path d="M8.5 21v-6" stroke="currentColor" stroke-width="1.3"/></svg>
+      CAGAR BUDAYA · GPIB
+    </div>
+    <div class="tools">
+      <button class="tbtn" id="bRingkas" type="button">▦ Ringkasan</button>
+      <button class="tbtn" id="bEdit" type="button">✎ Mode Edit</button>
+      <button class="tbtn highlight" id="bExport" type="button" style="display:none;" title="Unduh perubahan data sebagai file data/cagar_budaya_data.js">💾 Ekspor Data</button>
+      <button class="tbtn" id="bReset" type="button" style="display:none;" title="Muat ulang data asli dari file cagar_budaya_data.js">↺ Reset Data</button>
+      <button class="tbtn" id="bNav" type="button" title="Sembunyikan/tampilkan tombol navigasi (H)">🧭 Nav</button>
+      <button class="tbtn" id="bTheme" type="button">☀ Terang</button>
+      <button class="tbtn" id="bPrint" type="button">⎙ Cetak PDF</button>
+      <button class="tbtn" id="bFull" type="button">⛶ Layar Penuh</button>
+    </div>
+  </header>
+
+  <!-- Kontainer Deck Utama -->
+  <main id="deck"></main>
+
+  <!-- Tombol Navigasi Slide -->
+  <button class="navbtn" id="bPrev" type="button" aria-label="Sebelumnya"><svg viewBox="0 0 24 24" width="20"><path d="M14.5 5 8 12l6.5 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <button class="navbtn" id="bNext" type="button" aria-label="Berikutnya"><svg viewBox="0 0 24 24" width="20"><path d="M9.5 5 16 12l-6.5 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <div class="counter" id="counter">01 / 01</div>
+
+  <!-- Modal Ringkasan Cepat -->
+  <div id="overview">
+    <div class="ov-head">
+      <div><div class="eyebrow">Navigasi Cepat</div><div class="sec-title" style="font-size:28px">Ringkasan Slide</div></div>
+      <button class="tbtn" id="bCloseOv" type="button">✕ Tutup (Esc)</button>
+    </div>
+    <div class="ov-grid" id="ovGrid"></div>
+  </div>
+
+  <!-- Lightbox Pratinjau Foto -->
+  <div id="lightbox">
+    <button class="lb-btn" id="lbClose" type="button">✕</button>
+    <button class="lb-btn" id="lbPrev" type="button">‹</button>
+    <button class="lb-btn" id="lbNext" type="button">›</button>
+    <img id="lbImg" src="" alt="">
+    <div id="lbMeta"></div>
+    <div id="lbCapLab">Keterangan Foto</div>
+    <div id="lbCap"></div>
+  </div>
+
+  <!-- Input File Tersembunyi -->
+  <input type="file" id="fileInput" accept="image/*" multiple hidden>
+
+  <!-- Script Data & Logika Terpisah -->
+  <script src="data/cagar_budaya_data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
