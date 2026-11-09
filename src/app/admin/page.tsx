@@ -18,8 +18,10 @@ import {
   AlertCircle,
   X,
   Image as ImageIcon,
-  BookOpen
+  BookOpen,
+  Sparkles
 } from "lucide-react";
+import BigScreenPresentation from "@/components/admin/BigScreenPresentation";
 import { CagarBudayaItem, CagarBudayaStatus, FotoBangunan } from "@/lib/types";
 import { 
   fetchAllBangunan, 
@@ -44,6 +46,7 @@ export default function AdminDashboardPage() {
   // Modal states
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [bigScreenOpen, setBigScreenOpen] = useState(false);
   const [activeItem, setActiveItem] = useState<CagarBudayaItem | null>(null);
   const [isNew, setIsNew] = useState(false);
 
@@ -290,6 +293,15 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setBigScreenOpen(true)}
+              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#d4af37] text-[#0b0a08] text-xs font-bold shadow-lg shadow-[#d4af37]/25 hover:brightness-110 flex items-center gap-1.5 transition-all cursor-pointer"
+              title="Buka Mode Presentasi Layar Lebar (Big Screen Showcase)"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#0b0a08]" />
+              <span>⛶ Layar Lebar (Big Screen)</span>
+            </button>
+
             <button
               onClick={handleExportJSON}
               className="px-3 py-1.5 rounded-lg border border-[#2c2822] bg-[#1a1815] hover:border-[#c8a24a] text-xs font-mono text-[#d1c7b7] hover:text-[#e6c875] flex items-center gap-1.5 transition-colors cursor-pointer"
@@ -866,6 +878,16 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         </div>
+      )}
+      {/* ================= BIG SCREEN SHOWCASE SUITE ================= */}
+      {bigScreenOpen && (
+        <BigScreenPresentation
+          items={items}
+          onClose={() => setBigScreenOpen(false)}
+          onEditItem={(item) => {
+            handleOpenEdit(item);
+          }}
+        />
       )}
     </div>
   );

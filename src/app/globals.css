@@ -2,15 +2,15 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #0f0e0c;
-  --foreground: #f2eee6;
-  --card: #181714;
-  --card-border: #2c2822;
-  --gold: #c8a24a;
-  --gold-light: #e6c875;
-  --gold-glow: rgba(200, 162, 74, 0.25);
+  --background: #0b0a08;
+  --foreground: #f5f2eb;
+  --card: #151411;
+  --card-border: #28241e;
+  --gold: #d4af37;
+  --gold-light: #f3e5ab;
+  --gold-glow: rgba(212, 175, 55, 0.35);
   
-  --c-nas: #c8a24a;
+  --c-nas: #d4af37;
   --c-prov: #5a94d6;
   --c-kota: #52b788;
   --c-kab: #d97736;
@@ -48,8 +48,8 @@ body {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--background);
@@ -64,42 +64,91 @@ body {
 
 /* Arch Frame Motif */
 .arch-frame {
-  border-top-left-radius: 120px;
-  border-top-right-radius: 120px;
+  border-top-left-radius: 140px;
+  border-top-right-radius: 140px;
   border: 1px solid var(--gold);
   overflow: hidden;
   position: relative;
-  background: radial-gradient(circle at 50% 30%, rgba(200, 162, 74, 0.08), transparent 70%), #141311;
-  box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(0, 0, 0, 0.5);
+  background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.12), transparent 75%), #141310;
+  box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(0, 0, 0, 0.6);
 }
 
-.arch-thumb {
-  border-top-left-radius: 40px;
-  border-top-right-radius: 40px;
+/* Big Screen Executive Animations */
+@keyframes goldGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.45), inset 0 0 30px rgba(212, 175, 55, 0.2);
+    border-color: rgba(243, 229, 171, 0.9);
+  }
 }
 
-/* Grain overlay */
+.gold-glow-animated {
+  animation: goldGlow 4s infinite ease-in-out;
+}
+
+@keyframes radarPing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.radar-ping {
+  animation: radarPing 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes textShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-gold {
+  background: linear-gradient(90deg, #d4af37 0%, #ffffff 50%, #d4af37 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: textShimmer 6s linear infinite;
+}
+
+/* Ambient war room background */
+.warroom-bg {
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(90, 148, 214, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(20, 18, 14, 0.9) 0%, #0a0907 100%);
+}
+
 .grain-overlay {
-  background-image: radial-gradient(rgba(200, 162, 74, 0.04) 1px, transparent 0);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.035) 1px, transparent 0);
+  background-size: 28px 28px;
 }
 
-/* Leaflet Dark Filter */
-.leaflet-dark .leaflet-tile {
-  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.65);
+/* Leaflet styling */
+.leaflet-container {
+  background: #0d0c0a !important;
+  font-family: inherit !important;
 }
 
-/* Print Styling */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  .arch-frame {
-    border-color: #333 !important;
-    box-shadow: none !important;
-  }
+.leaflet-popup-content-wrapper {
+  background: #181714 !important;
+  color: #f2eee6 !important;
+  border: 1px solid #3c362d !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-popup-tip {
+  background: #181714 !important;
 }
