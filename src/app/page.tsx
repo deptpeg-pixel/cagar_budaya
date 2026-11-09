@@ -11,10 +11,10 @@ import { INITIAL_CAGAR_BUDAYA } from "@/data/initialData";
 
 export default function HomePage() {
   const [items, setItems] = useState<CagarBudayaItem[]>(INITIAL_CAGAR_BUDAYA);
-  const [viewMode, setViewMode] = useState<"deck" | "grid">("deck");
+  // Default to the Luxury Exhibition / Catalog Experience ("grid") for maximum "Stop Scrolling" impact
+  const [viewMode, setViewMode] = useState<"deck" | "grid">("grid");
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [overviewOpen, setOverviewOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Load latest data from Supabase or local storage
   useEffect(() => {
@@ -26,8 +26,6 @@ export default function HomePage() {
         }
       } catch (err) {
         console.error("Error loading cagar budaya data:", err);
-      } finally {
-        setIsLoading(false);
       }
     }
     loadData();
@@ -43,6 +41,7 @@ export default function HomePage() {
     else if (kind === "map") setCurrentSlideIndex(2);
     else if (kind === "stats") setCurrentSlideIndex(3 + items.length);
     else if (typeof kind === "number") setCurrentSlideIndex(kind);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Jump to specific building slide
@@ -51,17 +50,19 @@ export default function HomePage() {
     if (idx >= 0) {
       setViewMode("deck");
       setCurrentSlideIndex(3 + idx);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   // Jump to Map slide focusing on building
-  const handleOpenMapAt = (buildingId: string) => {
+  const handleOpenMapAt = () => {
     setViewMode("deck");
-    setCurrentSlideIndex(2); // Map slide
+    setCurrentSlideIndex(2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0f0e0c] text-[#f2eee6] grain-overlay">
+    <div className="min-h-screen flex flex-col bg-[#080706] text-[#f5f2eb] grain-overlay">
       {/* Navigation Bar */}
       <Navbar
         viewMode={viewMode}
@@ -72,18 +73,18 @@ export default function HomePage() {
 
       {/* Main View Mode Content */}
       <div className="flex-1">
-        {viewMode === "deck" ? (
+        {viewMode === "grid" ? (
+          <CatalogView
+            items={items}
+            onOpenDeckAt={handleOpenBuildingInDeck}
+            onOpenMapAt={handleOpenMapAt}
+          />
+        ) : (
           <DeckView
             items={items}
             currentSlideIndex={currentSlideIndex}
             onSlideChange={setCurrentSlideIndex}
             onOpenOverview={() => setOverviewOpen(true)}
-          />
-        ) : (
-          <CatalogView
-            items={items}
-            onOpenDeckAt={handleOpenBuildingInDeck}
-            onOpenMapAt={handleOpenMapAt}
           />
         )}
       </div>

@@ -83,3 +83,4 @@ export function getStatusToken(status: string) {
   }
   return colors.status.Nasional;
 }
+

@@ -15,7 +15,16 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja Immanuel Jakarta (dahulu Willemskerk) dibangun untuk menghormati Raja Willem I dari Belanda. Dirancang oleh arsitek J.H. Horst dengan gaya arsitektur Klasikisme bundar (rotunda) beratap kubah konsentris dan serambi bertiang Dorika.",
     "lat": -6.1753,
     "lng": 106.8289,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Immanuel_Church_Jakarta_2018.jpg/1280px-Immanuel_Church_Jakarta_2018.jpg",
+        "cap": "Fasad Klasikisme bundar (rotunda) GPIB Immanuel Jakarta (Willemskerk, 1839) dengan serambi tiang Dorika"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=85",
+        "cap": "Detail arsitektur kolonial klasik abad ke-19 dan kubah konsentris"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -33,7 +42,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Dikenal luas sebagai Gereja Blenduk karena kubah tembaga setengah bola oktagonalnya yang ikonik. Merupakan salah satu gereja Kristen tertua di Jawa Tengah yang menjadi landmark kawasan Kota Lama Semarang.",
     "lat": -6.9674,
     "lng": 110.4279,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Gereja_Blenduk_Semarang.jpg/1280px-Gereja_Blenduk_Semarang.jpg",
+        "cap": "Kubah tembaga oktagonal ikonik Gereja Blenduk (GPIB Immanuel Semarang, 1753) di kawasan Kota Lama"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -51,7 +65,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Terletak tepat berdampingan dengan Kebun Raya Bogor. Sering dijuluki 'Gereja Ayam' karena ornamen penunjuk arah angin berbentuk ayam jantan di puncak menaranya.",
     "lat": -6.5949,
     "lng": 106.793,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Zebaoth_Church_Bogor.jpg/1280px-Zebaoth_Church_Bogor.jpg",
+        "cap": "Gedung bersejarah GPIB Zebaoth Bogor (1920) di tepi Kebun Raya Bogor"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -69,7 +88,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja tertua yang masih berdiri tegak dan aktif digunakan di Jakarta. Awalnya dikenal sebagai Portugeesche Buitenkerk (Gereja Portugis di Luar Tembok Kota). Memiliki mimbar bergaya Barok dan organ pipa antik bersejarah.",
     "lat": -6.1372,
     "lng": 106.8141,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Sion_Church_Jakarta.jpg/1280px-Sion_Church_Jakarta.jpg",
+        "cap": "GPIB Sion Jakarta (Portugeesche Buitenkerk, 1695) — gereja tertua yang masih aktif di Jakarta"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -87,7 +111,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Populer disebut sebagai 'Gereja Ayam Pasar Baru' dengan ciri khas ornamen ayam pada puncak atapnya. Berdiri megah di ujung pusat perbelanjaan historis Pasar Baru Jakarta.",
     "lat": -6.1614,
     "lng": 106.8349,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Pniel_Church_Jakarta.jpg/1280px-Pniel_Church_Jakarta.jpg",
+        "cap": "GPIB Pniel Pasar Baru (Gereja Ayam, 1913) dengan arsitektur kolonial awal abad ke-20"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -105,7 +134,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Dikenal awalnya sebagai Nassaukerk, dirancang oleh arsitek F.J.L. Ghijsels dengan gaya Nieuwe Bouwen / Art Deco tropis yang menyatu harmonis dengan tata ruang pemukiman Menteng.",
     "lat": -6.1994,
     "lng": 106.8322,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Paulus_Church_Menteng_Jakarta.jpg/1280px-Paulus_Church_Menteng_Jakarta.jpg",
+        "cap": "GPIB Paulus Menteng Jakarta (1936) karya arsitek Frans Ghijsels bergaya Art Deco Tropis"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -123,7 +157,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Pusat komunitas kaum Mardijker (keturunan Portugis) di Batavia yang melahirkan musik Keroncong Tugu. Salah satu situs warisan rohani dan budaya terpenting di pesisir utara Jakarta.",
     "lat": -6.1242,
     "lng": 106.9174,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Tugu, Jakarta (Tahun 1676)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -141,7 +180,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Salah satu bangunan ibadah representatif era pasca-kemerdekaan yang dirancang menyatu dengan konsep kota satelit Kebayoran Baru.",
     "lat": -6.2443,
     "lng": 106.7981,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Efatha, Jakarta (15 Juli 1962)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -159,7 +203,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Dahulu dikenal sebagai Bethelkerk Meester Cornelis. Terletak di simpul strategis Matraman - Jatinegara dengan arsitektur kolonial akhir abad ke-19.",
     "lat": -6.2152,
     "lng": 106.8631,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Koinonia, Jakarta (Tahun 1889)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -177,7 +226,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Terletak di kawasan Malioboro dekat Gedung Agung Yogyakarta. Memiliki menara jam dan jendela kaca patri bergaya Neo-Gotik kolonial.",
     "lat": -7.7893,
     "lng": 110.3673,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Marga Mulya, Yogya (11 Oktober 1857)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -195,7 +249,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja bersejarah peninggalan era kolonial di Kediri yang menyimpan Alkitab kuno berbahasa Belanda berukuran besar dengan sampul timbul logam kuningan.",
     "lat": -7.8166,
     "lng": 112.0084,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Kediri (21 Desember 2004)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -213,7 +272,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja berdinding merah bata khas dengan struktur konstruksi baja langka buatan Belanda, dikenal luas oleh masyarakat setempat sebagai 'Gereja Merah Probolinggo'.",
     "lat": -7.7543,
     "lng": 113.2162,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Probolinggo (Tahun 1862)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -231,7 +295,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Dirancang oleh arsitek kenamaan Prof. Ir. C.P. Wolff Schoemaker dengan langgam Art Deco yang anggun dan berkarakter kuat di pusat Kota Bandung.",
     "lat": -6.9142,
     "lng": 107.6083,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Bethel, Bandung (Tahun 1925)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -249,7 +318,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Bangunan peribadatan peninggalan kolonial dengan garis arsitektur fungsionalis Eropa tropis.",
     "lat": -6.9382,
     "lng": 107.6105,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha, Bandung (11 September 1927)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -267,7 +341,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Salah satu bangunan tertua di sekitar Alun-alun Kota Magelang yang menjadi saksi bisu sejarah garnisun militer dan pemerintahan Hindia Belanda di Karesidenan Kedu.",
     "lat": -7.4782,
     "lng": 110.2185,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Beth-El, Magelang (Tahun 1817)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -285,7 +364,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Pos pelayanan historis jemaat Beth-El di kawasan Kebonpolo Magelang.",
     "lat": -7.4651,
     "lng": 110.2241,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Beth-El, Kb Polo, Magelang (12 November 1923)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -303,7 +387,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Bangunan cagar budaya keagamaan dengan arsitektur kolonial klasik di jantung kota Purworejo.",
     "lat": -7.7142,
     "lng": 110.0078,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Griya Mulya, Purworejo (Tahun 1879/1880)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -321,7 +410,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja tertua di kota peristirahatan sejuk Salatiga dengan jendela lengkung tinggi dan menara lonceng peninggalan abad ke-19.",
     "lat": -7.3308,
     "lng": 110.5052,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Tamansari, Salatiga (Tahun 1823)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -339,7 +433,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Berada di koridor utama kota Solo dengan gaya arsitektur Neoklasik Indisch yang terawat baik.",
     "lat": -7.5641,
     "lng": 110.8122,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Penabur, Surakarta (Tahun 1832)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -357,7 +456,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Peninggalan sejarah peribadatan Kristen Protestan di jalur pesisir Pantura Kota Tegal.",
     "lat": -6.8653,
     "lng": 109.1352,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Ayalon, Tegal (Tahun 1929)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -375,7 +479,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Situs peribadatan terdaftar di Kabupaten Cilacap.",
     "lat": -7.7288,
     "lng": 109.0124,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Galilea, Jl. Pisang-Cilacap (31 Oktober 1973)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -393,7 +502,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja tua di kawasan Bubutan Surabaya dengan gaya arsitektur kolonial yang elegan dan sarat sejarah kepahlawanan kota Surabaya.",
     "lat": -7.2524,
     "lng": 112.7368,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Surabaya (Tahun 1920)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -411,7 +525,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Terletak strategis di pusat kota dekat Balai Pemuda Surabaya, memiliki arsitektur modern tropis pertengahan abad ke-20.",
     "lat": -7.2641,
     "lng": 112.7478,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha, Surabaya (05 Januari 1958)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -429,7 +548,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Menghadap langsung ke Alun-alun Kota Malang dengan menara lonceng Gotik yang menjadi ikon sejarah kota Malang sejak abad ke-19.",
     "lat": -7.9822,
     "lng": 112.6301,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Malang (30 Juli 1861)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -447,7 +571,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Bangunan cagar budaya di kawasan dataran tinggi wisata Kota Batu peninggalan zaman kolonial.",
     "lat": -7.8711,
     "lng": 112.5273,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Margomulyo, Batu (Cagar Budaya GPIB)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -465,7 +594,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Menyimpan benda pusaka berharga tinggi berupa pipa organ kuno serta Alkitab antik bertarikh tahun 1618 yang masih terawat.",
     "lat": -7.9143,
     "lng": 113.8211,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel Bondowoso (26 Agustus 1934)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -483,7 +617,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Peninggalan sejarah zending dan pelayanan GPIB di kawasan Bali Utara (Buleleng).",
     "lat": -8.1132,
     "lng": 115.0912,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Pniel, Siangaraja (03 Desember 1948)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -501,7 +640,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja Kristen tertua di Makassar bergaya arsitektur Gotik Klasik dengan menara runcing yang megah tepat di seberang Balaikota Makassar.",
     "lat": -5.1352,
     "lng": 119.4088,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Makasar (15 September 1885)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -519,7 +663,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Salah satu bangunan tertua di pesisir barat Sulawesi Selatan yang ditetapkan sebagai cagar budaya Kota Parepare.",
     "lat": -4.0135,
     "lng": 119.6241,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel Parepare (Tahun 1825)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -537,7 +686,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Dahulu dikenal sebagai Indische Kerk Medan, dirancang dengan perpaduan arsitektur kolonial Belanda tropis dengan ornamen kubah menara kayu khas.",
     "lat": 3.5835,
     "lng": 98.6738,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Medan (Tahun 1912)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -555,7 +709,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja bersejarah peninggalan era kolonial di Telukbetung/Tanjungkarang yang menjadi tonggak pelayanan GPIB di tanah Lampung.",
     "lat": -5.4192,
     "lng": 105.2531,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Marturia, Lampung (16 Oktober 1938)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -573,7 +732,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja tertua jemaat GPIB di pesisir barat Sumatera (Kota Padang).",
     "lat": -0.9572,
     "lng": 100.3618,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Padang (Cagar Budaya GPIB)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -591,7 +755,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Gereja tertua di Kepulauan Riau yang didirikan oleh Zending Belanda pada abad ke-19, terletak di kawasan Kota Rebah Tanjungpinang.",
     "lat": 0.9238,
     "lng": 104.4532,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Bethel, Tanjung Pinang (14 Februari 1835)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -609,7 +778,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Bangunan cagar budaya religius di pusat Kota Pangkalpinang Pulau Bangka.",
     "lat": -2.1245,
     "lng": 106.1123,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha Pangkalpinang (Cagar Budaya GPIB)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   },
@@ -627,7 +801,12 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "narasi": "Bangunan bersejarah pelayanan jemaat GPIB di kota Pematang Siantar.",
     "lat": 2.9582,
     "lng": 99.0628,
-    "fotos": [],
+    "fotos": [
+      {
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha, Siantar (Cagar Budaya GPIB)"
+      }
+    ],
     "mainIdx": 0,
     "fit": "contain"
   }

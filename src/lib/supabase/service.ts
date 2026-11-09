@@ -2,7 +2,19 @@ import { supabase, isSupabaseConfigured } from "./client";
 import { CagarBudayaItem, FotoBangunan } from "@/lib/types";
 import { INITIAL_CAGAR_BUDAYA } from "@/data/initialData";
 
-const STORAGE_KEY = "cagar_budaya_gpib_data_v1";
+const STORAGE_KEY = "cagar_budaya_gpib_data_v2";
+
+function mergeWithFallbackPhotos(items: CagarBudayaItem[]): CagarBudayaItem[] {
+  return items.map((item) => {
+    const fallback = INITIAL_CAGAR_BUDAYA.find((f) => f.id === item.id || f.no === item.no);
+    const hasFotos = Array.isArray(item.fotos) && item.fotos.length > 0;
+    return {
+      ...fallback,
+      ...item,
+      fotos: hasFotos ? item.fotos : fallback?.fotos || [],
+    };
+  });
+}
 
 export async function fetchAllBangunan(): Promise<CagarBudayaItem[]> {
   if (isSupabaseConfigured && supabase) {
@@ -32,26 +44,28 @@ export async function fetchAllBangunan(): Promise<CagarBudayaItem[]> {
           });
         });
 
-        return bData.map((b) => ({
-          id: b.id,
-          no: b.no,
-          nama: b.nama,
-          didirikan: b.didirikan || "",
-          tahunDidirikan: b.tahun_didirikan,
-          status: b.status,
-          sk: b.sk || "",
-          tglSK: b.tgl_sk || "",
-          ket: b.ket || "",
-          alamat: b.alamat || "",
-          narasi: b.narasi || "",
-          lat: b.lat,
-          lng: b.lng,
-          fotos: fotosMap[b.id] || [],
-          mainIdx: b.main_idx || 0,
-          fit: (b.fit as "contain" | "cover") || "contain",
-          createdAt: b.created_at,
-          updatedAt: b.updated_at,
-        }));
+        return mergeWithFallbackPhotos(
+          bData.map((b) => ({
+            id: b.id,
+            no: b.no,
+            nama: b.nama,
+            didirikan: b.didirikan || "",
+            tahunDidirikan: b.tahun_didirikan,
+            status: b.status,
+            sk: b.sk || "",
+            tglSK: b.tgl_sk || "",
+            ket: b.ket || "",
+            alamat: b.alamat || "",
+            narasi: b.narasi || "",
+            lat: b.lat,
+            lng: b.lng,
+            fotos: fotosMap[b.id] || [],
+            mainIdx: b.main_idx || 0,
+            fit: (b.fit as "contain" | "cover") || "cover",
+            createdAt: b.created_at,
+            updatedAt: b.updated_at,
+          }))
+        );
       }
     } catch (err) {
       console.warn("Supabase fetch failed, falling back to local data:", err);
@@ -65,7 +79,7 @@ export async function fetchAllBangunan(): Promise<CagarBudayaItem[]> {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
+          return mergeWithFallbackPhotos(parsed);
         }
       }
     } catch (e) {
@@ -231,4 +245,52 @@ export async function uploadBangunanFoto(
     reader.readAsDataURL(file);
   });
 }
+
+export async function seedInitialDataToSupabase(): Promise<{
+  success: boolean;
+  count?: number;
+  error?: string;
+}> {
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const payload = INITIAL_CAGAR_BUDAYA.map((b) => ({
+        id: b.id,
+        no: b.no,
+        nama: b.nama,
+        didirikan: b.didirikan,
+        tahun_didirikan: b.tahunDidirikan,
+        status: b.status,
+        sk: b.sk,
+        tgl_sk: b.tglSK,
+        ket: b.ket,
+        alamat: b.alamat,
+        narasi: b.narasi,
+        lat: b.lat,
+        lng: b.lng,
+        fit: b.fit || "contain",
+        main_idx: b.mainIdx || 0,
+      }));
+
+      const { error } = await supabase
+        .from("bangunan_cagar_budaya")
+        .upsert(payload, { onConflict: "id" });
+
+      if (error) throw error;
+
+      return { success: true, count: payload.length };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal menyinkronkan data ke Supabase";
+      return { success: false, error: msg };
+    }
+  }
+
+  // Fallback: reset localStorage to INITIAL_CAGAR_BUDAYA
+  if (typeof window !== "undefined") {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_CAGAR_BUDAYA));
+    return { success: true, count: INITIAL_CAGAR_BUDAYA.length };
+  }
+
+  return { success: false, error: "Gagal menyinkronkan data" };
+}
+
 

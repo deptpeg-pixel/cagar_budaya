@@ -2,9 +2,9 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #0b0a08;
+  --background: #080706;
   --foreground: #f5f2eb;
-  --card: #151411;
+  --card: #12110e;
   --card-border: #28241e;
   --gold: #d4af37;
   --gold-light: #f3e5ab;
@@ -17,11 +17,11 @@
 }
 
 .light-theme {
-  --background: #fbf9f4;
+  --background: #faf7f0;
   --foreground: #1c1916;
   --card: #ffffff;
   --card-border: #e6ded3;
-  --gold: #a67c2e;
+  --gold: #9e7624;
   --gold-light: #c8a24a;
   --gold-glow: rgba(166, 124, 46, 0.15);
 }
@@ -36,6 +36,10 @@
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-mono: var(--font-mono), monospace;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -64,23 +68,28 @@ body {
 
 /* Arch Frame Motif */
 .arch-frame {
-  border-top-left-radius: 140px;
-  border-top-right-radius: 140px;
-  border: 1px solid var(--gold);
+  border-top-left-radius: 180px;
+  border-top-right-radius: 180px;
+  border: 1px solid rgba(212, 175, 55, 0.55);
   overflow: hidden;
   position: relative;
-  background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.12), transparent 75%), #141310;
-  box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(0, 0, 0, 0.6);
+  background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.14), transparent 75%), #12110e;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), inset 0 0 60px rgba(0, 0, 0, 0.7);
 }
 
-/* Big Screen Executive Animations */
+.arch-card-top {
+  border-top-left-radius: 110px;
+  border-top-right-radius: 110px;
+}
+
+/* Big Screen & Luxury Public Animations */
 @keyframes goldGlow {
   0%, 100% {
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.1);
-    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.2), inset 0 0 15px rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.5);
   }
   50% {
-    box-shadow: 0 0 50px rgba(212, 175, 55, 0.45), inset 0 0 30px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 55px rgba(212, 175, 55, 0.45), inset 0 0 30px rgba(212, 175, 55, 0.18);
     border-color: rgba(243, 229, 171, 0.9);
   }
 }
@@ -114,7 +123,7 @@ body {
 }
 
 .shimmer-gold {
-  background: linear-gradient(90deg, #d4af37 0%, #ffffff 50%, #d4af37 100%);
+  background: linear-gradient(90deg, #d4af37 0%, #fff7d6 45%, #e6c875 55%, #d4af37 100%);
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
@@ -122,17 +131,85 @@ body {
   animation: textShimmer 6s linear infinite;
 }
 
-/* Ambient war room background */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 45s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes beamSweep {
+  0%, 100% {
+    opacity: 0.25;
+    transform: rotate(-12deg) translateX(-5%) scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: rotate(-8deg) translateX(5%) scale(1.08);
+  }
+}
+
+.cathedral-beam {
+  animation: beamSweep 10s ease-in-out infinite;
+}
+
+/* Editorial Drop Cap */
+.editorial-dropcap::first-letter {
+  float: left;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 3.4rem;
+  line-height: 0.85;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-bottom: 4px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Ambient war room & luxury exhibition background */
 .warroom-bg {
   background: 
-    radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.09) 0%, transparent 40%),
     radial-gradient(circle at 85% 85%, rgba(90, 148, 214, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(20, 18, 14, 0.9) 0%, #0a0907 100%);
+    radial-gradient(circle at 50% 50%, rgba(18, 16, 12, 0.95) 0%, #080706 100%);
+}
+
+.exhibition-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -15%, rgba(212, 175, 55, 0.16), transparent 70%),
+    radial-gradient(circle at 90% 30%, rgba(212, 175, 55, 0.05), transparent 45%),
+    radial-gradient(circle at 10% 70%, rgba(90, 148, 214, 0.04), transparent 45%),
+    #080706;
 }
 
 .grain-overlay {
-  background-image: radial-gradient(rgba(212, 175, 55, 0.035) 1px, transparent 0);
-  background-size: 28px 28px;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 0);
+  background-size: 26px 26px;
 }
 
 /* Leaflet styling */
