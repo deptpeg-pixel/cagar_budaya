@@ -58,6 +58,7 @@ export default function AdminDashboardPage() {
   const [formData, setFormData] = useState<Partial<CagarBudayaItem>>({});
   const [uploadingFoto, setUploadingFoto] = useState(false);
   const [newFotoCaption, setNewFotoCaption] = useState("");
+  const [newFotoUrl, setNewFotoUrl] = useState("");
 
   // Check auth
   useEffect(() => {
@@ -286,8 +287,9 @@ export default function AdminDashboardPage() {
                     ADMIN
                   </span>
                 </h1>
-                <p className="text-[10px] text-[#8c8273]">
-                  {isSupabaseConfigured ? "Mode Terhubung Supabase Database & Storage" : "Mode Penyimpanan Lokal"}
+                <p className="text-[10px] text-[#52b788] flex items-center gap-1 font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#52b788] animate-pulse" />
+                  <span>Supabase Cloud & Storage Aktif (pcwxtjfpbokwxhsyhyvi)</span>
                 </p>
               </div>
             </div>
@@ -730,30 +732,35 @@ export default function AdminDashboardPage() {
                 </div>
               )}
 
-              {/* Tab 4: Photos */}
+              {/* Tab 4: Photos & Media */}
               {activeTab === "photos" && (
                 <div className="space-y-5">
-                  {/* Upload Section */}
+                  {/* 1. Direct Cloud Upload Section */}
                   <div className="p-4 rounded-xl border border-dashed border-[#3d372c] bg-[#161512] space-y-3">
-                    <div className="text-xs font-semibold text-[#f2eee6] flex items-center gap-2">
-                      <Upload className="w-4 h-4 text-[#c8a24a]" />
-                      <span>Unggah Foto Baru ke Supabase Storage</span>
+                    <div className="text-xs font-semibold text-[#f2eee6] flex items-center justify-between gap-2">
+                      <span className="flex items-center gap-2">
+                        <Upload className="w-4 h-4 text-[#c8a24a]" />
+                        <span>Unggah Gambar / Media ke Supabase Storage</span>
+                      </span>
+                      <span className="text-[10px] font-mono text-[#52b788] px-2 py-0.5 rounded bg-[#52b788]/10 border border-[#52b788]/30">
+                        Bucket: cagar-budaya-photos
+                      </span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                       <input
                         type="text"
-                        placeholder="Keterangan foto (opsional)..."
+                        placeholder="Keterangan / caption media (opsional)..."
                         value={newFotoCaption}
                         onChange={(e) => setNewFotoCaption(e.target.value)}
-                        className="flex-1 bg-[#100f0d] border border-[#2c2822] rounded-xl px-3 py-1.5 text-xs text-[#f2eee6] focus:outline-none focus:border-[#c8a24a]"
+                        className="flex-1 bg-[#100f0d] border border-[#2c2822] rounded-xl px-3 py-2 text-xs text-[#f2eee6] focus:outline-none focus:border-[#c8a24a]"
                       />
-                      <label className="px-4 py-2 rounded-xl bg-[#c8a24a] text-[#11100e] text-xs font-semibold hover:brightness-110 flex items-center justify-center gap-1.5 cursor-pointer transition-all">
+                      <label className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#c8a24a] to-[#d4af37] text-[#11100e] text-xs font-bold hover:brightness-110 flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-md">
                         <Upload className="w-3.5 h-3.5" />
-                        <span>{uploadingFoto ? "Mengunggah..." : "Pilih File Foto"}</span>
+                        <span>{uploadingFoto ? "Mengunggah ke Cloud..." : "Pilih File Gambar / Media"}</span>
                         <input
                           type="file"
-                          accept="image/*"
+                          accept="image/*,video/*,application/pdf"
                           disabled={uploadingFoto}
                           onChange={handleFileUpload}
                           className="hidden"
@@ -761,15 +768,51 @@ export default function AdminDashboardPage() {
                       </label>
                     </div>
 
+                    {/* 2. Optional Direct URL Input */}
+                    <div className="pt-2 border-t border-[#26221b] flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                      <input
+                        type="url"
+                        placeholder="Atau tempel URL gambar/media eksternal (https://...)"
+                        value={newFotoUrl}
+                        onChange={(e) => setNewFotoUrl(e.target.value)}
+                        className="flex-1 bg-[#100f0d] border border-[#2c2822] rounded-xl px-3 py-1.5 text-xs text-[#f2eee6] focus:outline-none focus:border-[#c8a24a]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!newFotoUrl.trim()) return;
+                          const currentFotos = formData.fotos || [];
+                          setFormData({
+                            ...formData,
+                            fotos: [
+                              ...currentFotos,
+                              {
+                                id: "url_" + Date.now(),
+                                src: newFotoUrl.trim(),
+                                cap: newFotoCaption || formData.nama || "",
+                                isMain: currentFotos.length === 0,
+                              },
+                            ],
+                          });
+                          setNewFotoUrl("");
+                          setNewFotoCaption("");
+                          showNotification("success", "URL gambar berhasil ditambahkan ke daftar!");
+                        }}
+                        className="px-3.5 py-1.5 rounded-xl border border-[#c8a24a]/50 bg-[#c8a24a]/15 hover:bg-[#c8a24a]/30 text-[#e6c875] text-xs font-semibold cursor-pointer transition-colors"
+                      >
+                        + Tambah URL
+                      </button>
+                    </div>
+
                     <p className="text-[10px] text-[#786f61]">
-                      Mendukung format JPG, PNG, WEBP. Foto otomatis disimpan di cloud Supabase Storage bucket <code>cagar-budaya-photos</code>.
+                      Mendukung JPG, PNG, WEBP, AVIF, SVG, PDF, dan MP4 (maks. 20MB). File otomatis tersimpan permanen di Supabase Storage <code>https://pcwxtjfpbokwxhsyhyvi.supabase.co</code>.
                     </p>
                   </div>
 
                   {/* Existing Photos List */}
                   <div>
                     <h3 className="text-xs font-mono uppercase text-[#a89f91] mb-2">
-                      Daftar Foto Terunggah ({formData.fotos?.length || 0})
+                      Daftar Foto & Media Terdaftar ({formData.fotos?.length || 0})
                     </h3>
 
                     {(!formData.fotos || formData.fotos.length === 0) ? (
@@ -781,7 +824,11 @@ export default function AdminDashboardPage() {
                         {formData.fotos.map((foto, fIdx) => (
                           <div
                             key={fIdx}
-                            className="p-3 rounded-xl border border-[#2c2822] bg-[#161512] flex gap-3 items-start justify-between"
+                            className={`p-3 rounded-xl border flex gap-3 items-start justify-between ${
+                              fIdx === 0
+                                ? "border-[#d4af37] bg-[#1c1810]"
+                                : "border-[#2c2822] bg-[#161512]"
+                            }`}
                           >
                             <img
                               src={foto.src}
@@ -789,8 +836,24 @@ export default function AdminDashboardPage() {
                               className="w-16 h-16 rounded-lg object-cover bg-black flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">
-                              <div className="text-[10px] font-mono text-[#c8a24a]">
-                                Foto #{fIdx + 1}
+                              <div className="flex items-center justify-between gap-1">
+                                <span className="text-[10px] font-mono text-[#c8a24a] font-bold">
+                                  {fIdx === 0 ? "★ SAMPUL UTAMA" : `Media #${fIdx + 1}`}
+                                </span>
+                                {fIdx > 0 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const list = [...(formData.fotos || [])];
+                                      const [picked] = list.splice(fIdx, 1);
+                                      list.unshift(picked);
+                                      setFormData({ ...formData, fotos: list, mainIdx: 0 });
+                                    }}
+                                    className="text-[10px] font-mono text-[#5a94d6] hover:underline cursor-pointer"
+                                  >
+                                    Jadikan Sampul
+                                  </button>
+                                )}
                               </div>
                               <input
                                 type="text"
@@ -810,7 +873,7 @@ export default function AdminDashboardPage() {
                                 const updated = formData.fotos?.filter((_, idx) => idx !== fIdx);
                                 setFormData({ ...formData, fotos: updated });
                               }}
-                              className="p-1 rounded bg-red-950/40 text-red-300 hover:bg-red-900 transition-colors"
+                              className="p-1 rounded bg-red-950/40 text-red-300 hover:bg-red-900 transition-colors cursor-pointer"
                               title="Hapus foto ini"
                             >
                               <X className="w-3.5 h-3.5" />

@@ -1,4 +1,3 @@
-import { supabase, isSupabaseConfigured } from "./client";
 import { CagarBudayaItem, FotoBangunan } from "@/lib/types";
 import { INITIAL_CAGAR_BUDAYA } from "@/data/initialData";
 
@@ -6,7 +5,9 @@ const STORAGE_KEY = "cagar_budaya_gpib_data_v3";
 
 function mergeWithFallbackPhotos(items: CagarBudayaItem[]): CagarBudayaItem[] {
   return items.map((item) => {
-    const fallback = INITIAL_CAGAR_BUDAYA.find((f) => f.id === item.id || f.no === item.no);
+    const fallback = INITIAL_CAGAR_BUDAYA.find(
+      (f) => f.id === item.id || f.no === item.no
+    );
     const validFotos = (item.fotos || []).filter(
       (f) => f.src && !f.src.includes("upload.wikimedia.org")
     );
@@ -19,63 +20,21 @@ function mergeWithFallbackPhotos(items: CagarBudayaItem[]): CagarBudayaItem[] {
 }
 
 export async function fetchAllBangunan(): Promise<CagarBudayaItem[]> {
-  if (isSupabaseConfigured && supabase) {
+  if (typeof window !== "undefined") {
     try {
-      const { data: bData, error: bError } = await supabase
-        .from("bangunan_cagar_budaya")
-        .select("*")
-        .order("no", { ascending: true });
-
-      if (bError) throw bError;
-
-      if (bData && bData.length > 0) {
-        // Fetch fotos
-        const { data: fData } = await supabase
-          .from("bangunan_fotos")
-          .select("*")
-          .order("urutan", { ascending: true });
-
-        const fotosMap: Record<string, FotoBangunan[]> = {};
-        (fData || []).forEach((f) => {
-          if (!fotosMap[f.bangunan_id]) fotosMap[f.bangunan_id] = [];
-          fotosMap[f.bangunan_id].push({
-            id: f.id,
-            src: f.src,
-            cap: f.cap || "",
-            isMain: f.is_main || false,
-          });
-        });
-
-        return mergeWithFallbackPhotos(
-          bData.map((b) => ({
-            id: b.id,
-            no: b.no,
-            nama: b.nama,
-            didirikan: b.didirikan || "",
-            tahunDidirikan: b.tahun_didirikan,
-            status: b.status,
-            sk: b.sk || "",
-            tglSK: b.tgl_sk || "",
-            ket: b.ket || "",
-            alamat: b.alamat || "",
-            narasi: b.narasi || "",
-            lat: b.lat,
-            lng: b.lng,
-            fotos: fotosMap[b.id] || [],
-            mainIdx: b.main_idx || 0,
-            fit: (b.fit as "contain" | "cover") || "cover",
-            createdAt: b.created_at,
-            updatedAt: b.updated_at,
-          }))
-        );
+      const res = await fetch("/api/cagar-budaya", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          const merged = mergeWithFallbackPhotos(data.items);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+          return merged;
+        }
       }
     } catch (err) {
-      console.warn("Supabase fetch failed, falling back to local data:", err);
+      console.warn("Cloud API fetch failed, using local fallback:", err);
     }
-  }
 
-  // Client-side fallback to localStorage or INITIAL_CAGAR_BUDAYA
-  if (typeof window !== "undefined") {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -92,54 +51,27 @@ export async function fetchAllBangunan(): Promise<CagarBudayaItem[]> {
   return INITIAL_CAGAR_BUDAYA;
 }
 
-export async function saveBangunanItem(item: CagarBudayaItem): Promise<{ success: boolean; error?: string }> {
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { error } = await supabase
-        .from("bangunan_cagar_budaya")
-        .upsert({
-          id: item.id,
-          no: item.no,
-          nama: item.nama,
-          didirikan: item.didirikan,
-          tahun_didirikan: item.tahunDidirikan,
-          status: item.status,
-          sk: item.sk,
-          tgl_sk: item.tglSK,
-          ket: item.ket,
-          alamat: item.alamat,
-          narasi: item.narasi,
-          lat: item.lat,
-          lng: item.lng,
-          fit: item.fit || "contain",
-          main_idx: item.mainIdx || 0,
-          updated_at: new Date().toISOString(),
-        });
-
-      if (error) throw error;
-      return { success: true };
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menyimpan ke Supabase";
-      return { success: false, error: msg };
-    }
-  }
-
-  // Fallback to localStorage
+export async function saveBangunanItem(
+  item: CagarBudayaItem
+): Promise<{ success: boolean; error?: string }> {
   if (typeof window !== "undefined") {
     try {
-      const current = await fetchAllBangunan();
-      const existingIdx = current.findIndex((b) => b.id === item.id);
-      let updated: CagarBudayaItem[];
-      if (existingIdx >= 0) {
-        updated = [...current];
-        updated[existingIdx] = item;
-      } else {
-        updated = [...current, item];
+      const res = await fetch("/api/cagar-budaya", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        return { success: true };
       }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      return { success: true };
+      return {
+        success: false,
+        error: data.error || "Gagal menyimpan ke Supabase Cloud",
+      };
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menyimpan ke localStorage";
+      const msg =
+        err instanceof Error ? err.message : "Gagal terhubung ke server";
       return { success: false, error: msg };
     }
   }
@@ -147,29 +79,28 @@ export async function saveBangunanItem(item: CagarBudayaItem): Promise<{ success
   return { success: false, error: "Lingkungan tidak mendukung penyimpanan" };
 }
 
-export async function deleteBangunanItem(id: string): Promise<{ success: boolean; error?: string }> {
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { error } = await supabase
-        .from("bangunan_cagar_budaya")
-        .delete()
-        .eq("id", id);
-      if (error) throw error;
-      return { success: true };
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menghapus dari Supabase";
-      return { success: false, error: msg };
-    }
-  }
-
+export async function deleteBangunanItem(
+  id: string
+): Promise<{ success: boolean; error?: string }> {
   if (typeof window !== "undefined") {
     try {
-      const current = await fetchAllBangunan();
-      const updated = current.filter((b) => b.id !== id);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      return { success: true };
+      const res = await fetch(
+        `/api/cagar-budaya?id=${encodeURIComponent(id)}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (res.ok && data.success) {
+        return { success: true };
+      }
+      return {
+        success: false,
+        error: data.error || "Gagal menghapus dari Supabase Cloud",
+      };
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menghapus dari localStorage";
+      const msg =
+        err instanceof Error ? err.message : "Gagal menghapus dari server";
       return { success: false, error: msg };
     }
   }
@@ -182,70 +113,39 @@ export async function uploadBangunanFoto(
   file: File,
   caption: string = ""
 ): Promise<{ success: boolean; foto?: FotoBangunan; error?: string }> {
-  if (isSupabaseConfigured && supabase) {
+  if (typeof window !== "undefined") {
     try {
-      const ext = file.name.split(".").pop();
-      const fileName = `${bangunanId}/${Date.now()}.${ext}`;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("bangunanId", bangunanId);
+      formData.append("caption", caption);
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from("cagar-budaya-photos")
-        .upload(fileName, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("cagar-budaya-photos")
-        .getPublicUrl(uploadData.path);
-
-      // Insert into bangunan_fotos
-      const { data: insertData, error: insertError } = await supabase
-        .from("bangunan_fotos")
-        .insert({
-          bangunan_id: bangunanId,
-          src: publicUrl,
-          cap: caption,
-          is_main: false,
-        })
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-
+      const data = await res.json();
+      if (res.ok && data.success && data.foto) {
+        return {
+          success: true,
+          foto: data.foto,
+        };
+      }
       return {
-        success: true,
-        foto: {
-          id: insertData.id,
-          src: insertData.src,
-          cap: insertData.cap,
-          isMain: insertData.is_main,
-        },
+        success: false,
+        error: data.error || "Gagal mengunggah media ke Supabase Storage",
       };
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal mengunggah foto ke Supabase Storage";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Gagal mengunggah media ke Supabase Storage";
       return { success: false, error: msg };
     }
   }
 
-  // Fallback: Data URL
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      resolve({
-        success: true,
-        foto: {
-          id: "foto_" + Date.now(),
-          src: reader.result as string,
-          cap: caption,
-          isMain: false,
-        },
-      });
-    };
-    reader.onerror = () => resolve({ success: false, error: "Gagal membaca file" });
-    reader.readAsDataURL(file);
-  });
+  return { success: false, error: "Gagal mengunggah media" };
 }
 
 export async function seedInitialDataToSupabase(): Promise<{
@@ -253,46 +153,29 @@ export async function seedInitialDataToSupabase(): Promise<{
   count?: number;
   error?: string;
 }> {
-  if (isSupabaseConfigured && supabase) {
+  if (typeof window !== "undefined") {
     try {
-      const payload = INITIAL_CAGAR_BUDAYA.map((b) => ({
-        id: b.id,
-        no: b.no,
-        nama: b.nama,
-        didirikan: b.didirikan,
-        tahun_didirikan: b.tahunDidirikan,
-        status: b.status,
-        sk: b.sk,
-        tgl_sk: b.tglSK,
-        ket: b.ket,
-        alamat: b.alamat,
-        narasi: b.narasi,
-        lat: b.lat,
-        lng: b.lng,
-        fit: b.fit || "contain",
-        main_idx: b.mainIdx || 0,
-      }));
-
-      const { error } = await supabase
-        .from("bangunan_cagar_budaya")
-        .upsert(payload, { onConflict: "id" });
-
-      if (error) throw error;
-
-      return { success: true, count: payload.length };
+      const res = await fetch("/api/cagar-budaya", { method: "PUT" });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(INITIAL_CAGAR_BUDAYA)
+        );
+        return { success: true, count: data.count };
+      }
+      return {
+        success: false,
+        error: data.error || "Gagal menyinkronkan data ke Supabase",
+      };
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menyinkronkan data ke Supabase";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Gagal menyinkronkan data ke Supabase";
       return { success: false, error: msg };
     }
   }
 
-  // Fallback: reset localStorage to INITIAL_CAGAR_BUDAYA
-  if (typeof window !== "undefined") {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_CAGAR_BUDAYA));
-    return { success: true, count: INITIAL_CAGAR_BUDAYA.length };
-  }
-
   return { success: false, error: "Gagal menyinkronkan data" };
 }
-
-

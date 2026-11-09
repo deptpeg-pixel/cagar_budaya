@@ -239,9 +239,18 @@ html.light-theme .exhibition-bg {
    ========================================================================= */
 html.light-theme .bg-\[\#080706\],
 html.light-theme .bg-\[\#0f0e0c\],
-html.light-theme .bg-\[\#0a0907\] {
+html.light-theme .bg-\[\#0a0907\],
+html.light-theme .bg-\[\#0b0a08\] {
   background-color: #f4eee1 !important;
   color: #1e1810 !important;
+}
+
+html.light-theme .from-\[\#241f15\].to-\[\#16130d\] {
+  background-image: linear-gradient(to bottom right, #f9f1df, #ecdec0) !important;
+}
+
+html.light-theme .from-\[\#1a1610\].via-\[\#12100c\].to-\[\#0b0a08\] {
+  background-image: linear-gradient(to bottom, #efe6d4, #e5d8be, #dac9a9) !important;
 }
 
 html.light-theme .bg-\[\#0c0b09\]\/85,
