@@ -34,7 +34,13 @@ export async function ensureMediaBucket() {
     if (!exists) {
       await supabase.storage.createBucket(MEDIA_BUCKET, {
         public: true,
-        fileSizeLimit: 20971520, // 20 MB
+        fileSizeLimit: 52428800, // 50 MB (menampung video & gambar)
+      });
+    } else {
+      // Pastikan bucket update ke 50 MB
+      await supabase.storage.updateBucket(MEDIA_BUCKET, {
+        public: true,
+        fileSizeLimit: 52428800,
       });
     }
   } catch (err) {

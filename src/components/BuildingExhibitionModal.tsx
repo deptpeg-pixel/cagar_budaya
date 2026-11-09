@@ -138,22 +138,31 @@ export default function BuildingExhibitionModal({
             {/* Thumbnail Selector if Multiple Photos */}
             {fotos.length > 1 && (
               <div className="flex items-center justify-center gap-2 pt-1">
-                {fotos.map((f, idx) => (
+                {fotos.map((f, idx) => {
+                  const isVid = /\.(mp4|webm|mov|mkv)$/i.test(f.src);
+                  return (
                   <button
                     key={idx}
                     onClick={() => {
                       setActivePhotoIdx(idx);
                       setImgError(false);
                     }}
-                    className={`w-16 h-12 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                    className={`w-16 h-12 rounded-lg overflow-hidden border-2 transition-all cursor-pointer relative bg-black ${
                       idx === activePhotoIdx
                         ? "border-[#d4af37] scale-105 shadow-md"
                         : "border-[#2a251d] opacity-60 hover:opacity-100"
                     }`}
                   >
-                    <img src={f.src} alt="" className="w-full h-full object-cover" />
+                    {isVid ? (
+                      <div className="w-full h-full flex items-center justify-center text-[10px] text-[#e6c875] font-mono">
+                        ▶ VIDEO
+                      </div>
+                    ) : (
+                      <img src={f.src} alt="" className="w-full h-full object-cover" />
+                    )}
                   </button>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

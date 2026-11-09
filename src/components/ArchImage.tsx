@@ -26,19 +26,32 @@ export default function ArchImage({
     setHasError(false);
   }, [src]);
 
-  const showImage = Boolean(src && !hasError);
+  const showMedia = Boolean(src && !hasError);
+  const isVideo = Boolean(src && /\.(mp4|webm|mov|mkv)$/i.test(src));
 
   return (
     <div
       className={`relative w-full h-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#1a1610] via-[#12100c] to-[#0b0a08] ${className}`}
     >
-      {showImage ? (
-        <img
-          src={src!}
-          alt=""
-          onError={() => setHasError(true)}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+      {showMedia ? (
+        isVideo ? (
+          <video
+            src={src!}
+            controls
+            playsInline
+            autoPlay
+            muted
+            loop
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <img
+            src={src!}
+            alt=""
+            onError={() => setHasError(true)}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        )
       ) : (
         /* Luxury Centered Architectural Cathedral Engraving Placeholder */
         <div className="flex flex-col items-center justify-center text-center px-6 pt-6 pb-4 select-none">

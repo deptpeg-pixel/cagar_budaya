@@ -113,10 +113,24 @@ export async function uploadBangunanFoto(
   file: File,
   caption: string = ""
 ): Promise<{ success: boolean; foto?: FotoBangunan; error?: string }> {
+  const res = await uploadBangunanMediaBatch(bangunanId, [file], caption);
+  if (res.success && res.fotos && res.fotos.length > 0) {
+    return { success: true, foto: res.fotos[0] };
+  }
+  return { success: false, error: res.error || "Gagal mengunggah media" };
+}
+
+export async function uploadBangunanMediaBatch(
+  bangunanId: string,
+  files: File[],
+  caption: string = ""
+): Promise<{ success: boolean; fotos?: FotoBangunan[]; error?: string }> {
   if (typeof window !== "undefined") {
     try {
       const formData = new FormData();
-      formData.append("file", file);
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
       formData.append("bangunanId", bangunanId);
       formData.append("caption", caption);
 
@@ -126,10 +140,10 @@ export async function uploadBangunanFoto(
       });
 
       const data = await res.json();
-      if (res.ok && data.success && data.foto) {
+      if (res.ok && data.success && Array.isArray(data.fotos)) {
         return {
           success: true,
-          foto: data.foto,
+          fotos: data.fotos,
         };
       }
       return {

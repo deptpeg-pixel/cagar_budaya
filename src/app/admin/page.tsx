@@ -28,7 +28,8 @@ import {
   fetchAllBangunan, 
   saveBangunanItem, 
   deleteBangunanItem, 
-  uploadBangunanFoto 
+  uploadBangunanFoto,
+  uploadBangunanMediaBatch 
 } from "@/lib/supabase/service";
 import { INITIAL_CAGAR_BUDAYA } from "@/data/initialData";
 import { getStatusBadgeClass, padNumber } from "@/lib/utils";
@@ -181,22 +182,39 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Photo Upload Handler
+  // Photo/Media Upload Handler (Supports Multi-Image and Video)
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !formData.id) return;
+    const fileList = e.target.files;
+    if (!fileList || fileList.length === 0 || !formData.id) return;
+
+    const files = Array.from(fileList);
+    // Validasi ukuran di sisi client sebelum kirim
+    for (const f of files) {
+      const isVideo = f.type.startsWith("video/") || /\.(mp4|webm|mov|mkv)$/i.test(f.name);
+      const isImage = f.type.startsWith("image/") || /\.(jpg|jpeg|png|webp|avif|svg|gif)$/i.test(f.name);
+      if (isImage && f.size > 8 * 1024 * 1024) {
+        showNotification("error", `Gambar "${f.name}" melebihi batas 8 MB (${(f.size / (1024*1024)).toFixed(1)} MB)`);
+        e.target.value = "";
+        return;
+      }
+      if (isVideo && f.size > 50 * 1024 * 1024) {
+        showNotification("error", `Video "${f.name}" melebihi batas 50 MB (${(f.size / (1024*1024)).toFixed(1)} MB)`);
+        e.target.value = "";
+        return;
+      }
+    }
 
     setUploadingFoto(true);
     try {
-      const res = await uploadBangunanFoto(formData.id, file, newFotoCaption);
-      if (res.success && res.foto) {
+      const res = await uploadBangunanMediaBatch(formData.id, files, newFotoCaption);
+      if (res.success && res.fotos && res.fotos.length > 0) {
         const currentFotos = formData.fotos || [];
-        const updatedFotos = [...currentFotos, res.foto];
+        const updatedFotos = [...currentFotos, ...res.fotos];
         setFormData({ ...formData, fotos: updatedFotos });
         setNewFotoCaption("");
-        showNotification("success", "Foto berhasil diunggah!");
+        showNotification("success", `Berhasil mengunggah ${res.fotos.length} media ke Supabase Storage!`);
       } else {
-        showNotification("error", res.error || "Gagal mengunggah foto");
+        showNotification("error", res.error || "Gagal mengunggah media");
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Error upload";
@@ -757,10 +775,11 @@ export default function AdminDashboardPage() {
                       />
                       <label className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#c8a24a] to-[#d4af37] text-[#11100e] text-xs font-bold hover:brightness-110 flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-md">
                         <Upload className="w-3.5 h-3.5" />
-                        <span>{uploadingFoto ? "Mengunggah ke Cloud..." : "Pilih File Gambar / Media"}</span>
+                        <span>{uploadingFoto ? "Mengunggah..." : "Pilih File Gambar / Video (Bisa Multi-Select)"}</span>
                         <input
                           type="file"
-                          accept="image/*,video/*,application/pdf"
+                          multiple
+                          accept="image/*,video/*"
                           disabled={uploadingFoto}
                           onChange={handleFileUpload}
                           className="hidden"
@@ -805,7 +824,7 @@ export default function AdminDashboardPage() {
                     </div>
 
                     <p className="text-[10px] text-[#786f61]">
-                      Mendukung JPG, PNG, WEBP, AVIF, SVG, PDF, dan MP4 (maks. 20MB). File otomatis tersimpan permanen di Supabase Storage <code>https://pcwxtjfpbokwxhsyhyvi.supabase.co</code>.
+                      Mendukung <strong>Multi-Upload</strong> foto & video sekaligus. Batas ukuran: <strong>Gambar maks. 8 MB</strong> (JPG, PNG, WEBP, AVIF, SVG) dan <strong>Video maks. 50 MB</strong> (MP4, WEBM, MOV). File otomatis disimpan di Supabase Cloud Storage.
                     </p>
                   </div>
 
@@ -821,7 +840,9 @@ export default function AdminDashboardPage() {
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {formData.fotos.map((foto, fIdx) => (
+                        {formData.fotos.map((foto, fIdx) => {
+                          const isVideo = /\.(mp4|webm|mov|mkv)$/i.test(foto.src);
+                          return (
                           <div
                             key={fIdx}
                             className={`p-3 rounded-xl border flex gap-3 items-start justify-between ${
@@ -830,15 +851,22 @@ export default function AdminDashboardPage() {
                                 : "border-[#2c2822] bg-[#161512]"
                             }`}
                           >
-                            <img
-                              src={foto.src}
-                              alt=""
-                              className="w-16 h-16 rounded-lg object-cover bg-black flex-shrink-0"
-                            />
+                            {isVideo ? (
+                              <div className="w-16 h-16 rounded-lg bg-black flex items-center justify-center flex-shrink-0 relative overflow-hidden border border-[#3d372c]">
+                                <video src={foto.src} className="w-full h-full object-cover" />
+                                <span className="absolute bottom-1 right-1 px-1 py-0.2 rounded bg-black/80 text-[8px] font-mono text-[#e6c875]">VIDEO</span>
+                              </div>
+                            ) : (
+                              <img
+                                src={foto.src}
+                                alt=""
+                                className="w-16 h-16 rounded-lg object-cover bg-black flex-shrink-0"
+                              />
+                            )}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-1">
                                 <span className="text-[10px] font-mono text-[#c8a24a] font-bold">
-                                  {fIdx === 0 ? "★ SAMPUL UTAMA" : `Media #${fIdx + 1}`}
+                                  {fIdx === 0 ? "★ SAMPUL UTAMA" : isVideo ? `Video #${fIdx + 1}` : `Media #${fIdx + 1}`}
                                 </span>
                                 {fIdx > 0 && (
                                   <button
@@ -879,7 +907,8 @@ export default function AdminDashboardPage() {
                               <X className="w-3.5 h-3.5" />
                             </button>
                           </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>
