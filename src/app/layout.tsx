@@ -27,6 +27,14 @@ export const metadata: Metadata = {
     "Inventarisasi resmi 35 bangunan cagar budaya Gereja Protestan di Indonesia bagian Barat (GPIB) beserta status penetapan, surat keputusan, narasi sejarah, galeri foto, dan peta sebarannya.",
   keywords: ["GPIB", "Cagar Budaya", "Gereja Bersejarah", "Sejarah GPIB", "Inventarisasi Bangunan", "Peta Cagar Budaya"],
   authors: [{ name: "GPIB Heritage Team" }],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-icon.svg" },
+    ],
+  },
   openGraph: {
     title: "Cagar Budaya GPIB — Inventarisasi & Peta Sebaran",
     description: "Dokumentasi & inventarisasi 35 bangunan cagar budaya bersejarah GPIB di seluruh Indonesia.",

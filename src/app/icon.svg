@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5e6b3" />
+      <stop offset="45%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#8a6e1d" />
+    </linearGradient>
+    <radialGradient id="haloGrad" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#080706" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background rounded canvas -->
+  <rect width="64" height="64" rx="14" fill="#0c0b09" stroke="#d4af37" stroke-width="1.5" stroke-opacity="0.4" />
+  <circle cx="32" cy="26" r="22" fill="url(#haloGrad)" />
+
+  <!-- Cathedral Arch Motif -->
+  <!-- Outer Arch -->
+  <path d="M14 53V31C14 18 22 9 32 9C42 9 50 18 50 31V53" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" />
+  <!-- Inner Arch -->
+  <path d="M21 53V33C21 23 26 17 32 17C38 17 43 23 43 33V53" stroke="url(#goldGrad)" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.85" />
+  <!-- Portal Arch / Door -->
+  <path d="M26 53V40C26 35 29 31 32 31C35 31 38 35 38 40V53" stroke="url(#goldGrad)" stroke-width="1.5" fill="#181612" />
+
+  <!-- Rose Window Motif -->
+  <circle cx="32" cy="25" r="3.5" stroke="url(#goldGrad)" stroke-width="1.5" fill="#0c0b09" />
+
+  <!-- Cross at Apex -->
+  <path d="M32 9V3M28 5.5H36" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Cathedral Base Steps -->
+  <path d="M9 53H55" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M12 57H52" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.7" />
+</svg>
