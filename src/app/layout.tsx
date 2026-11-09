@@ -42,6 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
+      data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${plusJakartaSans.variable} ${ibmPlexMono.variable} h-full dark`}
     >
       <body className="min-h-full flex flex-col font-sans antialiased bg-[#0f0e0c] text-[#f2eee6]">

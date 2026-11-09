@@ -199,10 +199,10 @@ export default function MapInteractive({
         )};letter-spacing:1px;margin-bottom:2px;">
           ${b.status} · NO. ${String(b.no).padStart(2, "0")}
         </div>
-        <div style="font-weight:700;font-size:14px;color:#f5f2eb;line-height:1.25;margin-bottom:4px;">
+        <div style="font-weight:700;font-size:14px;color:var(--foreground);line-height:1.25;margin-bottom:4px;">
           ${b.nama}
         </div>
-        <div style="font-size:11px;color:#a89f91;margin-bottom:8px;">
+        <div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;">
           ${b.alamat || "Alamat belum tercatat"}
         </div>
         <button id="btn-popup-${b.id}" style="

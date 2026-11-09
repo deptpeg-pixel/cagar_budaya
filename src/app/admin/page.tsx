@@ -22,6 +22,7 @@ import {
   Sparkles
 } from "lucide-react";
 import BigScreenPresentation from "@/components/admin/BigScreenPresentation";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { CagarBudayaItem, CagarBudayaStatus, FotoBangunan } from "@/lib/types";
 import { 
   fetchAllBangunan, 
@@ -293,6 +294,8 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeSwitcher />
+
             <button
               onClick={() => setBigScreenOpen(true)}
               className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#d4af37] text-[#0b0a08] text-xs font-bold shadow-lg shadow-[#d4af37]/25 hover:brightness-110 flex items-center gap-1.5 transition-all cursor-pointer"

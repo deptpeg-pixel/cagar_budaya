@@ -1,12 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { 
   Compass, 
   Printer, 
-  Sun, 
-  Moon, 
   Maximize2, 
   ShieldCheck, 
   Sparkles, 
@@ -15,6 +12,7 @@ import {
   BarChart3,
   BookOpen
 } from "lucide-react";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 interface NavbarProps {
   viewMode: "deck" | "grid";
@@ -29,20 +27,6 @@ export function Navbar({
   onJumpToSlide,
   onOpenOverview,
 }: NavbarProps) {
-  const [isLight, setIsLight] = useState(false);
-
-  const toggleTheme = () => {
-    const nextTheme = !isLight;
-    setIsLight(nextTheme);
-    if (nextTheme) {
-      document.documentElement.classList.add("light-theme");
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.remove("light-theme");
-      document.documentElement.classList.add("dark");
-    }
-  };
-
   const handlePrint = () => {
     window.print();
   };
@@ -154,14 +138,8 @@ export function Navbar({
           </div>
 
           {/* Quick Actions */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg border border-[#2c271f] bg-[#161410] text-[#d1c7b7] hover:text-[#f3e5ab] hover:border-[#d4af37]/50 transition-colors cursor-pointer"
-              title={isLight ? "Beralih ke Tema Gelap" : "Beralih ke Tema Terang"}
-            >
-              {isLight ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            </button>
+          <div className="flex items-center gap-1.5">
+            <ThemeSwitcher />
 
             <button
               onClick={handlePrint}

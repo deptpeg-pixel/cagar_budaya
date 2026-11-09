@@ -4,8 +4,11 @@
 :root {
   --background: #080706;
   --foreground: #f5f2eb;
+  --text-secondary: #b0a695;
+  --text-muted: #8c8273;
   --card: #12110e;
-  --card-border: #28241e;
+  --card-subtle: #181612;
+  --card-border: #28241d;
   --gold: #d4af37;
   --gold-light: #f3e5ab;
   --gold-glow: rgba(212, 175, 55, 0.35);
@@ -16,14 +19,17 @@
   --c-kab: #d97736;
 }
 
-.light-theme {
-  --background: #faf7f0;
-  --foreground: #1c1916;
-  --card: #ffffff;
-  --card-border: #e6ded3;
-  --gold: #9e7624;
-  --gold-light: #c8a24a;
-  --gold-glow: rgba(166, 124, 46, 0.15);
+html.light-theme {
+  --background: #f4eee1;
+  --foreground: #1e1810;
+  --text-secondary: #4f4332;
+  --text-muted: #756752;
+  --card: #fffdf9;
+  --card-subtle: #efe7d6;
+  --card-border: #d5c7ad;
+  --gold: #8c6514;
+  --gold-light: #6e4e0c;
+  --gold-glow: rgba(140, 101, 20, 0.2);
 }
 
 @theme inline {
@@ -48,6 +54,7 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 /* Custom Scrollbar */
@@ -59,7 +66,7 @@ body {
   background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #3a352c;
+  background: #8c7b60;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -69,11 +76,17 @@ body {
 /* Classic Cathedral Arch Frame (Pure Image Container - Never Clips Text) */
 .arch-frame {
   border-radius: 999px 999px 14px 14px;
-  border: 1.5px solid rgba(212, 175, 55, 0.6);
+  border: 1.5px solid rgba(212, 175, 55, 0.65);
   overflow: hidden;
   position: relative;
   background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.14), transparent 75%), #12110e;
-  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.85), inset 0 0 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.75), inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+html.light-theme .arch-frame {
+  border: 2px solid #b5892e;
+  background: radial-gradient(circle at 50% 30%, rgba(181, 137, 46, 0.18), transparent 75%), #e9dfc8;
+  box-shadow: 0 20px 45px -12px rgba(90, 68, 24, 0.25);
 }
 
 .arch-card-top {
@@ -127,6 +140,14 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   animation: textShimmer 6s linear infinite;
+}
+
+html.light-theme .shimmer-gold {
+  background: linear-gradient(90deg, #7c580f 0%, #b8861e 45%, #8f6512 55%, #69490a 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 @keyframes floatSlow {
@@ -184,12 +205,28 @@ body {
     radial-gradient(circle at 50% 50%, rgba(18, 16, 12, 0.95) 0%, #080706 100%);
 }
 
+html.light-theme .warroom-bg {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(184, 134, 30, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(90, 148, 214, 0.1) 0%, transparent 45%),
+    linear-gradient(180deg, #f7f2e7 0%, #ece3d0 100%);
+}
+
 .exhibition-bg {
   background:
     radial-gradient(ellipse 80% 50% at 50% -15%, rgba(212, 175, 55, 0.16), transparent 70%),
     radial-gradient(circle at 90% 30%, rgba(212, 175, 55, 0.05), transparent 45%),
     radial-gradient(circle at 10% 70%, rgba(90, 148, 214, 0.04), transparent 45%),
     #080706;
+  transition: background 0.35s ease;
+}
+
+html.light-theme .exhibition-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -15%, rgba(184, 134, 30, 0.18), transparent 70%),
+    radial-gradient(circle at 90% 30%, rgba(184, 134, 30, 0.08), transparent 45%),
+    radial-gradient(circle at 10% 70%, rgba(90, 148, 214, 0.06), transparent 45%),
+    #f4eee1;
 }
 
 .grain-overlay {
@@ -197,10 +234,106 @@ body {
   background-size: 26px 26px;
 }
 
+/* =========================================================================
+   COMPREHENSIVE LIGHT THEME ADAPTATION (WARM PARCHMENT & ROYAL BRONZE)
+   ========================================================================= */
+html.light-theme .bg-\[\#080706\],
+html.light-theme .bg-\[\#0f0e0c\],
+html.light-theme .bg-\[\#0a0907\] {
+  background-color: #f4eee1 !important;
+  color: #1e1810 !important;
+}
+
+html.light-theme .bg-\[\#0c0b09\]\/85,
+html.light-theme .bg-\[\#11100e\]\/90,
+html.light-theme .bg-\[\#11100e\]\/95,
+html.light-theme .bg-\[\#141311\]\/90,
+html.light-theme .bg-\[\#11100d\]\/90 {
+  background-color: rgba(248, 243, 232, 0.92) !important;
+  border-color: #d5c7ad !important;
+}
+
+html.light-theme .bg-\[\#12110e\],
+html.light-theme .bg-\[\#12110e\]\/90,
+html.light-theme .bg-\[\#13110e\]\/80,
+html.light-theme .bg-\[\#13110e\]\/95,
+html.light-theme .bg-\[\#141311\],
+html.light-theme .bg-\[\#141310\],
+html.light-theme .bg-\[\#141310\]\/90,
+html.light-theme .bg-\[\#151411\]\/80,
+html.light-theme .bg-\[\#11100d\] {
+  background-color: #fffdf9 !important;
+  border-color: #d8cbb3 !important;
+  box-shadow: 0 8px 24px -6px rgba(90, 68, 24, 0.08) !important;
+}
+
+html.light-theme .bg-\[\#181612\],
+html.light-theme .bg-\[\#161512\],
+html.light-theme .bg-\[\#161410\],
+html.light-theme .bg-\[\#161410\]\/85,
+html.light-theme .bg-\[\#161410\]\/90,
+html.light-theme .bg-\[\#181714\],
+html.light-theme .bg-\[\#1a1815\],
+html.light-theme .bg-\[\#1d1a14\],
+html.light-theme .bg-\[\#1c1a16\],
+html.light-theme .bg-\[\#100e0b\]\/95,
+html.light-theme .bg-\[\#14120e\],
+html.light-theme .bg-\[\#15130f\]\/90 {
+  background-color: #efe7d6 !important;
+  border-color: #d0c0a3 !important;
+}
+
+html.light-theme .text-\[\#f5f2eb\],
+html.light-theme .text-\[\#f2eee6\],
+html.light-theme .text-white {
+  color: #1e1810 !important;
+}
+
+html.light-theme .text-\[\#c2b8a8\],
+html.light-theme .text-\[\#d1c7b7\],
+html.light-theme .text-\[\#dfd7c8\],
+html.light-theme .text-\[\#d4cbbe\],
+html.light-theme .text-\[\#b8ae9e\],
+html.light-theme .text-\[\#b8ad9e\],
+html.light-theme .text-\[\#b0a695\] {
+  color: #463a2a !important;
+}
+
+html.light-theme .text-\[\#a89f91\],
+html.light-theme .text-\[\#9c9283\],
+html.light-theme .text-\[\#8c8273\],
+html.light-theme .text-\[\#8a7f70\],
+html.light-theme .text-\[\#786f61\] {
+  color: #6b5c47 !important;
+}
+
+html.light-theme .text-\[\#f3e5ab\],
+html.light-theme .text-\[\#e6c875\],
+html.light-theme .text-\[\#d4af37\],
+html.light-theme .text-\[\#c8a24a\] {
+  color: #855e10 !important;
+}
+
+html.light-theme .border-\[\#28241d\],
+html.light-theme .border-\[\#2c2822\],
+html.light-theme .border-\[\#2e2920\],
+html.light-theme .border-\[\#302b22\],
+html.light-theme .border-\[\#302a22\],
+html.light-theme .border-\[\#26221b\],
+html.light-theme .border-\[\#242019\],
+html.light-theme .border-\[\#1e1b16\],
+html.light-theme .border-\[\#1c1914\] {
+  border-color: #d5c7ad !important;
+}
+
 /* Leaflet styling */
 .leaflet-container {
   background: #0d0c0a !important;
   font-family: inherit !important;
+}
+
+html.light-theme .leaflet-container {
+  background: #e8e0cf !important;
 }
 
 .leaflet-popup-content-wrapper {
@@ -211,6 +344,17 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
 }
 
+html.light-theme .leaflet-popup-content-wrapper {
+  background: #fffdf9 !important;
+  color: #1e1810 !important;
+  border: 1px solid #cbb999 !important;
+  box-shadow: 0 10px 25px rgba(90, 68, 24, 0.18) !important;
+}
+
 .leaflet-popup-tip {
   background: #181714 !important;
+}
+
+html.light-theme .leaflet-popup-tip {
+  background: #fffdf9 !important;
 }
