@@ -29,10 +29,11 @@ export const metadata: Metadata = {
   authors: [{ name: "GPIB Heritage Team" }],
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.png", sizes: "256x256", type: "image/png" },
     ],
     apple: [
-      { url: "/apple-icon.svg" },
+      { url: "/apple-touch-icon.png", sizes: "180x180" },
     ],
   },
   openGraph: {

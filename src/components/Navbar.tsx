@@ -48,11 +48,12 @@ export function Navbar({
           onClick={() => onViewModeChange("grid")}
           className="flex items-center gap-3 group cursor-pointer"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#d4af37]/25 to-[#8a6e1d]/10 border border-[#d4af37]/50 flex items-center justify-center text-[#f3e5ab] group-hover:border-[#d4af37] shadow-md shadow-[#d4af37]/10 transition-all">
-            <svg width="18" height="22" viewBox="0 0 17 22" fill="none">
-              <path d="M1.5 21V10C1.5 4.5 5 1.5 8.5 1.5 12 1.5 15.5 4.5 15.5 10V21" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M8.5 21v-6" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
+          <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#d4af37]/40 group-hover:border-[#d4af37] shadow-md shadow-[#d4af37]/10 transition-all flex items-center justify-center bg-[#14120e]">
+            <img 
+              src="/favicon.png" 
+              alt="Logo Cagar Budaya GPIB" 
+              className="w-full h-full object-cover" 
+            />
           </div>
           <div>
             <div className="font-serif text-sm sm:text-base tracking-wider font-bold text-[#f5f2eb] group-hover:text-[#f3e5ab] transition-colors">

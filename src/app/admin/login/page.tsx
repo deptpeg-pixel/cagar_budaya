@@ -70,8 +70,12 @@ export default function AdminLoginPage() {
       {/* Login Card */}
       <div className="w-full max-w-md bg-[#141311] border border-[#2c2822] rounded-2xl p-8 shadow-2xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 mx-auto rounded-xl bg-[#c8a24a]/15 border border-[#c8a24a]/40 flex items-center justify-center text-[#e6c875]">
-            <ShieldCheck className="w-6 h-6" />
+          <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden border border-[#c8a24a]/40 shadow-lg shadow-[#c8a24a]/15 flex items-center justify-center bg-[#14120e]">
+            <img 
+              src="/favicon.png" 
+              alt="Logo Cagar Budaya GPIB" 
+              className="w-full h-full object-cover" 
+            />
           </div>
           <h1 className="text-2xl font-serif font-bold text-[#f2eee6]">
             Masuk Pengelola Admin
