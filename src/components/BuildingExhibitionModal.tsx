@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { CagarBudayaItem } from "@/lib/types";
 import { getStatusBadgeClass, getStatusColor, padNumber } from "@/lib/utils";
+import ArchImage from "./ArchImage";
 
 interface BuildingExhibitionModalProps {
   building: CagarBudayaItem | null;
@@ -110,38 +111,19 @@ export default function BuildingExhibitionModal({
           {/* Left Column: Monumental Arch Frame */}
           <div className="lg:col-span-5 space-y-3">
             <div className="relative w-full aspect-[4/4.6] arch-frame gold-glow-animated overflow-hidden group">
-              {currentPhoto && !imgError ? (
-                <img
-                  src={currentPhoto.src}
-                  alt={building.nama}
-                  onError={() => setImgError(true)}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-gradient-to-b from-[#1a1712] to-[#0e0d0a]">
-                  <svg
-                    className="w-24 h-24 text-[#d4af37] opacity-50 mb-3"
-                    viewBox="0 0 120 120"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                  >
-                    <path d="M20 100V58c0-22 17-38 40-38s40 16 40 38v42" />
-                    <path d="M42 100V72c0-11 8-19 18-19s18 8 18 19v28" />
-                    <path d="M60 20V8M52 14h16" />
-                    <path d="M10 100h100" />
-                  </svg>
-                  <span className="text-xs font-mono text-[#d4af37] uppercase tracking-widest">
-                    {building.nama}
-                  </span>
-                </div>
-              )}
+              <ArchImage
+                src={currentPhoto?.src}
+                title={building.nama}
+                no={building.no}
+                status={building.status}
+                didirikan={building.didirikan}
+              />
 
               {/* Subtle bottom gradient for plaque */}
-              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
 
               {/* Classic Bottom-Centered Plaque */}
-              <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
+              <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
                 NO. {padNumber(building.no)} · {building.status}
               </div>
             </div>

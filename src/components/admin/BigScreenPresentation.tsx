@@ -25,6 +25,7 @@ import {
 import { CagarBudayaItem, CagarBudayaStatus } from "@/lib/types";
 import { getStatusBadgeClass, getStatusColor, padNumber } from "@/lib/utils";
 import MapInteractive from "@/components/MapInteractive";
+import ArchImage from "@/components/ArchImage";
 
 interface BigScreenPresentationProps {
   items: CagarBudayaItem[];
@@ -274,33 +275,15 @@ export default function BigScreenPresentation({
               <div className="lg:col-span-5 h-full flex flex-col items-center justify-center relative space-y-3">
                 <div className="relative w-full max-w-md h-[400px] arch-frame gold-glow-animated group transition-all duration-700">
                   {/* Main Image View */}
-                  <div className="absolute inset-0 z-0 flex items-center justify-center">
-                    {currentPhoto ? (
-                      <img
-                        src={currentPhoto.src}
-                        alt={currentBuilding.nama}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="text-center p-8 space-y-3">
-                        <svg
-                          className="w-24 h-24 mx-auto text-[#d4af37] opacity-40 animate-pulse"
-                          viewBox="0 0 120 120"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.2"
-                        >
-                          <path d="M20 100V58c0-22 17-38 40-38s40 16 40 38v42" />
-                          <path d="M42 100V72c0-11 8-19 18-19s18 8 18 19v28" />
-                          <path d="M60 20V8M52 14h16" />
-                          <path d="M10 100h100" />
-                        </svg>
-                        <div className="text-xs font-mono text-[#8a7f70] tracking-wider">
-                          DOKUMENTASI FOTO BELUM TERSEDIA
-                        </div>
-                      </div>
-                    )}
-                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute inset-0 z-0">
+                    <ArchImage
+                      src={currentPhoto?.src}
+                      title={currentBuilding.nama}
+                      no={currentBuilding.no}
+                      status={currentBuilding.status}
+                      didirikan={currentBuilding.didirikan}
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
                   </div>
 
                   {/* Classic Bottom-Centered Plaque (Never clipped by arch!) */}

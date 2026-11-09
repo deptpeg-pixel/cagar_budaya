@@ -20,6 +20,7 @@ import { CagarBudayaItem, CagarBudayaStatus } from "@/lib/types";
 import { getStatusBadgeClass, getStatusColor, padNumber } from "@/lib/utils";
 import MapInteractive from "./MapInteractive";
 import BuildingExhibitionModal from "./BuildingExhibitionModal";
+import ArchImage from "./ArchImage";
 
 interface CatalogViewProps {
   items: CagarBudayaItem[];
@@ -270,19 +271,19 @@ export default function CatalogView({
                   onClick={() => setExhibitionBuilding(currentHeroItem)}
                   className="w-full aspect-[4/4.2] arch-frame gold-glow-animated cursor-pointer group"
                 >
-                  {currentHeroItem.fotos?.[0]?.src && (
-                    <img
-                      src={currentHeroItem.fotos[0].src}
-                      alt={currentHeroItem.nama}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    />
-                  )}
+                  <ArchImage
+                    src={currentHeroItem.fotos?.[0]?.src}
+                    title={currentHeroItem.nama}
+                    no={currentHeroItem.no}
+                    status={currentHeroItem.status}
+                    didirikan={currentHeroItem.didirikan}
+                  />
 
                   {/* Subtle bottom gradient only for plaque */}
-                  <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
 
                   {/* Classic Bottom-Centered Gold Plaque (Never clipped by arch!) */}
-                  <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
+                  <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap px-4 py-1 rounded-full bg-[#d4af37] text-[#0b0a08] text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
                     NO. {padNumber(currentHeroItem.no)} · {currentHeroItem.status}
                   </div>
                 </div>
@@ -561,20 +562,14 @@ export default function CatalogView({
 
                     {/* 2. Cathedral Arch Image Container — Pure Photo Inside */}
                     <div className="px-4 pt-1">
-                      <div className="relative w-full aspect-[16/10] arch-card-top bg-[#0b0a08] border border-[#2e2920] group-hover:border-[#d4af37]/60 overflow-hidden">
-                        {photoSrc ? (
-                          <img
-                            src={photoSrc}
-                            alt={b.nama}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-xs font-mono text-[#6e6556]">
-                              Arsip Visual GPIB
-                            </span>
-                          </div>
-                        )}
+                      <div className="relative w-full aspect-[16/11] arch-card-top bg-[#0b0a08] border border-[#2e2920] group-hover:border-[#d4af37]/60 overflow-hidden">
+                        <ArchImage
+                          src={photoSrc}
+                          title={b.nama}
+                          no={b.no}
+                          status={b.status}
+                          didirikan={b.didirikan}
+                        />
                       </div>
                     </div>
 

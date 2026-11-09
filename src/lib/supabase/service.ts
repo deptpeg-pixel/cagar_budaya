@@ -2,16 +2,18 @@ import { supabase, isSupabaseConfigured } from "./client";
 import { CagarBudayaItem, FotoBangunan } from "@/lib/types";
 import { INITIAL_CAGAR_BUDAYA } from "@/data/initialData";
 
-const STORAGE_KEY = "cagar_budaya_gpib_data_v2";
+const STORAGE_KEY = "cagar_budaya_gpib_data_v3";
 
 function mergeWithFallbackPhotos(items: CagarBudayaItem[]): CagarBudayaItem[] {
   return items.map((item) => {
     const fallback = INITIAL_CAGAR_BUDAYA.find((f) => f.id === item.id || f.no === item.no);
-    const hasFotos = Array.isArray(item.fotos) && item.fotos.length > 0;
+    const validFotos = (item.fotos || []).filter(
+      (f) => f.src && !f.src.includes("upload.wikimedia.org")
+    );
     return {
       ...fallback,
       ...item,
-      fotos: hasFotos ? item.fotos : fallback?.fotos || [],
+      fotos: validFotos.length > 0 ? validFotos : fallback?.fotos || [],
     };
   });
 }

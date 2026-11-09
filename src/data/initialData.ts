@@ -17,12 +17,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.8289,
     "fotos": [
       {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Immanuel_Church_Jakarta_2018.jpg/1280px-Immanuel_Church_Jakarta_2018.jpg",
-        "cap": "Fasad Klasikisme bundar (rotunda) GPIB Immanuel Jakarta (Willemskerk, 1839) dengan serambi tiang Dorika"
-      },
-      {
-        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=85",
-        "cap": "Detail arsitektur kolonial klasik abad ke-19 dan kubah konsentris"
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Jakarta (Tahun 1839)"
       }
     ],
     "mainIdx": 0,
@@ -44,8 +40,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.4279,
     "fotos": [
       {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Gereja_Blenduk_Semarang.jpg/1280px-Gereja_Blenduk_Semarang.jpg",
-        "cap": "Kubah tembaga oktagonal ikonik Gereja Blenduk (GPIB Immanuel Semarang, 1753) di kawasan Kota Lama"
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Semarang (Tahun 1753)"
       }
     ],
     "mainIdx": 0,
@@ -67,8 +63,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.793,
     "fotos": [
       {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Zebaoth_Church_Bogor.jpg/1280px-Zebaoth_Church_Bogor.jpg",
-        "cap": "Gedung bersejarah GPIB Zebaoth Bogor (1920) di tepi Kebun Raya Bogor"
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Zebaoth, Bogor (Tahun 1920)"
       }
     ],
     "mainIdx": 0,
@@ -90,8 +86,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.8141,
     "fotos": [
       {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Sion_Church_Jakarta.jpg/1280px-Sion_Church_Jakarta.jpg",
-        "cap": "GPIB Sion Jakarta (Portugeesche Buitenkerk, 1695) — gereja tertua yang masih aktif di Jakarta"
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Sion, Jakarta (23 Oktober 1695)"
       }
     ],
     "mainIdx": 0,
@@ -113,8 +109,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.8349,
     "fotos": [
       {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Pniel_Church_Jakarta.jpg/1280px-Pniel_Church_Jakarta.jpg",
-        "cap": "GPIB Pniel Pasar Baru (Gereja Ayam, 1913) dengan arsitektur kolonial awal abad ke-20"
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Pniel, Jakarta (Tahun 1913)"
       }
     ],
     "mainIdx": 0,
@@ -136,8 +132,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.8322,
     "fotos": [
       {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Paulus_Church_Menteng_Jakarta.jpg/1280px-Paulus_Church_Menteng_Jakarta.jpg",
-        "cap": "GPIB Paulus Menteng Jakarta (1936) karya arsitek Frans Ghijsels bergaya Art Deco Tropis"
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Paulus, Jakarta (Tahun 1936)"
       }
     ],
     "mainIdx": 0,
@@ -159,8 +155,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.9174,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Tugu, Jakarta (Tahun 1676)"
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Tugu, Jakarta (Tahun 1676)"
       }
     ],
     "mainIdx": 0,
@@ -182,8 +178,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.7981,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Efatha, Jakarta (15 Juli 1962)"
+        "src": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Efatha, Jakarta (15 Juli 1962)"
       }
     ],
     "mainIdx": 0,
@@ -205,8 +201,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.8631,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Koinonia, Jakarta (Tahun 1889)"
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Koinonia, Jakarta (Tahun 1889)"
       }
     ],
     "mainIdx": 0,
@@ -228,8 +224,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.3673,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Marga Mulya, Yogya (11 Oktober 1857)"
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Marga Mulya, Yogya (11 Oktober 1857)"
       }
     ],
     "mainIdx": 0,
@@ -251,8 +247,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 112.0084,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Kediri (21 Desember 2004)"
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Kediri (21 Desember 2004)"
       }
     ],
     "mainIdx": 0,
@@ -274,8 +270,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 113.2162,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Probolinggo (Tahun 1862)"
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Probolinggo (Tahun 1862)"
       }
     ],
     "mainIdx": 0,
@@ -297,8 +293,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 107.6083,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Bethel, Bandung (Tahun 1925)"
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Bethel, Bandung (Tahun 1925)"
       }
     ],
     "mainIdx": 0,
@@ -320,8 +316,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 107.6105,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha, Bandung (11 September 1927)"
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Maranatha, Bandung (11 September 1927)"
       }
     ],
     "mainIdx": 0,
@@ -343,8 +339,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.2185,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Beth-El, Magelang (Tahun 1817)"
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Beth-El, Magelang (Tahun 1817)"
       }
     ],
     "mainIdx": 0,
@@ -366,8 +362,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.2241,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Beth-El, Kb Polo, Magelang (12 November 1923)"
+        "src": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Beth-El, Kb Polo, Magelang (12 November 1923)"
       }
     ],
     "mainIdx": 0,
@@ -389,8 +385,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.0078,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Griya Mulya, Purworejo (Tahun 1879/1880)"
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Griya Mulya, Purworejo (Tahun 1879/1880)"
       }
     ],
     "mainIdx": 0,
@@ -412,8 +408,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.5052,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Tamansari, Salatiga (Tahun 1823)"
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Tamansari, Salatiga (Tahun 1823)"
       }
     ],
     "mainIdx": 0,
@@ -435,8 +431,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 110.8122,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Penabur, Surakarta (Tahun 1832)"
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Penabur, Surakarta (Tahun 1832)"
       }
     ],
     "mainIdx": 0,
@@ -458,8 +454,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 109.1352,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Ayalon, Tegal (Tahun 1929)"
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Ayalon, Tegal (Tahun 1929)"
       }
     ],
     "mainIdx": 0,
@@ -481,8 +477,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 109.0124,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Galilea, Jl. Pisang-Cilacap (31 Oktober 1973)"
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Galilea, Jl. Pisang-Cilacap (31 Oktober 1973)"
       }
     ],
     "mainIdx": 0,
@@ -504,8 +500,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 112.7368,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Surabaya (Tahun 1920)"
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Surabaya (Tahun 1920)"
       }
     ],
     "mainIdx": 0,
@@ -527,8 +523,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 112.7478,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha, Surabaya (05 Januari 1958)"
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Maranatha, Surabaya (05 Januari 1958)"
       }
     ],
     "mainIdx": 0,
@@ -550,8 +546,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 112.6301,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Malang (30 Juli 1861)"
+        "src": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Malang (30 Juli 1861)"
       }
     ],
     "mainIdx": 0,
@@ -573,8 +569,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 112.5273,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Margomulyo, Batu (Cagar Budaya GPIB)"
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Margomulyo, Batu (Cagar Budaya GPIB)"
       }
     ],
     "mainIdx": 0,
@@ -596,8 +592,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 113.8211,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel Bondowoso (26 Agustus 1934)"
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel Bondowoso (26 Agustus 1934)"
       }
     ],
     "mainIdx": 0,
@@ -619,8 +615,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 115.0912,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Pniel, Siangaraja (03 Desember 1948)"
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Pniel, Siangaraja (03 Desember 1948)"
       }
     ],
     "mainIdx": 0,
@@ -642,8 +638,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 119.4088,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Makasar (15 September 1885)"
+        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Makasar (15 September 1885)"
       }
     ],
     "mainIdx": 0,
@@ -665,8 +661,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 119.6241,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel Parepare (Tahun 1825)"
+        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel Parepare (Tahun 1825)"
       }
     ],
     "mainIdx": 0,
@@ -688,8 +684,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 98.6738,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Medan (Tahun 1912)"
+        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Medan (Tahun 1912)"
       }
     ],
     "mainIdx": 0,
@@ -711,8 +707,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 105.2531,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Marturia, Lampung (16 Oktober 1938)"
+        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Marturia, Lampung (16 Oktober 1938)"
       }
     ],
     "mainIdx": 0,
@@ -734,8 +730,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 100.3618,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Immanuel, Padang (Cagar Budaya GPIB)"
+        "src": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Immanuel, Padang (Cagar Budaya GPIB)"
       }
     ],
     "mainIdx": 0,
@@ -757,8 +753,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 104.4532,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Bethel, Tanjung Pinang (14 Februari 1835)"
+        "src": "https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Bethel, Tanjung Pinang (14 Februari 1835)"
       }
     ],
     "mainIdx": 0,
@@ -780,8 +776,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 106.1123,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha Pangkalpinang (Cagar Budaya GPIB)"
+        "src": "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Maranatha Pangkalpinang (Cagar Budaya GPIB)"
       }
     ],
     "mainIdx": 0,
@@ -803,8 +799,8 @@ export const INITIAL_CAGAR_BUDAYA: CagarBudayaItem[] = [
     "lng": 99.0628,
     "fotos": [
       {
-        "src": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
-        "cap": "Ilustrasi arsitektur bersejarah GPIB Maranatha, Siantar (Cagar Budaya GPIB)"
+        "src": "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80",
+        "cap": "Arsitektur bersejarah GPIB Maranatha, Siantar (Cagar Budaya GPIB)"
       }
     ],
     "mainIdx": 0,
