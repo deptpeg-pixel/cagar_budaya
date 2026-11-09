@@ -46,33 +46,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fraunces.variable} ${plusJakartaSans.variable} ${ibmPlexMono.variable} h-full dark`}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var saved = localStorage.getItem('cagar_budaya_theme_mode') || 'system';
-                  var resolved = saved;
-                  if (saved === 'system') {
-                    resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  var root = document.documentElement;
-                  root.setAttribute('data-theme', resolved);
-                  root.setAttribute('data-theme-mode', saved);
-                  if (resolved === 'light') {
-                    root.classList.add('light-theme');
-                    root.classList.remove('dark');
-                  } else {
-                    root.classList.remove('light-theme');
-                    root.classList.add('dark');
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
       <body className="min-h-full flex flex-col font-sans antialiased">
         {children}
       </body>
