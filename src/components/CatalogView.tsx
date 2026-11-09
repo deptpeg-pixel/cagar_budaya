@@ -40,7 +40,7 @@ const ERA_TABS = [
   {
     id: "all",
     label: "Seluruh Abad (1695–1950)",
-    sub: "35 Monumen Bersejarah",
+    sub: "Monumen Bersejarah",
     desc: "Lintasan lengkap lebih dari tiga abad warisan arsitektur gereja di Indonesia.",
   },
   {
@@ -202,7 +202,7 @@ export default function CatalogView({
                 className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#d4af37] via-[#e8c86b] to-[#c59b27] text-[#0b0a08] font-bold text-xs sm:text-sm shadow-xl shadow-[#d4af37]/25 hover:brightness-110 hover:scale-[1.02] flex items-center gap-2 transition-all cursor-pointer"
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Jelajahi 35 Monumen Bersejarah</span>
+                <span>Jelajahi {items.length} Monumen Bersejarah</span>
               </button>
 
               <button
@@ -524,7 +524,7 @@ export default function CatalogView({
               }}
               className="px-5 py-2.5 rounded-xl bg-[#d4af37] text-[#0b0a08] text-xs font-bold cursor-pointer"
             >
-              Tampilkan Kembali Seluruh 35 Monumen
+              Tampilkan Kembali Seluruh {items.length} Monumen
             </button>
           </div>
         ) : (
@@ -649,7 +649,7 @@ export default function CatalogView({
                 <span>Kartografi Interaktif Nusantara</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#f5f2eb]">
-                Peta Sebaran 35 Bangunan Cagar Budaya
+                Peta Sebaran {items.length} Bangunan Cagar Budaya
               </h2>
             </div>
 

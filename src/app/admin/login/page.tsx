@@ -100,7 +100,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@gpib.or.id"
+                placeholder="admin@heritage.com"
                 className="w-full bg-[#181714] border border-[#2c2822] focus:border-[#c8a24a] rounded-xl pl-9 pr-3 py-2.5 text-xs text-[#f2eee6] placeholder-[#6d6455] focus:outline-none"
               />
             </div>
