@@ -684,3 +684,4 @@ export default function BigScreenPresentation({
     </div>
   );
 }
+

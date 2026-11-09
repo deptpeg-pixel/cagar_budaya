@@ -42,3 +42,4 @@ export interface CagarBudayaFormData {
   lng: number | null;
   fit: "contain" | "cover";
 }
+

@@ -158,3 +158,4 @@ ON CONFLICT (id) DO UPDATE SET
 
 fs.writeFileSync(path.join(supabaseDir, 'seed.sql'), seedSql, 'utf8');
 console.log('✓ Generated supabase/seed.sql');
+

@@ -231,3 +231,4 @@ export async function uploadBangunanFoto(
     reader.readAsDataURL(file);
   });
 }
+
