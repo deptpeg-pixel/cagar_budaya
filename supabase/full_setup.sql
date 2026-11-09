@@ -1,0 +1,174 @@
+-- ====================================================================
+-- SKEMA DATABASE SUPABASE: CAGAR BUDAYA GPIB
+-- ====================================================================
+
+CREATE TABLE IF NOT EXISTS public.bangunan_cagar_budaya (
+  id TEXT PRIMARY KEY,
+  no INTEGER NOT NULL UNIQUE,
+  nama TEXT NOT NULL,
+  didirikan TEXT,
+  tahun_didirikan INTEGER,
+  status TEXT NOT NULL CHECK (status IN ('Nasional', 'Provinsi', 'Kota', 'Kabupaten')),
+  sk TEXT,
+  tgl_sk TEXT,
+  ket TEXT,
+  alamat TEXT,
+  narasi TEXT,
+  lat DOUBLE PRECISION,
+  lng DOUBLE PRECISION,
+  fit TEXT DEFAULT 'contain',
+  main_idx INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.bangunan_fotos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  bangunan_id TEXT REFERENCES public.bangunan_cagar_budaya(id) ON DELETE CASCADE,
+  src TEXT NOT NULL,
+  cap TEXT DEFAULT '',
+  is_main BOOLEAN DEFAULT false,
+  urutan INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_bangunan_no ON public.bangunan_cagar_budaya(no);
+CREATE INDEX IF NOT EXISTS idx_bangunan_status ON public.bangunan_cagar_budaya(status);
+CREATE INDEX IF NOT EXISTS idx_bangunan_fotos_b_id ON public.bangunan_fotos(bangunan_id);
+
+-- Row Level Security (RLS)
+ALTER TABLE public.bangunan_cagar_budaya ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bangunan_fotos ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Publik can view cagar budaya" ON public.bangunan_cagar_budaya;
+CREATE POLICY "Publik can view cagar budaya"
+  ON public.bangunan_cagar_budaya FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "Publik can view fotos" ON public.bangunan_fotos;
+CREATE POLICY "Publik can view fotos"
+  ON public.bangunan_fotos FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "Admin can insert cagar budaya" ON public.bangunan_cagar_budaya;
+CREATE POLICY "Admin can insert cagar budaya"
+  ON public.bangunan_cagar_budaya FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin can update cagar budaya" ON public.bangunan_cagar_budaya;
+CREATE POLICY "Admin can update cagar budaya"
+  ON public.bangunan_cagar_budaya FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin can delete cagar budaya" ON public.bangunan_cagar_budaya;
+CREATE POLICY "Admin can delete cagar budaya"
+  ON public.bangunan_cagar_budaya FOR DELETE
+  TO authenticated
+  USING (true);
+
+DROP POLICY IF EXISTS "Admin can manage fotos" ON public.bangunan_fotos;
+CREATE POLICY "Admin can manage fotos"
+  ON public.bangunan_fotos FOR ALL
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+
+-- ====================================================================
+-- SEED DATA 35 BANGUNAN CAGAR BUDAYA GPIB
+-- ====================================================================
+
+INSERT INTO public.bangunan_cagar_budaya (
+  id, no, nama, didirikan, tahun_didirikan, status, sk, tgl_sk, ket, alamat, narasi, lat, lng, fit, main_idx
+) VALUES
+  ('b1', 1, 'GPIB Immanuel, Jakarta', 'Tahun 1839', 1839, 'Nasional', 'Kepmendikbud No:184/M/2017', '24 September 2018', '', 'Jl. Medan Merdeka Timur No.10, Gambir, Jakarta Pusat', 'Gereja Immanuel Jakarta (dahulu Willemskerk) dibangun untuk menghormati Raja Willem I dari Belanda. Dirancang oleh arsitek J.H. Horst dengan gaya arsitektur Klasikisme bundar (rotunda) beratap kubah konsentris dan serambi bertiang Dorika.', -6.1753, 106.8289, 'contain', 0),
+  ('b2', 2, 'GPIB Immanuel, Semarang', 'Tahun 1753', 1753, 'Nasional', 'SK MenteriBudPar No:PM.12/PW.007/MKP/05', '25 April 2005', '', 'Jl. Letjen Suprapto No.32, Kota Lama, Semarang', 'Dikenal luas sebagai Gereja Blenduk karena kubah tembaga setengah bola oktagonalnya yang ikonik. Merupakan salah satu gereja Kristen tertua di Jawa Tengah yang menjadi landmark kawasan Kota Lama Semarang.', -6.9674, 110.4279, 'contain', 0),
+  ('b3', 3, 'GPIB Zebaoth, Bogor', 'Tahun 1920', 1920, 'Nasional', 'PerMenBudPar No. PM 26/PW.007/MKP/2007', '26 Maret 2007', '', 'Jl. Ir. H. Juanda No.3, Paledang, Kota Bogor', 'Terletak tepat berdampingan dengan Kebun Raya Bogor. Sering dijuluki ''Gereja Ayam'' karena ornamen penunjuk arah angin berbentuk ayam jantan di puncak menaranya.', -6.5949, 106.793, 'contain', 0),
+  ('b4', 4, 'GPIB Sion, Jakarta', '23 Oktober 1695', 1695, 'Nasional', 'KepMenDikBud 193/M/2017', '14 Juli 2017', '', 'Jl. Pangeran Jayakarta No.1, Pinangsia, Tamansari, Jakarta Barat', 'Gereja tertua yang masih berdiri tegak dan aktif digunakan di Jakarta. Awalnya dikenal sebagai Portugeesche Buitenkerk (Gereja Portugis di Luar Tembok Kota). Memiliki mimbar bergaya Barok dan organ pipa antik bersejarah.', -6.1372, 106.8141, 'contain', 0),
+  ('b5', 5, 'GPIB Pniel, Jakarta', 'Tahun 1913', 1913, 'Provinsi', 'SKGUBDKI Jkt. No.', '', '', 'Jl. Samanhudi No.1, Pasar Baru, Sawah Besar, Jakarta Pusat', 'Populer disebut sebagai ''Gereja Ayam Pasar Baru'' dengan ciri khas ornamen ayam pada puncak atapnya. Berdiri megah di ujung pusat perbelanjaan historis Pasar Baru Jakarta.', -6.1614, 106.8349, 'contain', 0),
+  ('b6', 6, 'GPIB Paulus, Jakarta', 'Tahun 1936', 1936, 'Provinsi', 'KepGubDKI Jkt No 620 Tahun 2024', '14 Oktober 2024', '', 'Jl. Taman Sunda Kelapa No.12, Menteng, Jakarta Pusat', 'Dikenal awalnya sebagai Nassaukerk, dirancang oleh arsitek F.J.L. Ghijsels dengan gaya Nieuwe Bouwen / Art Deco tropis yang menyatu harmonis dengan tata ruang pemukiman Menteng.', -6.1994, 106.8322, 'contain', 0),
+  ('b7', 7, 'GPIB Tugu, Jakarta', 'Tahun 1676', 1676, 'Provinsi', 'SK GUB KDCI No. Cb11/1/12/72', '10 Januari 1972', '', 'Jl. Raya Tugu Semper Barat, Cilincing, Jakarta Utara', 'Pusat komunitas kaum Mardijker (keturunan Portugis) di Batavia yang melahirkan musik Keroncong Tugu. Salah satu situs warisan rohani dan budaya terpenting di pesisir utara Jakarta.', -6.1242, 106.9174, 'contain', 0),
+  ('b8', 8, 'GPIB Efatha, Jakarta', '15 Juli 1962', 1962, 'Provinsi', 'SK GUB No. 410 Thn 2018', '26 Februari 2018', '', 'Jl. Melawai I No.2, Kebayoran Baru, Jakarta Selatan', 'Salah satu bangunan ibadah representatif era pasca-kemerdekaan yang dirancang menyatu dengan konsep kota satelit Kebayoran Baru.', -6.2443, 106.7981, 'contain', 0),
+  ('b9', 9, 'GPIB Koinonia, Jakarta', 'Tahun 1889', 1889, 'Provinsi', 'SKGUB Prov DKI Jkt. No: 510 tahun 2018', '8 Maret 2018', '', 'Jl. Matraman Raya No.216, Jatinegara, Jakarta Timur', 'Dahulu dikenal sebagai Bethelkerk Meester Cornelis. Terletak di simpul strategis Matraman - Jatinegara dengan arsitektur kolonial akhir abad ke-19.', -6.2152, 106.8631, 'contain', 0),
+  ('b10', 10, 'GPIB Marga Mulya, Yogya', '11 Oktober 1857', 1857, 'Provinsi', 'SK Gubernur: 279/2025', '1 Agustus 2025', '', 'Jl. Margo Mulyo No.5, Ngupasan, Gondomanan, Kota Yogyakarta', 'Terletak di kawasan Malioboro dekat Gedung Agung Yogyakarta. Memiliki menara jam dan jendela kaca patri bergaya Neo-Gotik kolonial.', -7.7893, 110.3673, 'contain', 0),
+  ('b11', 11, 'GPIB Immanuel, Kediri', '21 Desember 2004', 2004, 'Provinsi', 'SK Gub JaTim No. 188/149/KPTS/013/2016', '29 Februari 2016', '', 'Jl. KDP Slamet No.2, Bandar Lor, Mojoroto, Kota Kediri', 'Gereja bersejarah peninggalan era kolonial di Kediri yang menyimpan Alkitab kuno berbahasa Belanda berukuran besar dengan sampul timbul logam kuningan.', -7.8166, 112.0084, 'contain', 0),
+  ('b12', 12, 'GPIB Immanuel, Probolinggo', 'Tahun 1862', 1862, 'Provinsi', 'KepGubJaTim No:100.3.3.1/667/KPTS/013/2024', '13 November 2024', '', 'Jl. Suroyo No.32, Tisnonegaran, Kanigaran, Kota Probolinggo', 'Gereja berdinding merah bata khas dengan struktur konstruksi baja langka buatan Belanda, dikenal luas oleh masyarakat setempat sebagai ''Gereja Merah Probolinggo''.', -7.7543, 113.2162, 'contain', 0),
+  ('b13', 13, 'GPIB Bethel, Bandung', 'Tahun 1925', 1925, 'Kota', 'SK Menteri NO.SP202/0231/DKP/2008', '', '', 'Jl. Wastukencana No.1, Babakan Ciamis, Sumur Bandung, Kota Bandung', 'Dirancang oleh arsitek kenamaan Prof. Ir. C.P. Wolff Schoemaker dengan langgam Art Deco yang anggun dan berkarakter kuat di pusat Kota Bandung.', -6.9142, 107.6083, 'contain', 0),
+  ('b14', 14, 'GPIB Maranatha, Bandung', '11 September 1927', 1927, 'Kota', 'SK: Nomor 646/ke.1244-DisBudPar/2013', '31 Desember 2013', '', 'Jl. BKR No.157, Cigereleng, Regol, Kota Bandung', 'Bangunan peribadatan peninggalan kolonial dengan garis arsitektur fungsionalis Eropa tropis.', -6.9382, 107.6105, 'contain', 0),
+  ('b15', 15, 'GPIB Beth-El, Magelang', 'Tahun 1817', 1817, 'Kota', 'SK Walikota: 430/90/112/2020', '24 Januari 2020', '', 'Jl. Alun-Alun Utara No.2, Magelang Tengah, Kota Magelang', 'Salah satu bangunan tertua di sekitar Alun-alun Kota Magelang yang menjadi saksi bisu sejarah garnisun militer dan pemerintahan Hindia Belanda di Karesidenan Kedu.', -7.4782, 110.2185, 'contain', 0),
+  ('b16', 16, 'GPIB Beth-El, Kb Polo, Magelang', '12 November 1923', 1923, 'Kota', '', '1923', '', 'Kebonpolo, Magelang Utara, Kota Magelang', 'Pos pelayanan historis jemaat Beth-El di kawasan Kebonpolo Magelang.', -7.4651, 110.2241, 'contain', 0),
+  ('b17', 17, 'GPIB Griya Mulya, Purworejo', 'Tahun 1879/1880', 1879, 'Kota', 'SK Walikota: 180.18/340/2017', '2 Mei 2017', '', 'Purworejo, Jawa Tengah', 'Bangunan cagar budaya keagamaan dengan arsitektur kolonial klasik di jantung kota Purworejo.', -7.7142, 110.0078, 'contain', 0),
+  ('b18', 18, 'GPIB Tamansari, Salatiga', 'Tahun 1823', 1823, 'Kota', 'SK Walikota : 400.6.2/12/2024', '2 Januari 2024', '', 'Jl. Jend. Sudirman No.84, Salatiga', 'Gereja tertua di kota peristirahatan sejuk Salatiga dengan jendela lengkung tinggi dan menara lonceng peninggalan abad ke-19.', -7.3308, 110.5052, 'contain', 0),
+  ('b19', 19, 'GPIB Penabur, Surakarta', 'Tahun 1832', 1832, 'Kota', 'SK Walikota : 430/441 Tahun 2024', '18 November 2024', '', 'Jl. Slamet Riyadi No.432, Laweyan, Surakarta', 'Berada di koridor utama kota Solo dengan gaya arsitektur Neoklasik Indisch yang terawat baik.', -7.5641, 110.8122, 'contain', 0),
+  ('b20', 20, 'GPIB Ayalon, Tegal', 'Tahun 1929', 1929, 'Kota', '', '', '', 'Jl. Pemuda No.24, Tegal Barat, Kota Tegal', 'Peninggalan sejarah peribadatan Kristen Protestan di jalur pesisir Pantura Kota Tegal.', -6.8653, 109.1352, 'contain', 0),
+  ('b21', 21, 'GPIB Galilea, Jl. Pisang-Cilacap', '31 Oktober 1973', 1973, 'Kabupaten', '', '1973', '', 'Jl. Pisang, Cilacap, Jawa Tengah', 'Situs peribadatan terdaftar di Kabupaten Cilacap.', -7.7288, 109.0124, 'contain', 0),
+  ('b22', 22, 'GPIB Immanuel, Surabaya', 'Tahun 1920', 1920, 'Kota', 'SK Walikota No. 186.45/004/402.04/1998', '13 Januari 1998', '', 'Jl. Bubutan No.18, Alun-alun Contong, Bubutan, Kota Surabaya', 'Gereja tua di kawasan Bubutan Surabaya dengan gaya arsitektur kolonial yang elegan dan sarat sejarah kepahlawanan kota Surabaya.', -7.2524, 112.7368, 'contain', 0),
+  ('b23', 23, 'GPIB Maranatha, Surabaya', '05 Januari 1958', 1958, 'Kota', 'KepWalkot No. 188.45/576/437.1.2/2011', '9 November 2011', '', 'Jl. Yos Sudarso No.11, Embong Kaliasin, Genteng, Kota Surabaya', 'Terletak strategis di pusat kota dekat Balai Pemuda Surabaya, memiliki arsitektur modern tropis pertengahan abad ke-20.', -7.2641, 112.7478, 'contain', 0),
+  ('b24', 24, 'GPIB Immanuel, Malang', '30 Juli 1861', 1861, 'Kota', 'SKWalKotMalang No:344 Thn 2018', '', '', 'Jl. Merdeka Barat No.1, Kauman, Klojen, Kota Malang', 'Menghadap langsung ke Alun-alun Kota Malang dengan menara lonceng Gotik yang menjadi ikon sejarah kota Malang sejak abad ke-19.', -7.9822, 112.6301, 'contain', 0),
+  ('b25', 25, 'GPIB Margomulyo, Batu', '', NULL, 'Kota', 'KepWalkot No.188.45/298/Kep/422.012/2023', '26 September 2023', '', 'Kota Batu, Jawa Timur', 'Bangunan cagar budaya di kawasan dataran tinggi wisata Kota Batu peninggalan zaman kolonial.', -7.8711, 112.5273, 'contain', 0),
+  ('b26', 26, 'GPIB Immanuel Bondowoso', '26 Agustus 1934', 1934, 'Kabupaten', '', '', 'Ada juga Pipe Orgel dan Alkitab dari tahun 1618', 'Jl. Letnan Karsono No.3, Dabasah, Bondowoso', 'Menyimpan benda pusaka berharga tinggi berupa pipa organ kuno serta Alkitab antik bertarikh tahun 1618 yang masih terawat.', -7.9143, 113.8211, 'contain', 0),
+  ('b27', 27, 'GPIB Pniel, Siangaraja', '03 Desember 1948', 1948, 'Kabupaten', 'KepBud No. 100.3.3.2/522/2025', '6 November 2025', '', 'Singaraja, Buleleng, Bali', 'Peninggalan sejarah zending dan pelayanan GPIB di kawasan Bali Utara (Buleleng).', -8.1132, 115.0912, 'contain', 0),
+  ('b28', 28, 'GPIB Immanuel, Makasar', '15 September 1885', 1885, 'Kota', 'SK WalKotMakasar No: 2135/432.2/Tahun 2018', '29 April 2023', '', 'Jl. Balaikota No.1, Baru, Ujung Pandang, Kota Makassar', 'Gereja Kristen tertua di Makassar bergaya arsitektur Gotik Klasik dengan menara runcing yang megah tepat di seberang Balaikota Makassar.', -5.1352, 119.4088, 'contain', 0),
+  ('b29', 29, 'GPIB Immanuel Parepare', 'Tahun 1825', 1825, 'Kota', 'SK Walkot No. 48 Tahun 2020', '27 Januari 2020', '', 'Kota Parepare, Sulawesi Selatan', 'Salah satu bangunan tertua di pesisir barat Sulawesi Selatan yang ditetapkan sebagai cagar budaya Kota Parepare.', -4.0135, 119.6241, 'contain', 0),
+  ('b30', 30, 'GPIB Immanuel, Medan', 'Tahun 1912', 1912, 'Kota', 'SK WalKot Medan No. 433/28.K/X/2021', '28 Oktober 2021', '', 'Jl. Pangeran Diponegoro No.25, Madras Hulu, Medan Polonia, Kota Medan', 'Dahulu dikenal sebagai Indische Kerk Medan, dirancang dengan perpaduan arsitektur kolonial Belanda tropis dengan ornamen kubah menara kayu khas.', 3.5835, 98.6738, 'contain', 0),
+  ('b31', 31, 'GPIB Marturia, Lampung', '16 Oktober 1938', 1938, 'Kota', 'Masih dlm kajian Pemerintah Daerah', '', '', 'Jl. Imam Bonjol No.7, Gedong Air, Tanjung Karang Barat, Bandar Lampung', 'Gereja bersejarah peninggalan era kolonial di Telukbetung/Tanjungkarang yang menjadi tonggak pelayanan GPIB di tanah Lampung.', -5.4192, 105.2531, 'contain', 0),
+  ('b32', 32, 'GPIB Immanuel, Padang', '', NULL, 'Kota', 'KepWalkot No. 03 Tahun 1998', '', 'SK masih Proses', 'Padang, Sumatera Barat', 'Gereja tertua jemaat GPIB di pesisir barat Sumatera (Kota Padang).', -0.9572, 100.3618, 'contain', 0),
+  ('b33', 33, 'GPIB Bethel, Tanjung Pinang', '14 Februari 1835', 1835, 'Kota', 'KepWalKot No. 485 Tahun 2019', '22 Oktober 2019', '', 'Jl. Gereja No.1, Tanjung Pinang Kota, Kepulauan Riau', 'Gereja tertua di Kepulauan Riau yang didirikan oleh Zending Belanda pada abad ke-19, terletak di kawasan Kota Rebah Tanjungpinang.', 0.9238, 104.4532, 'contain', 0),
+  ('b34', 34, 'GPIB Maranatha Pangkalpinang', '', NULL, 'Kota', 'KepWalkot No. 636/Kep/DikBid/XII/2020', '14 Desember 2020', '', 'Jl. Jend. Sudirman, Pangkalpinang, Bangka Belitung', 'Bangunan cagar budaya religius di pusat Kota Pangkalpinang Pulau Bangka.', -2.1245, 106.1123, 'contain', 0),
+  ('b35', 35, 'GPIB Maranatha, Siantar', '', NULL, 'Kota', '', '', 'SK masih Proses', 'Pematang Siantar, Sumatera Utara', 'Bangunan bersejarah pelayanan jemaat GPIB di kota Pematang Siantar.', 2.9582, 99.0628, 'contain', 0)
+ON CONFLICT (id) DO UPDATE SET
+  nama = EXCLUDED.nama,
+  didirikan = EXCLUDED.didirikan,
+  status = EXCLUDED.status,
+  sk = EXCLUDED.sk,
+  tgl_sk = EXCLUDED.tgl_sk,
+  ket = EXCLUDED.ket,
+  alamat = EXCLUDED.alamat,
+  narasi = EXCLUDED.narasi,
+  lat = EXCLUDED.lat,
+  lng = EXCLUDED.lng;
+
+
+-- ====================================================================
+-- SEED DATA FOTO BANGUNAN (35 MONUMEN)
+-- ====================================================================
+DELETE FROM public.bangunan_fotos;
+INSERT INTO public.bangunan_fotos (bangunan_id, src, cap, is_main, urutan) VALUES
+  ('b1', 'https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Jakarta (Tahun 1839)', true, 0),
+  ('b2', 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Semarang (Tahun 1753)', true, 0),
+  ('b3', 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Zebaoth, Bogor (Tahun 1920)', true, 0),
+  ('b4', 'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Sion, Jakarta (23 Oktober 1695)', true, 0),
+  ('b5', 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Pniel, Jakarta (Tahun 1913)', true, 0),
+  ('b6', 'https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Paulus, Jakarta (Tahun 1936)', true, 0),
+  ('b7', 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Tugu, Jakarta (Tahun 1676)', true, 0),
+  ('b8', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Efatha, Jakarta (15 Juli 1962)', true, 0),
+  ('b9', 'https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Koinonia, Jakarta (Tahun 1889)', true, 0),
+  ('b10', 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Marga Mulya, Yogya (11 Oktober 1857)', true, 0),
+  ('b11', 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Kediri (21 Desember 2004)', true, 0),
+  ('b12', 'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Probolinggo (Tahun 1862)', true, 0),
+  ('b13', 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Bethel, Bandung (Tahun 1925)', true, 0),
+  ('b14', 'https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Maranatha, Bandung (11 September 1927)', true, 0),
+  ('b15', 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Beth-El, Magelang (Tahun 1817)', true, 0),
+  ('b16', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Beth-El, Kb Polo, Magelang (12 November 1923)', true, 0),
+  ('b17', 'https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Griya Mulya, Purworejo (Tahun 1879/1880)', true, 0),
+  ('b18', 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Tamansari, Salatiga (Tahun 1823)', true, 0),
+  ('b19', 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Penabur, Surakarta (Tahun 1832)', true, 0),
+  ('b20', 'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Ayalon, Tegal (Tahun 1929)', true, 0),
+  ('b21', 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Galilea, Jl. Pisang-Cilacap (31 Oktober 1973)', true, 0),
+  ('b22', 'https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Surabaya (Tahun 1920)', true, 0),
+  ('b23', 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Maranatha, Surabaya (05 Januari 1958)', true, 0),
+  ('b24', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Malang (30 Juli 1861)', true, 0),
+  ('b25', 'https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Margomulyo, Batu (Cagar Budaya GPIB)', true, 0),
+  ('b26', 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel Bondowoso (26 Agustus 1934)', true, 0),
+  ('b27', 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Pniel, Siangaraja (03 Desember 1948)', true, 0),
+  ('b28', 'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Makasar (15 September 1885)', true, 0),
+  ('b29', 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel Parepare (Tahun 1825)', true, 0),
+  ('b30', 'https://images.unsplash.com/photo-1565060169194-19fabf63012c?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Medan (Tahun 1912)', true, 0),
+  ('b31', 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Marturia, Lampung (16 Oktober 1938)', true, 0),
+  ('b32', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Immanuel, Padang (Cagar Budaya GPIB)', true, 0),
+  ('b33', 'https://images.unsplash.com/photo-1548625361-16800b352a97?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Bethel, Tanjung Pinang (14 Februari 1835)', true, 0),
+  ('b34', 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Maranatha Pangkalpinang (Cagar Budaya GPIB)', true, 0),
+  ('b35', 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=1000&q=80', 'Arsitektur bersejarah GPIB Maranatha, Siantar (Cagar Budaya GPIB)', true, 0);

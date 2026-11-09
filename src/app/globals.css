@@ -360,6 +360,31 @@ html.light-theme [class*="border-[#3"] {
   border-color: #d2c2a6 !important;
 }
 
+/* 11. Interactive Hover States & Select Options in Light Theme */
+html.light-theme [class*="hover:bg-[#d4af37]"]:hover,
+html.light-theme [class*="hover:bg-[#c8a24a]"]:hover {
+  background-color: #c89d28 !important;
+  color: #0b0a08 !important;
+  border-color: #a67f19 !important;
+}
+
+html.light-theme [class*="hover:bg-[#5a94d6]"]:hover {
+  background-color: #3b7bc4 !important;
+  color: #ffffff !important;
+  border-color: #2b62a3 !important;
+}
+
+html.light-theme [class*="hover:bg-[#1"],
+html.light-theme [class*="hover:bg-[#2"],
+html.light-theme [class*="hover:bg-[#3"]:hover {
+  background-color: #e4d7be !important;
+}
+
+html.light-theme select option {
+  background-color: #fffdf9 !important;
+  color: #1c160e !important;
+}
+
 /* Leaflet styling */
 .leaflet-container {
   background: #0d0c0a !important;
