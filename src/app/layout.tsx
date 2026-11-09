@@ -22,10 +22,15 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : process.env.NEXT_PUBLIC_SITE_URL || "https://cagar-budaya.vercel.app"
+  ),
   title: "Cagar Budaya GPIB — Inventarisasi & Peta Sebaran",
   description:
-    "Inventarisasi resmi 35 bangunan cagar budaya Gereja Protestan di Indonesia bagian Barat (GPIB) beserta status penetapan, surat keputusan, narasi sejarah, galeri foto, dan peta sebarannya.",
-  keywords: ["GPIB", "Cagar Budaya", "Gereja Bersejarah", "Sejarah GPIB", "Inventarisasi Bangunan", "Peta Cagar Budaya"],
+    "Inventarisasi resmi 35 bangunan cagar budaya Gereja Protestan di Indonesia bagian Barat (GPIB) — Merawat Warisan, Menjadi Berkat.",
+  keywords: ["GPIB", "Cagar Budaya", "Gereja Bersejarah", "Sejarah GPIB", "Inventarisasi Bangunan", "Peta Cagar Budaya", "Warisan Budaya"],
   authors: [{ name: "GPIB Heritage Team" }],
   icons: {
     icon: [
@@ -37,9 +42,25 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Cagar Budaya GPIB — Inventarisasi & Peta Sebaran",
-    description: "Dokumentasi & inventarisasi 35 bangunan cagar budaya bersejarah GPIB di seluruh Indonesia.",
+    title: "Cagar Budaya GPIB — Merawat Warisan, Menjadi Berkat",
+    description: "Dokumentasi kuratorial & peta sebaran 35 bangunan cagar budaya bersejarah GPIB di seluruh Indonesia.",
     type: "website",
+    locale: "id_ID",
+    siteName: "Cagar Budaya GPIB",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Cagar Budaya GPIB — Merawat Warisan, Menjadi Berkat",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cagar Budaya GPIB — Merawat Warisan, Menjadi Berkat",
+    description: "Dokumentasi kuratorial & peta sebaran 35 bangunan cagar budaya bersejarah GPIB di seluruh Indonesia.",
+    images: ["/og-image.jpg"],
   },
 };
 
